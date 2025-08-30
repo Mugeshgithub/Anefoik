@@ -585,14 +585,14 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentTrackIndex, isScrolling]);
 
-  // Anefiok's Music Collection - Now using Cloudinary URLs
+  // Aniefiok's Music Collection - Now using Cloudinary URLs
   const musicTracks = [
     { 
       id: 1,
       title: "The Greatest Story", 
       genre: "Gospel", 
       duration: "4:15",
-      composer: "Anefiok",
+      composer: "Aniefiok",
       year: "2024",
       description: "A powerful gospel anthem that tells the greatest story ever told with soul-stirring melodies",
       color: "#a7c7e7", // Light blue
@@ -604,7 +604,7 @@ export default function Home() {
       title: "Written in the Stars", 
       genre: "Contemporary", 
       duration: "3:45",
-      composer: "Anefiok",
+      composer: "Aniefiok",
       year: "2024",
       description: "A celestial composition that captures the magic of destiny and cosmic connections",
       color: "#e1c5c0", // Light rose
@@ -616,7 +616,7 @@ export default function Home() {
       title: "My Life Just Begun", 
       genre: "Inspirational", 
       duration: "4:30",
-      composer: "Anefiok",
+      composer: "Aniefiok",
       year: "2024",
       description: "An uplifting anthem about new beginnings and the journey of life ahead",
       color: "#8a9a5b", // Olive green
@@ -628,7 +628,7 @@ export default function Home() {
       title: "Nature Song", 
       genre: "Ambient", 
       duration: "3:20",
-      composer: "Anefiok",
+      composer: "Aniefiok",
       year: "2024",
       description: "A peaceful ambient piece that connects with the natural world and inner peace",
       color: "#9caf88", // Sage green
@@ -640,7 +640,7 @@ export default function Home() {
       title: "Don't Cry", 
       genre: "Emotional", 
       duration: "4:05",
-      composer: "Anefiok",
+      composer: "Aniefiok",
       year: "2024",
       description: "A deeply emotional ballad that speaks to the heart and soothes the soul",
       color: "#faf9f6", // Off-white with accent
@@ -835,7 +835,7 @@ export default function Home() {
             </div>
             <div className="min-w-0 flex-1">
               <h4 className="text-sm font-semibold text-white truncate">Written in the Stars</h4>
-              <p className="text-xs text-gray-300 truncate">Anefiok</p>
+              <p className="text-xs text-gray-300 truncate">Aniefiok</p>
             </div>
           </div>
           
@@ -900,7 +900,7 @@ export default function Home() {
         {/* Navigation Header - Fixed */}
         <div className="fixed top-0 left-0 right-0 z-50 p-6">
           <div className="flex justify-between items-center">
-            {/* Left - Anefiok Logo/Name - Clickable */}
+            {/* Left - Aniefiok Logo/Name - Clickable */}
             <motion.button
               onClick={() => scrollToSection(0)}
               initial={{ opacity: 0, x: -20 }}
@@ -914,7 +914,7 @@ export default function Home() {
                 backgroundClip: 'text'
               }}
             >
-              Anefiok
+              Aniefiok
             </motion.button>
 
             {/* Right - Navigation Dropdown */}
@@ -943,7 +943,7 @@ export default function Home() {
                       { name: 'Music', index: 2 },
                       { name: 'Videos', index: 3 },
                       { name: 'Contact', index: 4 },
-                      { name: 'Footer', index: 5 }
+
                     ].map((item) => (
                       <motion.button
                         key={item.name}
@@ -1132,7 +1132,7 @@ export default function Home() {
             variants={itemVariants}
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light tracking-[0.2em] mt-8 max-w-4xl mx-auto leading-relaxed text-white"
           >
-            A keyboardist, Producer & composer
+            A pianist, Producer & composer
           </motion.p>
         </motion.div>
       </section>
@@ -1175,7 +1175,7 @@ export default function Home() {
                 className="space-y-4"
             >
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
-                I'm Anefiok — a keyboardist, composer, and producer.
+                I'm Aniefiok — a pianist, composer, and producer.
               </p>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                 My journey started in church, where I first discovered the joy of music.

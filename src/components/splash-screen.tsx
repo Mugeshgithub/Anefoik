@@ -52,7 +52,7 @@ export default function SplashScreen({ isVisible, onFinished }: { isVisible: boo
                   0 0 60px rgba(255, 255, 255, 0.2)
                 `
               }}>
-            Anefiok
+            Aniefiok
           </h1>
           <p className="text-lg md:text-xl lg:text-2xl text-gray-300 mt-6 font-light tracking-wide">
             Musical Portfolio

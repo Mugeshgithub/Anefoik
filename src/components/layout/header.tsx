@@ -48,7 +48,7 @@ export default function Header() {
          <Link href="/" className="flex items-center space-x-2 group">
             <Music className="h-5 w-5 md:h-6 md:w-6 text-[#7DD3FC] group-hover:text-[#7DD3FC]/80 transition-colors" />
             <span className="text-lg md:text-xl font-bold text-white group-hover:text-[#7DD3FC] transition-colors">
-              Anefiok
+                              Aniefiok
             </span>
          </Link>
         

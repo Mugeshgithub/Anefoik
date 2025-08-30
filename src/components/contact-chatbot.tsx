@@ -15,7 +15,7 @@ export default function ContactChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hi! I'm Anefiok's contact assistant. How can I help you today?",
+              text: "Hi! I'm Aniefiok's contact assistant. How can I help you today?",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -40,7 +40,7 @@ export default function ContactChatbot() {
     setTimeout(() => {
       const botResponse: Message = {
         id: messages.length + 2,
-        text: "Thank you for your message! I'll make sure Anefiok gets back to you soon. You can also reach out directly at anefiok@music.com",
+        text: "Thank you for your message! I'll make sure Aniefiok gets back to you soon. You can also reach out directly at anefiok@music.com",
         sender: 'bot',
         timestamp: new Date()
       };
@@ -85,7 +85,7 @@ export default function ContactChatbot() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full animate-pulse bg-gradient-to-r from-white to-gray-300"></div>
-                  <h3 className="font-semibold text-lg text-white">Contact Anefiok</h3>
+                  <h3 className="font-semibold text-lg text-white">Contact Aniefiok</h3>
                 </div>
                 <button 
                   onClick={() => setIsOpen(false)}

@@ -71,7 +71,7 @@ export default function About() {
           <div className="flex items-center justify-center mb-4">
             <Piano className="h-8 w-8 text-white mr-3" />
             <h2 className="text-4xl md:text-5xl font-bold text-white">
-              About Anefiok
+              About Aniefiok
             </h2>
           </div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -85,18 +85,18 @@ export default function About() {
             <h3 className="text-3xl font-bold text-white text-center">The Musical Journey</h3>
             <div className="space-y-4 text-gray-300 leading-relaxed">
               <p>
-                Anefiok's musical journey began with a deep love for the piano and a desire to create music that touches the soul. 
+                Aniefiok's musical journey began with a deep love for the piano and a desire to create music that touches the soul. 
                 Growing up in a musical family, he was exposed to diverse genres from an early age, developing a unique style that 
                 blends jazz sophistication with gospel warmth.
               </p>
               <p>
                 His passion for music led him to study classical piano and jazz theory, but it was his natural ability to connect 
-                with audiences through heartfelt performances that set him apart. Today, Anefiok is recognized as one of the most 
-                versatile keyboardists in the contemporary music scene.
+                with audiences through heartfelt performances that set him apart. Today, Aniefiok is recognized as one of the most 
+                versatile pianists in the contemporary music scene.
               </p>
               <p>
                 Whether performing jazz standards at prestigious venues, leading worship at church services, or creating pop 
-                arrangements in the studio, Anefiok brings authenticity and emotion to every note he plays.
+                arrangements in the studio, Aniefiok brings authenticity and emotion to every note he plays.
               </p>
             </div>
             
@@ -186,7 +186,7 @@ export default function About() {
                 through sound. Whether it's jazz, gospel, or pop, my goal is to create moments of 
                 connection and inspiration that resonate long after the last note fades."
               </p>
-              <div className="mt-6 text-white font-semibold">- Anefiok</div>
+              <div className="mt-6 text-white font-semibold">- Aniefiok</div>
             </CardContent>
           </Card>
         </div>

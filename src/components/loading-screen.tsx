@@ -105,7 +105,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-4xl font-light tracking-[0.3em] text-white"
             >
-              ANEFIOK
+              ANIEFIOK
             </motion.h1>
             
             <motion.p

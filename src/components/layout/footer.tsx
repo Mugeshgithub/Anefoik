@@ -72,10 +72,10 @@ export default function Footer() {
         <div className="relative">
           <div className="relative">
             <h1 className="text-[6rem] md:text-[8rem] font-bold leading-none tracking-tight -mt-8 bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-blue-400 bg-clip-text text-transparent">
-              ANEFIOK
+              ANIEFIOK
             </h1>
             <div className="absolute right-8 bottom-8 text-white">
-              <span className="text-sm">© 2024 Anefiok. All rights reserved.</span>
+              <span className="text-sm">© 2025 Aniefiok. All rights reserved.</span>
             </div>
 
           </div>

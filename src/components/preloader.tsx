@@ -80,7 +80,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               `
             }}
           >
-            Anefiok
+            Aniefiok
           </motion.h1>
 
           {/* Music note icon with pulsing animation */}

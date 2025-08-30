@@ -110,7 +110,7 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 text-white"
           >
-            Anefiok
+            Aniefiok
           </motion.h1>
 
           {/* Subtitle with colored text */}

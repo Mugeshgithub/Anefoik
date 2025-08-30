@@ -101,7 +101,7 @@ export default function LandingPage() {
                 `
               }}
             >
-              Anefiok
+              Aniefiok
             </motion.h1>
 
             {/* Subtitle */}
