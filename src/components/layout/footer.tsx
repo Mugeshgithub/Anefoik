@@ -1,5 +1,4 @@
-'use client';
-
+'use client'; 
 import Link from 'next/link';
 import { Music, Piano, Youtube, Globe, Facebook, Linkedin, Instagram } from 'lucide-react';
 
@@ -71,10 +70,10 @@ export default function Footer() {
         
         <div className="relative">
           <div className="relative">
-            <h1 className="text-[6rem] md:text-[8rem] font-bold leading-none tracking-tight -mt-8 bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-blue-400 bg-clip-text text-transparent">
+            <h1 className="text-[4rem] md:text-[6rem] font-bold leading-none tracking-tight -mt-4 bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-blue-400 bg-clip-text text-transparent">
               ANIEFIOK
             </h1>
-            <div className="absolute right-8 bottom-8 text-white">
+            <div className="absolute right-8 bottom-4 text-white">
               <span className="text-sm">© 2025 Aniefiok. All rights reserved.</span>
             </div>
 
