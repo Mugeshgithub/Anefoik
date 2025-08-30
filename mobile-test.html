@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Responsiveness Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .test-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .test-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .test-card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .device-sizes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .device-size {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .device-size:hover {
+            border-color: #667eea;
+            background: #e3f2fd;
+            transform: scale(1.02);
+        }
+        
+        .device-size.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .device-size h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .device-size .dimensions {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .custom-size {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .custom-size h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: #333;
+            min-width: 80px;
+        }
+        
+        .input-group input {
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .iframe-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .iframe-container h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .iframe-wrapper {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+        
+        iframe {
+            border: none;
+            width: 100%;
+            height: 600px;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            color: #1565c0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .device-sizes {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .input-group label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 Mobile Responsiveness Tester</h1>
+            <p>Test your Anefiok website on different device sizes</p>
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 How to Use:</h3>
+            <ol>
+                <li>Click on any device size below to see the dimensions</li>
+                <li>Use the custom size inputs to test specific viewport sizes</li>
+                <li>Open your website in a new tab and resize the browser window</li>
+                <li>Use browser DevTools (F12) → Device Toolbar for more options</li>
+            </ol>
+        </div>
+
+        <div class="test-card">
+            <h3>🎯 Quick Device Presets</h3>
+            <p>Click any device size to see the recommended viewport dimensions for testing:</p>
+            
+            <div class="device-sizes">
+                <div class="device-size" onclick="showSize('iPhone SE', 375, 667)">
+                    <h4>📱 iPhone SE</h4>
+                    <div class="dimensions">375 × 667</div>
+                </div>
+                
+                <div class="device-size" onclick="showSize('iPhone 12', 390, 844)">
+                    <h4>📱 iPhone 12</h4>
+                    <div class="dimensions">390 × 844</div>
+                </div>
+                
+                <div class="device-size" onclick="showSize('Samsung Galaxy', 360, 800)">
+                    <h4>📱 Samsung Galaxy</h4>
+                    <div class="dimensions">360 × 800</div>
+                </div>
+                
+                <div class="device-size" onclick="showSize('iPad', 768, 1024)">
+                    <h4>📱 iPad</h4>
+                    <div class="dimensions">768 × 1024</div>
+                </div>
+                
+                <div class="device-size" onclick="showSize('iPad Pro', 1024, 1366)">
+                    <h4>📱 iPad Pro</h4>
+                    <div class="dimensions">1024 × 1366</div>
+                </div>
+                
+                <div class="device-size" onclick="showSize('Desktop', 1920, 1080)">
+                    <h4>💻 Desktop</h4>
+                    <div class="dimensions">1920 × 1080</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-size">
+            <h3>🔧 Custom Viewport Size</h3>
+            <p>Enter custom dimensions to test specific screen sizes:</p>
+            
+            <div class="input-group">
+                <label>Width:</label>
+                <input type="number" id="customWidth" value="375" min="200" max="3000">
+                <span>px</span>
+            </div>
+            
+            <div class="input-group">
+                <label>Height:</label>
+                <input type="number" id="customHeight" value="667" min="400" max="3000">
+                <span>px</span>
+            </div>
+            
+            <button class="btn" onclick="testCustomSize()">Test Custom Size</button>
+            <button class="btn btn-secondary" onclick="openWebsite()">Open Anefiok Website</button>
+        </div>
+
+        <div class="iframe-container">
+            <h3>🌐 Live Preview</h3>
+            <p>Your website will appear below. Resize the browser window to test responsiveness:</p>
+            
+            <div class="iframe-wrapper">
+                <iframe src="https://f147abbc00a8.ngrok-free.app" title="Anefiok Website"></iframe>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h3>📋 Testing Checklist</h3>
+            <p>Use this checklist to ensure your website is fully responsive:</p>
+            
+            <ul style="color: #666; line-height: 1.8; padding-left: 20px;">
+                <li>✅ Text is readable on all screen sizes</li>
+                <li>✅ Navigation works on mobile devices</li>
+                <li>✅ Music player is accessible on all devices</li>
+                <li>✅ Chatbot is properly positioned</li>
+                <li>✅ Images scale appropriately</li>
+                <li>✅ Touch targets are large enough (min 44px)</li>
+                <li>✅ No horizontal scrolling on mobile</li>
+                <li>✅ Buttons and links are easily clickable</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showSize(device, width, height) {
+            // Update custom inputs
+            document.getElementById('customWidth').value = width;
+            document.getElementById('customHeight').value = height;
+            
+            // Show selected device
+            document.querySelectorAll('.device-size').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Show message
+            alert(`${device}: ${width} × ${height} pixels\n\nTo test this size:\n1. Open your website in a new tab\n2. Resize the browser window to ${width} × ${height}\n3. Or use F12 → Device Toolbar`);
+        }
+        
+        function testCustomSize() {
+            const width = document.getElementById('customWidth').value;
+            const height = document.getElementById('customHeight').value;
+            
+            if (width && height) {
+                alert(`Custom size: ${width} × ${height} pixels\n\nTo test this size:\n1. Open your website in a new tab\n2. Resize the browser window to ${width} × ${height}\n3. Or use F12 → Device Toolbar`);
+            }
+        }
+        
+        function openWebsite() {
+            window.open('https://f147abbc00a8.ngrok-free.app', '_blank');
+        }
+        
+        // Auto-resize iframe based on custom dimensions
+        document.getElementById('customWidth').addEventListener('input', function() {
+            const width = this.value;
+            const height = document.getElementById('customHeight').value;
+            if (width && height) {
+                document.querySelector('iframe').style.width = width + 'px';
+                document.querySelector('iframe').style.height = height + 'px';
+            }
+        });
+        
+        document.getElementById('customHeight').addEventListener('input', function() {
+            const width = document.getElementById('customWidth').value;
+            const height = this.value;
+            if (width && height) {
+                document.querySelector('iframe').style.width = width + 'px';
+                document.querySelector('iframe').style.height = height + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+[
+  {
+    "originalPath": "public/Dont cry V2.4.mp4",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589616/anefiok-music/bpr5adnuxxzlpktxvbf4.mp4",
+    "publicId": "anefiok-music/bpr5adnuxxzlpktxvbf4",
+    "fileSize": 56514181,
+    "format": "mp4"
+  },
+  {
+    "originalPath": "public/Don't cry - Emmanuel (master) copy.wav",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589678/anefiok-music/vms4zuls90dl05lnf6he.wav",
+    "publicId": "anefiok-music/vms4zuls90dl05lnf6he",
+    "fileSize": 30868102,
+    "format": "wav"
+  },
+  {
+    "originalPath": "public/Emmanuel - My Life Just Begun (Master 2).wav",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589688/anefiok-music/odtvansgskt4rp5jnrxi.wav",
+    "publicId": "anefiok-music/odtvansgskt4rp5jnrxi",
+    "fileSize": 46856032,
+    "format": "wav"
+  },
+  {
+    "originalPath": "public/emmanuel - THE GREATEST STORY new 2.wav",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589699/anefiok-music/jaystxf8z6pb1dpxiayf.wav",
+    "publicId": "anefiok-music/jaystxf8z6pb1dpxiayf",
+    "fileSize": 69948830,
+    "format": "wav"
+  },
+  {
+    "originalPath": "public/NATURE SONG (master 2).wav",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589711/anefiok-music/qr4vat3vvla1rnqqom4f.wav",
+    "publicId": "anefiok-music/qr4vat3vvla1rnqqom4f",
+    "fileSize": 23684708,
+    "format": "wav"
+  },
+  {
+    "originalPath": "public/WRITTEN IN THE STARS (master).wav",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589719/anefiok-music/kmaeffbydsbcactcgubw.wav",
+    "publicId": "anefiok-music/kmaeffbydsbcactcgubw",
+    "fileSize": 48521590,
+    "format": "wav"
+  },
+  {
+    "originalPath": "public/dontcry.jpeg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589723/anefiok-music/mtttpmkc0qia85zmsup4.jpg",
+    "publicId": "anefiok-music/mtttpmkc0qia85zmsup4",
+    "fileSize": 113937,
+    "format": "jpg"
+  },
+  {
+    "originalPath": "public/writtern.jpeg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589725/anefiok-music/dvauytjhdiio7dhwyafs.jpg",
+    "publicId": "anefiok-music/dvauytjhdiio7dhwyafs",
+    "fileSize": 239077,
+    "format": "jpg"
+  },
+  {
+    "originalPath": "public/My Pics.jpeg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589726/anefiok-music/iyynq7awdsrr6i0vj5be.jpg",
+    "publicId": "anefiok-music/iyynq7awdsrr6i0vj5be",
+    "fileSize": 62130,
+    "format": "jpg"
+  },
+  {
+    "originalPath": "public/My Pics2.jpeg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589727/anefiok-music/e2tvxhy9btjesmtrwvhw.jpg",
+    "publicId": "anefiok-music/e2tvxhy9btjesmtrwvhw",
+    "fileSize": 200710,
+    "format": "jpg"
+  },
+  {
+    "originalPath": "public/My Pics 4.jpeg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589728/anefiok-music/v9zw8iriorohnkpjxbch.jpg",
+    "publicId": "anefiok-music/v9zw8iriorohnkpjxbch",
+    "fileSize": 94345,
+    "format": "jpg"
+  },
+  {
+    "originalPath": "public/My Pics 6.jpeg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589730/anefiok-music/moafixtfmjhbe87qxy7j.jpg",
+    "publicId": "anefiok-music/moafixtfmjhbe87qxy7j",
+    "fileSize": 188533,
+    "format": "jpg"
+  },
+  {
+    "originalPath": "public/FB_IMG_1582829900935.jpg",
+    "cloudinaryUrl": "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589731/anefiok-music/ll4kx4hnq4hjhown8lcq.jpg",
+    "publicId": "anefiok-music/ll4kx4hnq4hjhown8lcq",
+    "fileSize": 23641,
+    "format": "jpg"
+  }
+]
