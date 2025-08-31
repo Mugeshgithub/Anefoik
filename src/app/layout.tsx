@@ -12,7 +12,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Anefiok - Musical Portfolio</title>
+        <title>Aniefiok - Musical Portfolio</title>
         <meta name="description" content="Professional keyboardist, composer, and producer specializing in jazz, gospel, pop, and contemporary Christian music. Experience soul-stirring melodies that connect hearts and inspire spirits." />
       </head>
       <body className="min-h-screen transition-colors duration-300">

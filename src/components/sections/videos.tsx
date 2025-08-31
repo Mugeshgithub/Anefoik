@@ -43,26 +43,28 @@ export default function Videos() {
             {/* Glassmorphism Background Layer */}
             <div className="absolute inset-0 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-2xl shadow-2xl"></div>
             
-            {/* Main Video Player */}
-            <video
-              key={currentVideoIndex}
-              className="relative w-full rounded-2xl shadow-2xl transform transition-all duration-700 hover:scale-[1.02] hover:shadow-[0_25px_50px_-12px_rgba(125,211,252,0.3)]"
-              controls
-              preload="metadata"
-              poster={mainVideos[currentVideoIndex].thumbnail}
-              onError={(e) => {
-                console.error('Video error:', e);
-                console.log('Current video source:', mainVideos[currentVideoIndex].src);
-                console.log('Video type:', mainVideos[currentVideoIndex].type);
-              }}
-              onLoadStart={() => console.log('Loading video:', mainVideos[currentVideoIndex].src)}
-              onCanPlay={() => console.log('Video can play:', mainVideos[currentVideoIndex].title)}
-            >
-              <source src={mainVideos[currentVideoIndex].src} type={mainVideos[currentVideoIndex].type} />
-              <p className="text-white text-center p-8">
-                Video format not supported. Please try the next video or contact support.
-              </p>
-            </video>
+            {/* Main Video Player with Consistent Sizing */}
+            <div className="relative w-full h-[500px] md:h-[600px] rounded-2xl overflow-hidden transition-opacity duration-500">
+              <video
+                key={currentVideoIndex}
+                className="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl transform transition-all duration-700 hover:scale-[1.02] hover:shadow-[0_25px_50px_-12px_rgba(125,211,252,0.3)]"
+                controls
+                preload="metadata"
+                poster={mainVideos[currentVideoIndex].thumbnail}
+                onError={(e) => {
+                  console.error('Video error:', e);
+                  console.log('Current video source:', mainVideos[currentVideoIndex].src);
+                  console.log('Video type:', mainVideos[currentVideoIndex].type);
+                }}
+                onLoadStart={() => console.log('Loading video:', mainVideos[currentVideoIndex].title)}
+                onCanPlay={() => console.log('Video can play:', mainVideos[currentVideoIndex].title)}
+              >
+                <source src={mainVideos[currentVideoIndex].src} type={mainVideos[currentVideoIndex].type} />
+                <p className="text-white text-center p-8">
+                  Video format not supported. Please try the next video or contact support.
+                </p>
+              </video>
+            </div>
           </div>
 
           {/* Video Counter */}
@@ -136,17 +138,17 @@ export default function Videos() {
         </div>
       </div>
 
-      {/* Navigation Controls - Outside Video Layer - Better Positioned */}
+      {/* Navigation Controls - Positioned Above Video Progress Bar */}
       <button
         onClick={() => setCurrentVideoIndex((prev) => (prev - 1 + mainVideos.length) % mainVideos.length)}
-        className="absolute top-1/2 left-12 transform -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 z-30"
+        className="absolute top-1/3 left-4 md:left-8 transform -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 z-30 shadow-lg"
       >
         ←
       </button>
       
       <button
         onClick={() => setCurrentVideoIndex((prev) => (prev + 1) % mainVideos.length)}
-        className="absolute top-1/2 right-12 transform -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 z-30"
+        className="absolute top-1/3 right-4 md:right-8 transform -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 z-30 shadow-lg"
       >
         →
       </button>

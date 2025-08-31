@@ -84,11 +84,18 @@ export default {
             height: '0',
           },
         },
+        'equalizer': {
+          '0%, 100%': { height: '0.25rem' },
+          '25%': { height: '1.2rem' },
+          '50%': { height: '2rem' },
+          '75%': { height: '1.5rem' },
+        },
       },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
+              animation: {
+          'accordion-down': 'accordion-down 0.2s ease-out',
+          'accordion-up': 'accordion-up 0.2s ease-out',
+          'equalizer': 'equalizer 2s ease-in-out infinite',
+        },
     },
   },
   plugins: [require('tailwindcss-animate')],

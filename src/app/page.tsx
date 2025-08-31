@@ -835,7 +835,7 @@ export default function Home() {
             </div>
             <div className="min-w-0 flex-1">
               <h4 className="text-sm font-semibold text-white truncate">Written in the Stars</h4>
-              <p className="text-xs text-gray-300 truncate">Aniefiok</p>
+                             <p className="text-xs text-gray-300 truncate">Aniefiok</p>
             </div>
           </div>
           
@@ -1086,7 +1086,7 @@ export default function Home() {
             }}
           >
             {/* Natural Morphing Letters */}
-            {['A', 'n', 'e', 'f', 'i', 'o', 'k'].map((letter, index) => (
+                         {['A', 'n', 'i', 'e', 'f', 'i', 'o', 'k'].map((letter, index) => (
               <motion.span
                 key={index}
                 className="inline-block"
@@ -1175,7 +1175,7 @@ export default function Home() {
                 className="space-y-4"
             >
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
-                I'm Aniefiok — a pianist, composer, and producer.
+                                 I'm Aniefiok — a pianist, composer, and producer.
               </p>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                 My journey started in church, where I first discovered the joy of music.

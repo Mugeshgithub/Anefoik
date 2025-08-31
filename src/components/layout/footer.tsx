@@ -21,18 +21,12 @@ export default function Footer() {
             </div>
           </div>
           
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <div className="flex flex-col gap-3">
-              <Link href="#music" className="text-sm text-white hover:text-[#fbbf24] transition-colors">Portfolio</Link>
+              <Link href="#about" className="text-sm text-white hover:text-[#fbbf24] transition-colors">About</Link>
+              <Link href="#music" className="text-sm text-white hover:text-[#a855f7] transition-colors">Music</Link>
               <Link href="#videos" className="text-sm text-white hover:text-[#a855f7] transition-colors">Videos</Link>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Link href="#about" className="text-sm text-white hover:text-blue-400 transition-colors">Journey</Link>
-              <Link href="#gallery" className="text-sm text-white hover:text-[#fbbf24] transition-colors">Gallery</Link>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Link href="#contact" className="text-sm text-white hover:text-[#a855f7] transition-colors">Contact</Link>
-              <Link href="#contact" className="text-sm text-white hover:text-[#fbbf24] transition-colors">Get Quote</Link>
+              <Link href="#contact" className="text-sm text-white hover:text-[#fbbf24] transition-colors">Contact</Link>
             </div>
             <div className="flex flex-col gap-3">
               <h3 className="text-xs font-medium tracking-widest uppercase text-gray-400">SOCIAL</h3>
@@ -58,6 +52,9 @@ export default function Footer() {
                 </svg>
                 TikTok
               </Link>
+            </div>
+            <div className="flex flex-col gap-3">
+              <h3 className="text-xs font-medium tracking-widest uppercase text-gray-400">SERVICES</h3>
               <Link href="https://www.musichopecenter.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-white hover:text-blue-300 transition-colors">
                 <Globe className="w-4 h-4" />
                 Music Classes
@@ -69,14 +66,13 @@ export default function Footer() {
         <div className="w-full h-px bg-gradient-to-r from-transparent via-[#fbbf24]/30 to-transparent mb-8"></div>
         
         <div className="relative">
-          <div className="relative">
-            <h1 className="text-[4rem] md:text-[6rem] font-bold leading-none tracking-tight -mt-4 bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-blue-400 bg-clip-text text-transparent">
+          <div className="flex flex-col items-start">
+            <h1 className="text-[4rem] md:text-[6rem] font-bold leading-none tracking-tight bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-blue-400 bg-clip-text text-transparent">
               ANIEFIOK
             </h1>
-            <div className="absolute right-8 bottom-4 text-white">
+            <div className="mt-4 text-white text-center">
               <span className="text-sm">© 2025 Aniefiok. All rights reserved.</span>
             </div>
-
           </div>
         </div>
       </div>

@@ -40,7 +40,7 @@ export default function ContactChatbot() {
     setTimeout(() => {
       const botResponse: Message = {
         id: messages.length + 2,
-        text: "Thank you for your message! I'll make sure Aniefiok gets back to you soon. You can also reach out directly at anefiok@music.com",
+        text: "Thank you for your message! I'll make sure Aniefiok gets back to you soon. You can also reach out directly at aniefiok@music.com",
         sender: 'bot',
         timestamp: new Date()
       };

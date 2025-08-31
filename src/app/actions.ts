@@ -29,7 +29,7 @@ export async function submitContactForm(formData: FormData) {
 
     // Create email content
     const emailContent = `
-New Contact Form Submission from Anefiok Website
+New Contact Form Submission from Aniefiok Website
 
 Name: ${name}
 Email: ${email}
@@ -41,7 +41,7 @@ Submitted on: ${new Date().toLocaleString()}
     // For development: Log the email content
     console.log('📧 Contact Form Submission:');
     console.log('To: emmaasuquo87@gmail.com');
-    console.log('Subject: New Contact Form Submission - Anefiok Website');
+    console.log('Subject: New Contact Form Submission - Aniefiok Website');
     console.log('Content:', emailContent);
     console.log('---');
 
