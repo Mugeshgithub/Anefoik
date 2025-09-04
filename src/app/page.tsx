@@ -24,7 +24,7 @@ export default function Home() {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(parseDuration("4:15")); // Set initial duration from first track
   
   // Separate state for left player
   const [leftPlayerPlaying, setLeftPlayerPlaying] = useState(false);
@@ -401,6 +401,9 @@ export default function Home() {
       setCurrentTrackIndex(trackIndex);
       setIsPlaying(false);
       setCurrentTime(0);
+      // Set duration from track data immediately
+      const trackDuration = parseDuration(musicTracks[trackIndex].duration);
+      setDuration(trackDuration);
     }
   };
 
@@ -424,27 +427,85 @@ export default function Home() {
       };
       const updateDuration = () => {
         console.log('Duration loaded:', audio.duration);
-        setDuration(audio.duration);
+        if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
+          setDuration(audio.duration);
+        }
       };
       const handleEnded = () => {
         console.log('Track ended');
         setIsPlaying(false);
         setCurrentTime(0);
         // Auto advance to next track
-        changeTrack(1);
+        goToTrack((currentTrackIndex + 1) % musicTracks.length);
+      };
+      const handleCanPlay = () => {
+        console.log('Audio can play, duration:', audio.duration);
+        if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
+          setDuration(audio.duration);
+        }
+      };
+      const handleLoadedData = () => {
+        console.log('Audio loaded data, duration:', audio.duration);
+        if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
+          setDuration(audio.duration);
+        }
       };
 
       audio.addEventListener('timeupdate', updateTime);
       audio.addEventListener('loadedmetadata', updateDuration);
       audio.addEventListener('ended', handleEnded);
+      audio.addEventListener('canplay', handleCanPlay);
+      audio.addEventListener('loadeddata', handleLoadedData);
+
+      // Force load the audio to get duration
+      audio.load();
+      
+      // Multiple fallbacks to ensure duration is set
+      const setFallbackDuration = () => {
+        if (duration === 0 && musicTracks[currentTrackIndex]?.duration) {
+          const fallbackDuration = parseDuration(musicTracks[currentTrackIndex].duration);
+          console.log('Setting fallback duration:', fallbackDuration);
+          setDuration(fallbackDuration);
+        }
+      };
+
+      // Try multiple times to set duration
+      setTimeout(setFallbackDuration, 500);
+      setTimeout(setFallbackDuration, 1000);
+      setTimeout(setFallbackDuration, 2000);
 
       return () => {
         audio.removeEventListener('timeupdate', updateTime);
         audio.removeEventListener('loadedmetadata', updateDuration);
         audio.removeEventListener('ended', handleEnded);
+        audio.removeEventListener('canplay', handleCanPlay);
+        audio.removeEventListener('loadeddata', handleLoadedData);
       };
     }
-  }, [currentTrackIndex]);
+  }, [currentTrackIndex, duration]);
+
+  // Initial audio setup on component mount
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      // Set initial duration from track data
+      const initialDuration = parseDuration(musicTracks[currentTrackIndex].duration);
+      setDuration(initialDuration);
+      
+      // Force load and set up audio
+      audio.load();
+      
+      // Additional check after a short delay
+      setTimeout(() => {
+        if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
+          setDuration(audio.duration);
+        } else {
+          // Use fallback duration
+          setDuration(initialDuration);
+        }
+      }, 100);
+    }
+  }, []); // Run only on mount
 
   // Left player audio event handlers
   useEffect(() => {
@@ -670,13 +731,20 @@ export default function Home() {
       <audio 
         ref={audioRef} 
         src={musicTracks[currentTrackIndex].audioUrl}
-        preload="metadata"
+        preload="auto"
+        crossOrigin="anonymous"
         onError={(e) => {
           console.error('Main audio error:', e);
           console.log('Failed to load audio:', musicTracks[currentTrackIndex].audioUrl);
         }}
         onLoadStart={() => {
           console.log('Loading main audio:', musicTracks[currentTrackIndex].audioUrl);
+        }}
+        onLoadedMetadata={() => {
+          console.log('Main audio metadata loaded, duration:', audioRef.current?.duration);
+          if (audioRef.current?.duration && !isNaN(audioRef.current.duration) && audioRef.current.duration > 0) {
+            setDuration(audioRef.current.duration);
+          }
         }}
         onCanPlay={() => {
           console.log('Main audio can play:', musicTracks[currentTrackIndex].title);
