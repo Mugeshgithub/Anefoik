@@ -7,10 +7,9 @@ import { Menu, X, Play, Pause, Music } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 const navLinks = [
+  { href: '#about', label: 'About' },
   { href: '#music', label: 'Music' },
   { href: '#videos', label: 'Videos' },
-  { href: '#about', label: 'About' },
-  { href: '#gallery', label: 'Gallery' },
   { href: '#journey', label: 'Journey' },
   { href: '#contact', label: 'Contact' },
 ];

@@ -877,7 +877,7 @@ export default function Home() {
       {/* Mobile Bottom Navigation Bar - Hidden on larger screens */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
         <div className="flex justify-around items-center py-3 px-4">
-          {['Hero', 'About', 'Music', 'Gallery', 'Videos', 'Journey', 'Contact'].map((section, index) => (
+          {['Hero', 'About', 'Music', 'Videos', 'Journey', 'Contact'].map((section, index) => (
             <button
               key={index}
               onClick={() => scrollToSection(index)}
@@ -1010,9 +1010,8 @@ export default function Home() {
                       { name: 'About', index: 1 },
                       { name: 'Music', index: 2 },
                       { name: 'Videos', index: 3 },
-                      { name: 'Gallery', index: 4 },
-                      { name: 'Journey', index: 5 },
-                      { name: 'Contact', index: 6 },
+                      { name: 'Journey', index: 4 },
+                      { name: 'Contact', index: 5 },
 
                     ].map((item) => (
                       <motion.button
@@ -1221,6 +1220,7 @@ export default function Home() {
 
       {/* About Section */}
       <motion.section 
+        id="about"
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[1] = el; }}
         className="min-h-screen flex items-center justify-center relative py-4 overflow-hidden bg-[#1a1a2e]"
         variants={sectionVariants}
@@ -1279,6 +1279,7 @@ export default function Home() {
 
       {/* Music Section */}
       <motion.section 
+        id="music"
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[2] = el; }}
         className="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-[#0B0B0C]"
         variants={sectionVariants}
@@ -1589,6 +1590,7 @@ export default function Home() {
 
       {/* Videos Section */}
       <motion.section 
+        id="videos"
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[3] = el; }}
         className="min-h-screen flex items-center justify-center relative bg-[#1a1a2e] py-20 overflow-hidden"
         variants={sectionVariants}
@@ -1620,6 +1622,7 @@ export default function Home() {
 
       {/* Journey Section */}
       <motion.section 
+        id="journey"
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[4] = el; }}
         className="min-h-screen flex items-center justify-center relative py-32 overflow-hidden bg-black"
         variants={sectionVariants}
@@ -1756,6 +1759,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <motion.section 
+        id="contact"
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[5] = el; }}
         className="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-[#0B0B0C]"
         variants={sectionVariants}
