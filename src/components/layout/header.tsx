@@ -11,6 +11,7 @@ const navLinks = [
   { href: '#videos', label: 'Videos' },
   { href: '#about', label: 'About' },
   { href: '#gallery', label: 'Gallery' },
+  { href: '#journey', label: 'Journey' },
   { href: '#contact', label: 'Contact' },
 ];
 

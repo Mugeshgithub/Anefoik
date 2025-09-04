@@ -1148,7 +1148,7 @@ export default function Home() {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl lg:text-6xl font-light tracking-[0.5em] text-white"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-light tracking-[0.5em] text-white"
             style={{
               textShadow: '0 0 30px rgba(255, 255, 255, 0.4)'
             }}
@@ -1619,7 +1619,7 @@ export default function Home() {
       {/* Journey Section */}
       <motion.section 
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[4] = el; }}
-        className="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-black"
+        className="min-h-screen flex items-center justify-center relative py-32 overflow-hidden bg-black"
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
