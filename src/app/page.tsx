@@ -1010,7 +1010,9 @@ export default function Home() {
                       { name: 'About', index: 1 },
                       { name: 'Music', index: 2 },
                       { name: 'Videos', index: 3 },
-                      { name: 'Contact', index: 4 },
+                      { name: 'Gallery', index: 4 },
+                      { name: 'Journey', index: 5 },
+                      { name: 'Contact', index: 6 },
 
                     ].map((item) => (
                       <motion.button
