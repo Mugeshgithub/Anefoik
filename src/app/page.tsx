@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Music, Piano, Headphones, Play, Pause, ChevronLeft, ChevronRight, Mail, Phone, MapPin, Instagram, Twitter, Facebook, ChevronUp, ChevronDown, Volume2, SkipBack, SkipForward, Youtube, Linkedin } from 'lucide-react';
 import Videos from '@/components/sections/videos';
-import ContactChatbot from '@/components/contact-chatbot';
 import Footer from '@/components/layout/footer';
 import { LoadingScreen } from '@/components/loading-screen';
+import CollaborationWidget from '@/components/collaboration-widget';
 import { submitContactForm } from './actions';
 import emailjs from '@emailjs/browser';
 
@@ -809,7 +809,7 @@ export default function Home() {
       {/* Mobile Bottom Navigation Bar - Hidden on larger screens */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
         <div className="flex justify-around items-center py-3 px-4">
-          {['Hero', 'About', 'Music', 'Gallery', 'Videos', 'Contact'].map((section, index) => (
+          {['Hero', 'About', 'Music', 'Gallery', 'Videos', 'Journey', 'Contact'].map((section, index) => (
             <button
               key={index}
               onClick={() => scrollToSection(index)}
@@ -1080,41 +1080,53 @@ export default function Home() {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl lg:text-7xl font-light tracking-[0.3em] text-white"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl lg:text-6xl font-light tracking-[0.5em] text-white"
             style={{
               textShadow: '0 0 30px rgba(255, 255, 255, 0.4)'
             }}
+            animate={{
+              y: [0, -5, 0],
+              scale: [1, 1.01, 1]
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           >
-            {/* Natural Morphing Letters */}
-                         {['A', 'n', 'i', 'e', 'f', 'i', 'o', 'k'].map((letter, index) => (
+            {/* Interstellar Morphing Letters */}
+                         {['A', 'N', 'I', 'E', 'F', 'I', 'O', 'K', ' ', 'A', 'S', 'U', 'Q', 'U', 'O'].map((letter, index) => (
               <motion.span
                 key={index}
                 className="inline-block"
                 initial={{ 
                   opacity: 0,
-                  scale: 0,
-                  rotate: Math.random() * 360,
-                  filter: 'blur(10px)'
+                  scale: 0.3,
+                  rotate: Math.random() * 180 - 90,
+                  filter: 'blur(15px)',
+                  y: Math.random() * 100 - 50
                 }}
                 animate={{ 
-                  opacity: 1,
-                  scale: 1,
-                  rotate: 0,
-                  filter: 'blur(0px)'
+                  opacity: [1, 0.8, 1],
+                  scale: [1, 1.02, 1],
+                  rotate: [0, 1, 0],
+                  filter: ['blur(0px)', 'blur(1px)', 'blur(0px)'],
+                  y: [0, 2, 0]
                 }}
                 transition={{
-                  duration: 1.5,
-                  delay: 1 + (index * 0.2),
-                  ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for smooth morph
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15
+                  duration: 4, // Single duration for smooth animation
+                  delay: 1 + (index * 0.15), // Initial delay only
+                  ease: "easeInOut", // Simple easing
+                  repeat: Infinity, // Continuous animation
+                  repeatType: "reverse" // Smooth back and forth
                 }}
                 style={{
                   transformOrigin: 'center center',
+                  marginRight: letter === ' ' ? '0.8em' : '0.1em',
                   textShadow: `
-                    0 0 30px rgba(255, 255, 255, 0.4),
-                    0 0 60px rgba(255, 255, 255, 0.2)
+                    0 0 30px rgba(255, 255, 255, 0.6),
+                    0 0 60px rgba(251, 191, 36, 0.3),
+                    0 0 90px rgba(168, 85, 247, 0.2)
                   `
                 }}
                 whileHover={{
@@ -1132,7 +1144,7 @@ export default function Home() {
             variants={itemVariants}
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light tracking-[0.2em] mt-8 max-w-4xl mx-auto leading-relaxed text-white"
           >
-            A pianist, Producer & composer
+            A Pianist, Producer & Composer
           </motion.p>
         </motion.div>
       </section>
@@ -1174,9 +1186,9 @@ export default function Home() {
               viewport={{ once: true }}
                 className="space-y-4"
             >
-              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
-                                 I'm Aniefiok — a pianist, composer, and producer.
-              </p>
+                              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
+                                  I'm Aniefiok Asuquo— a Pianist, Composer, and Producer.
+                </p>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                 My journey started in church, where I first discovered the joy of music.
               </p>
@@ -1487,7 +1499,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, staggerChildren: 0.2 }}
             >
-              {['Jazz', 'Gospel', 'Pop', 'Classical'].map((genre, index) => (
+              {['Fusion', 'Experimental', 'African Ethnic'].map((genre, index) => (
                 <motion.span
                   key={genre}
                   className="px-4 py-2 bg-gradient-to-r from-[#fbbf24]/20 to-[#a855f7]/20 backdrop-blur-sm border border-[#fbbf24]/30 rounded-full text-[#fbbf24] text-sm font-light"
@@ -1536,9 +1548,145 @@ export default function Home() {
         <Videos />
       </motion.section>
 
-      {/* Contact Section */}
+      {/* Journey Section */}
       <motion.section 
         ref={(el: HTMLDivElement | null) => { sectionsRef.current[4] = el; }}
+        className="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-black"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ margin: "-100px" }}
+      >
+        {/* Right Corner Journey Title - Hero Style */}
+        <motion.div 
+          initial={{ opacity: 0, x: 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="absolute right-8 top-16 z-10"
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-tight" style={{
+            background: 'linear-gradient(135deg, #fbbf24 0%, #a855f7 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textShadow: '0 0 30px rgba(251, 191, 36, 0.3)'
+          }}>
+            My Journey
+          </h1>
+        </motion.div>
+
+        {/* Minimal Modern Journey Timeline */}
+        <div className="w-full max-w-4xl mx-auto px-4 relative z-20">
+          <div className="relative">
+            {/* Vertical Timeline Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#fbbf24] via-[#a855f7] to-blue-400"></div>
+            
+            {/* Journey Items */}
+            <div className="space-y-12">
+              
+              {/* Item 1 - Early Beginnings */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative flex items-start"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] rounded-full border-2 border-black z-10"></div>
+                
+                {/* Content */}
+                <div className="ml-16">
+                  <h3 className="text-xl font-light text-white mb-2">Early Beginnings</h3>
+                  <p className="text-[#C9C9D0] leading-relaxed">
+                    I discovered my passion for music at a young age, picking up the piano in church and honing my skills through dedicated practice.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Item 2 - Formal Training */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="relative flex items-start"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#a855f7] to-[#fbbf24] rounded-full border-2 border-black z-10"></div>
+                
+                {/* Content */}
+                <div className="ml-16">
+                  <h3 className="text-xl font-light text-white mb-2">Formal Training</h3>
+                  <p className="text-[#C9C9D0] leading-relaxed">
+                    I pursued formal music education, studying music theory, composition, and performance techniques to deepen my understanding and abilities.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Item 3 - Genre Exploration */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="relative flex items-start"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#fbbf24] to-blue-400 rounded-full border-2 border-black z-10"></div>
+                
+                {/* Content */}
+                <div className="ml-16">
+                  <h3 className="text-xl font-light text-white mb-2">Genre Exploration</h3>
+                  <p className="text-[#C9C9D0] leading-relaxed">
+                    I explored jazz, pop, gospel, and everything in between, discovering that music transcends genres and connects souls.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Item 4 - Composition & Production */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="relative flex items-start"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-blue-400 to-[#a855f7] rounded-full border-2 border-black z-10"></div>
+                
+                {/* Content */}
+                <div className="ml-16">
+                  <h3 className="text-xl font-light text-white mb-2">Composition & Production</h3>
+                  <p className="text-[#C9C9D0] leading-relaxed">
+                    Creating original compositions and producing music that captures moments and emotions, bringing stories to life through sound.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Item 5 - Professional Career */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1.0 }}
+                className="relative flex items-start"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#a855f7] to-[#fbbf24] rounded-full border-2 border-black z-10"></div>
+                
+                {/* Content */}
+                <div className="ml-16">
+                  <h3 className="text-xl font-light text-white mb-2">Professional Career</h3>
+                  <p className="text-[#C9C9D0] leading-relaxed">
+                    After years of hard work and dedication, I launched my professional music career, performing on stages and collaborating with talented artists.
+                  </p>
+                </div>
+              </motion.div>
+
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Contact Section */}
+      <motion.section 
+        ref={(el: HTMLDivElement | null) => { sectionsRef.current[5] = el; }}
         className="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-[#0B0B0C]"
         variants={sectionVariants}
         initial="hidden"
@@ -1706,8 +1854,8 @@ export default function Home() {
         <Footer />
       </motion.section>
 
-      {/* Contact Chatbot - Fixed to bottom right */}
-      <ContactChatbot />
+      {/* Collaboration Widget - Fixed to bottom right */}
+      <CollaborationWidget />
       </div>
     </motion.div>
   );

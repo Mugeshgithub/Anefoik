@@ -1,4 +1,5 @@
 'use client'; 
+
 import Link from 'next/link';
 import { Music, Piano, Youtube, Globe, Facebook, Linkedin, Instagram } from 'lucide-react';
 
@@ -68,7 +69,7 @@ export default function Footer() {
         <div className="relative">
           <div className="flex flex-col items-start">
             <h1 className="text-[4rem] md:text-[6rem] font-bold leading-none tracking-tight bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-blue-400 bg-clip-text text-transparent">
-              ANIEFIOK
+              ANIEFIOK <span className="text-[2rem] md:text-[3rem]">ASUQUO</span>
             </h1>
             <div className="mt-4 text-white text-center">
               <span className="text-sm">© 2025 Aniefiok. All rights reserved.</span>

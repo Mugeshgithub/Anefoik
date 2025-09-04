@@ -18,6 +18,12 @@ export default function Videos() {
       type: "video/mp4",
       title: "Don't Cry V2.4",
       thumbnail: "https://res.cloudinary.com/dkcw46zgg/image/upload/v1756589723/anefiok-music/mtttpmkc0qia85zmsup4.jpg"
+    },
+    {
+      src: "https://res.cloudinary.com/dkcw46zgg/video/upload/v1756941679/anefiok-music/anefiok-small-file.mp4",
+      type: "video/mp4",
+      title: "ANIEFIOK Small File",
+      thumbnail: "/6B4AD896-E0ED-4636-8ABA-B2BBBE980689.png"
     }
   ];
 
