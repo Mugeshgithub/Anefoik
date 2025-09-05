@@ -1,24 +1,13 @@
 {
   "isActive": true,
-  "title": "Live Performance at red Note Paris",
-  "date": "January 15, 2025",
-  "time": "8:00 PM",
-  "venue": "Blue Note Paris",
-  "location": "Paris, France",
-  "link": "https://bluenoteparis.com/events/aniefiok-asuquo",
-  "linkText": "Book Tickets",
+  "title": "hellooooo",
+  "date": "2025-01-20",
+  "time": "9:00 PM",
+  "venue": "Test Venue",
+  "location": "Test City",
+  "link": "https://test.com",
+  "linkText": "Test Link",
   "type": "live",
-  "description": "An intimate evening of jazz and contemporary music",
-  "collaborators": [
-    {
-      "name": "Sarah Johnson",
-      "role": "Vocalist",
-      "social": "@sarahjazz"
-    },
-    {
-      "name": "Marcus Williams",
-      "role": "Saxophonist",
-      "social": "@marcuswilliams"
-    }
-  ]
+  "description": "Test description",
+  "collaborators": []
 }

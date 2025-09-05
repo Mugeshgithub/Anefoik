@@ -86,14 +86,17 @@ export default function AdminPanel() {
         body: JSON.stringify(showData),
       });
 
+      const responseData = await response.json();
+
       if (response.ok) {
         setMessage('Show information updated successfully! 🎵');
         setLastUpdated(new Date().toLocaleString());
         setTimeout(() => setMessage(''), 3000);
       } else {
-        setMessage('Error updating show information. Please try again.');
+        setMessage(`Error updating show information: ${responseData.error || 'Unknown error'}`);
       }
     } catch (error) {
+      console.error('Error in saveShowData:', error);
       setMessage('Error updating show information. Please try again.');
     } finally {
       setIsLoading(false);
