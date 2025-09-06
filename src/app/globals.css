@@ -60,6 +60,7 @@ body {
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   
   body {
@@ -67,6 +68,19 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Ensure consistent rem calculations */
+  :root {
+    font-size: 16px;
+  }
+  
+  /* Force consistent pixel density */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    html {
+      font-size: 16px;
+    }
   }
   
   /* Ensure consistent container behavior */

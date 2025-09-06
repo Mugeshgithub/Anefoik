@@ -1,8 +1,18 @@
-'use client';
-
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/contexts/theme-context';
+
+export const metadata: Metadata = {
+  title: 'Aniefiok - Musical Portfolio',
+  description: 'Professional keyboardist, composer, and producer specializing in jazz, gospel, pop, and contemporary Christian music. Experience soul-stirring melodies that connect hearts and inspire spirits.',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
+};
 
 export default function RootLayout({
   children,
@@ -11,11 +21,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <title>Aniefiok - Musical Portfolio</title>
-        <meta name="description" content="Professional keyboardist, composer, and producer specializing in jazz, gospel, pop, and contemporary Christian music. Experience soul-stirring melodies that connect hearts and inspire spirits." />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </head>
       <body className="min-h-screen transition-colors duration-300">
         <ThemeProvider>
           {children}
