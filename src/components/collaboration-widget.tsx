@@ -34,6 +34,7 @@ export default function CollaborationWidget() {
         const response = await fetch('/api/show-data');
         if (response.ok) {
           const data = await response.json();
+          console.log('CollaborationWidget: Fetched data:', data);
           setShowData(data);
         }
       } catch (error) {
@@ -57,11 +58,14 @@ export default function CollaborationWidget() {
 
   // Don't show anything if there's no show
   if (!showData.isActive || !showData.title.trim()) {
+    console.log('CollaborationWidget: Hiding widget - isActive:', showData.isActive, 'title:', showData.title);
     return null;
   }
 
+  console.log('CollaborationWidget: Showing widget - isActive:', showData.isActive, 'title:', showData.title);
+
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div key={`widget-${showData?.isActive}-${showData?.title}`} className="fixed bottom-6 right-6 z-50">
       <AnimatePresence>
         {isExpanded ? (
           // Expanded State

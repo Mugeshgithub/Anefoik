@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Music, Piano, Headphones, Play, Pause, ChevronLeft, ChevronRight, Mail, Phone, MapPin, Instagram, Twitter, Facebook, ChevronUp, ChevronDown, Volume2, SkipBack, SkipForward, Youtube, Linkedin } from 'lucide-react';
+import { Music, Piano, Headphones, Play, Pause, ChevronLeft, ChevronRight, Mail, Phone, MapPin, Instagram, Twitter, Facebook, ChevronUp, ChevronDown, Volume2, SkipBack, SkipForward, Youtube, Linkedin, Users, Calendar } from 'lucide-react';
 import Videos from '@/components/sections/videos';
 import Footer from '@/components/layout/footer';
 import { LoadingScreen } from '@/components/loading-screen';
@@ -36,6 +36,8 @@ export default function Home() {
   const [showWaveTransition, setShowWaveTransition] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [collaborations, setCollaborations] = useState<any[]>([]);
+  const [collaborationsActive, setCollaborationsActive] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -255,6 +257,34 @@ export default function Home() {
       setFormMessage({ type: 'error', text: 'Something went wrong. Please try again later.' });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Load collaborations data
+  const loadCollaborations = async () => {
+    try {
+      const response = await fetch('/api/collaborations');
+      if (response.ok) {
+        const data = await response.json();
+        setCollaborationsActive(data.isActive);
+        setCollaborations(data.isActive ? (data.collaborations || []) : []);
+      }
+    } catch (error) {
+      console.error('Error loading collaborations:', error);
+    }
+  };
+
+  // Load show data for widget
+  const loadShowData = async () => {
+    try {
+      const response = await fetch('/api/show-data');
+      if (response.ok) {
+        const data = await response.json();
+        // This will trigger the CollaborationWidget to update
+        // The widget polls every 5 seconds, so it will pick up changes
+      }
+    } catch (error) {
+      console.error('Error loading show data:', error);
     }
   };
 
@@ -646,6 +676,20 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentTrackIndex, isScrolling]);
 
+  // Load collaborations on mount
+  useEffect(() => {
+    loadCollaborations();
+    loadShowData();
+    
+    // Poll for updates every 10 seconds
+    const interval = setInterval(() => {
+      loadCollaborations();
+      loadShowData();
+    }, 10000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   // Aniefiok's Music Collection - Now using Cloudinary URLs
   const musicTracks = [
     { 
@@ -877,7 +921,7 @@ export default function Home() {
       {/* Mobile Bottom Navigation Bar - Hidden on larger screens */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
         <div className="flex justify-around items-center py-3 px-4">
-          {['Hero', 'About', 'Music', 'Videos', 'Journey', 'Contact'].map((section, index) => (
+          {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((section, index) => (
             <button
               key={index}
               onClick={() => scrollToSection(index)}
@@ -1011,7 +1055,8 @@ export default function Home() {
                       { name: 'Music', index: 2 },
                       { name: 'Videos', index: 3 },
                       { name: 'Journey', index: 4 },
-                      { name: 'Contact', index: 5 },
+                      ...(collaborationsActive ? [{ name: 'Collaborations', index: 5 }] : []),
+                      { name: 'Contact', index: collaborationsActive ? 6 : 5 },
 
                     ].map((item) => (
                       <motion.button
@@ -1082,6 +1127,7 @@ export default function Home() {
             loop
             muted
             playsInline
+            preload="auto"
             className="w-full h-full object-cover transition-all duration-5000 high-quality-video video-sharpness"
             style={{ 
               filter: `
@@ -1099,7 +1145,14 @@ export default function Home() {
               // Start color transition after 1.5 seconds
               setTimeout(() => setVideoColorTransition(true), 1500);
             }}
-            onError={() => setVideoLoaded(true)} // Fallback if video fails
+            onCanPlay={() => {
+              setVideoLoaded(true);
+              setTimeout(() => setVideoColorTransition(true), 1500);
+            }}
+            onError={() => {
+              console.log('Video failed to load, using fallback');
+              setVideoLoaded(true);
+            }}
           >
             <source src="https://res.cloudinary.com/dkcw46zgg/video/upload/v1756589485/anefiok-music/wo1m7vdefsie81reyvrr.mp4" type="video/mp4" />
             Your browser does not support the video tag.
@@ -1757,10 +1810,142 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* Collaborations Section */}
+      {collaborationsActive && (
+        <motion.section 
+          id="collaborations"
+          ref={(el: HTMLDivElement | null) => { sectionsRef.current[5] = el; }}
+          className="py-20 relative overflow-hidden bg-[#1a1a2e]"
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ margin: "-100px" }}
+        >
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#fbbf24]/5 via-transparent to-[#a855f7]/5"></div>
+          <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#fbbf24]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-[#a855f7]/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 relative z-20">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-[#1a1a2e]/60 backdrop-blur-xl rounded-full border border-white/10">
+              <Users className="w-5 h-5 text-[#fbbf24]" />
+              <span className="text-[#fbbf24] font-medium">Musical Collaborations</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-light text-white mb-6" style={{
+              background: 'linear-gradient(135deg, #fbbf24 0%, #a855f7 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
+              Creative Partnerships
+            </h2>
+            <p className="text-[#C9C9D0] text-lg max-w-2xl mx-auto leading-relaxed">
+              Collaborating with exceptional artists to bring unique musical visions to life
+            </p>
+          </motion.div>
+
+          {/* Collaborations Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="grid grid-cols-4 gap-4"
+          >
+            {collaborations.length > 0 ? collaborations.map((collab, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={{ 
+                  y: -4,
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
+                className="group relative"
+              >
+                <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl border border-white/5 p-6 hover:border-[#fbbf24]/30 transition-all duration-500 h-full overflow-hidden hover:bg-[#1a1a2e]/95">
+                  {/* Artist Photo */}
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg backdrop-blur-sm border border-white/10 overflow-hidden">
+                    {collab.image ? (
+                      <img 
+                        src={collab.image} 
+                        alt={collab.name}
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    ) : (
+                      <span className="text-white font-bold text-xl">
+                        {collab.name.split(' ').map((n: string) => n[0]).join('')}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Artist Name */}
+                  <h3 className="text-white font-semibold text-base mb-2 text-center group-hover:text-[#fbbf24] transition-colors">
+                    {collab.name}
+                  </h3>
+
+                  {/* Role with Icon */}
+                  <div className="flex items-center justify-center gap-2 mb-4">
+                    <Music className="w-4 h-4 text-[#C9C9D0]" />
+                    <span className="text-[#C9C9D0] text-sm font-medium">{collab.role}</span>
+                  </div>
+
+                  {/* Hover Details */}
+                  <div className="absolute inset-0 bg-black/90 backdrop-blur-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center p-4">
+                    <h4 className="text-white font-semibold text-base mb-2 text-center">{collab.project}</h4>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Calendar className="w-4 h-4 text-[#C9C9D0]" />
+                      <span className="text-[#C9C9D0] text-sm">{collab.year}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-[#fbbf24] rounded-full"></div>
+                      <span className="text-[#C9C9D0] text-sm">{collab.genre}</span>
+                    </div>
+                  </div>
+
+                  {/* Subtle accent line */}
+                  <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] group-hover:w-full transition-all duration-500 rounded-full"></div>
+                </div>
+              </motion.div>
+            )) : (
+              <div className="col-span-4 text-center py-12">
+                <div className="text-[#C9C9D0] text-lg">No collaborations available</div>
+                <div className="text-[#C9C9D0]/60 text-sm mt-2">Check back later for updates</div>
+              </div>
+            )}
+          </motion.div>
+
+          {/* Bottom Accent */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="mt-16 flex justify-center"
+          >
+            <div className="w-32 h-1 bg-gradient-to-r from-[#fbbf24] via-[#a855f7] to-[#fbbf24] rounded-full"></div>
+          </motion.div>
+        </div>
+        </motion.section>
+      )}
+
       {/* Contact Section */}
       <motion.section 
         id="contact"
-        ref={(el: HTMLDivElement | null) => { sectionsRef.current[5] = el; }}
+        ref={(el: HTMLDivElement | null) => { sectionsRef.current[6] = el; }}
         className="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-[#0B0B0C]"
         variants={sectionVariants}
         initial="hidden"
