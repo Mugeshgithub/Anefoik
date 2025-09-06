@@ -940,24 +940,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Bottom Navigation Bar - Above music player */}
-      <div className="fixed bottom-16 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
-        <div className="flex justify-around items-center py-3 px-4">
-          {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((section, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToSection(index)}
-              className={`text-xs font-medium px-3 py-2 rounded-lg transition-all duration-200 ${
-                index === currentSection
-                  ? 'bg-white text-black'
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              {section}
-            </button>
-          ))}
-        </div>
-      </div>
 
 
 
@@ -2128,14 +2110,33 @@ export default function Home() {
         <Footer />
       </motion.section>
 
-      {/* Collaboration Widget - Fixed to bottom right */}
-      <CollaborationWidget />
       </div>
     </motion.div>
 
+    {/* Mobile Bottom Navigation Bar - Above music player */}
+    <div className="fixed bottom-16 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
+      <div className="flex justify-around items-center py-3 px-4">
+        {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((section, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToSection(index)}
+            className={`text-xs font-medium px-3 py-2 rounded-lg transition-all duration-200 ${
+              index === currentSection
+                ? 'bg-white text-black'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            {section}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Collaboration Widget - Fixed to bottom right */}
+    <CollaborationWidget />
+
     {/* Mobile Music Player Bar - Fixed at bottom - Outside main container */}
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-red-500 backdrop-blur-xl border-t border-white/20 md:hidden">
-      <div className="text-white text-center py-2">MOBILE PLAYER TEST</div>
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         {/* Track Info */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
