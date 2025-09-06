@@ -1,12 +1,16 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Music, Piano, Headphones, Play, Pause, ChevronLeft, ChevronRight, Mail, Phone, MapPin, Instagram, Twitter, Facebook, ChevronUp, ChevronDown, Volume2, SkipBack, SkipForward, Youtube, Linkedin, Users, Calendar } from 'lucide-react';
 import Videos from '@/components/sections/videos';
 import Footer from '@/components/layout/footer';
 import { LoadingScreen } from '@/components/loading-screen';
 import CollaborationWidget from '@/components/collaboration-widget';
+
+// Lazy load heavy components
+const LazyVideos = lazy(() => import('@/components/sections/videos'));
+const LazyFooter = lazy(() => import('@/components/layout/footer'));
 import { submitContactForm } from './actions';
 import emailjs from '@emailjs/browser';
 
@@ -687,11 +691,11 @@ export default function Home() {
     loadCollaborations();
     loadShowData();
     
-    // Poll for updates every 30 seconds (less aggressive)
+    // Poll for updates every 60 seconds (much less aggressive)
     const interval = setInterval(() => {
       loadCollaborations();
       loadShowData();
-    }, 30000);
+    }, 60000);
     
     return () => clearInterval(interval);
   }, []);
@@ -1133,7 +1137,7 @@ export default function Home() {
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             className="w-full h-full object-cover transition-all duration-5000 high-quality-video video-sharpness"
             style={{ 
               filter: `

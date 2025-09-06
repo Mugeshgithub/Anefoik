@@ -21,9 +21,25 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
       }
     ],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
   },
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true,
+  },
+  // Compress responses
+  compress: true,
+  // Enable SWC minification
+  swcMinify: true,
 };
 
 export default nextConfig;

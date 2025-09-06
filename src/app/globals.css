@@ -55,6 +55,23 @@ body {
     box-sizing: border-box;
   }
   
+  /* Performance optimizations */
+  * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+  }
+  
+  /* Optimize animations for mobile */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
   /* Force consistent sizing across all environments */
   html {
     font-size: 16px;
@@ -80,6 +97,24 @@ body {
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     html {
       font-size: 16px;
+    }
+  }
+  
+  /* Mobile performance optimizations */
+  @media (max-width: 768px) {
+    /* Reduce animations on mobile */
+    .floating-image, .floating-text {
+      animation-duration: 20s;
+    }
+    
+    /* Optimize video performance */
+    video {
+      will-change: auto;
+    }
+    
+    /* Reduce complex gradients on mobile */
+    .bg-gradient-to-r, .bg-gradient-to-br {
+      background: linear-gradient(45deg, #fbbf24, #a855f7);
     }
   }
   
