@@ -2121,7 +2121,7 @@ export default function Home() {
                     {/* PayPal QR Code */}
                     <div className="bg-white rounded-xl mb-4 shadow-lg w-32 h-32 flex items-center justify-center ml-auto">
                       <img 
-                        src="/Paypal QR.jpeg" 
+                        src="/paypal-qr.jpeg" 
                         alt="PayPal Donation QR Code"
                         className="w-full h-full rounded-lg object-cover"
                       />
