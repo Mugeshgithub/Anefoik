@@ -1871,7 +1871,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-4 gap-4"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
           >
             {collaborations.length > 0 ? collaborations.map((collab, index) => (
               <motion.div
@@ -1887,9 +1887,9 @@ export default function Home() {
                 }}
                 className="group relative"
               >
-                <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl border border-white/5 p-6 hover:border-[#fbbf24]/30 transition-all duration-500 h-full overflow-hidden hover:bg-[#1a1a2e]/95">
+                <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl border border-white/5 p-4 sm:p-6 hover:border-[#fbbf24]/30 transition-all duration-500 h-full overflow-hidden hover:bg-[#1a1a2e]/95">
                   {/* Artist Photo */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg backdrop-blur-sm border border-white/10 overflow-hidden">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg backdrop-blur-sm border border-white/10 overflow-hidden">
                     {collab.image ? (
                       <img 
                         src={collab.image} 
@@ -1897,21 +1897,21 @@ export default function Home() {
                         className="w-full h-full object-cover rounded-full"
                       />
                     ) : (
-                      <span className="text-white font-bold text-xl">
+                      <span className="text-white font-bold text-lg sm:text-xl">
                         {collab.name.split(' ').map((n: string) => n[0]).join('')}
                       </span>
                     )}
                   </div>
 
                   {/* Artist Name */}
-                  <h3 className="text-white font-semibold text-base mb-2 text-center group-hover:text-[#fbbf24] transition-colors">
+                  <h3 className="text-white font-semibold text-sm sm:text-base mb-2 text-center group-hover:text-[#fbbf24] transition-colors">
                     {collab.name}
                   </h3>
 
                   {/* Role with Icon */}
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <Music className="w-4 h-4 text-[#C9C9D0]" />
-                    <span className="text-[#C9C9D0] text-sm font-medium">{collab.role}</span>
+                  <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
+                    <Music className="w-3 h-3 sm:w-4 sm:h-4 text-[#C9C9D0]" />
+                    <span className="text-[#C9C9D0] text-xs sm:text-sm font-medium">{collab.role}</span>
                   </div>
 
                   {/* Hover Details */}
