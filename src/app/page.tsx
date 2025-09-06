@@ -2120,14 +2120,11 @@ export default function Home() {
                     
                     {/* PayPal QR Code */}
                     <div className="bg-white rounded-xl mb-4 shadow-lg w-32 h-32 flex items-center justify-center ml-auto">
-                      <div className="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="w-16 h-16 bg-gray-300 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                            <span className="text-gray-600 text-xs">QR</span>
-                          </div>
-                          <p className="text-xs text-gray-600">PayPal QR</p>
-                        </div>
-                      </div>
+                      <img 
+                        src="https://res.cloudinary.com/dkcw46zgg/image/upload/v1757125810/anefiok-music/paypal-qr-code.jpg" 
+                        alt="PayPal Donation QR Code"
+                        className="w-full h-full rounded-lg object-cover"
+                      />
                     </div>
                     
                     <p className="text-[#fbbf24] text-sm font-medium">
