@@ -958,71 +958,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Music Player Bar - Fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-red-500 backdrop-blur-xl border-t border-white/20 md:hidden">
-        <div className="text-white text-center py-2">MOBILE PLAYER TEST</div>
-        <div className="flex items-center justify-between px-4 py-3">
-          {/* Track Info */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-              <Music className="w-5 h-5 text-white" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <h4 className="text-sm font-semibold text-white truncate">Written in the Stars</h4>
-                             <p className="text-xs text-gray-300 truncate">Aniefiok</p>
-            </div>
-          </div>
-          
-          {/* Controls */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => {
-                if (leftAudioRef.current) {
-                  leftAudioRef.current.currentTime = Math.max(0, leftAudioRef.current.currentTime - 10);
-                }
-              }}
-              className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <SkipBack className="w-4 h-4" />
-            </button>
-            
-            <button
-              onClick={() => {
-                if (leftAudioRef.current) {
-                  if (leftPlayerPlaying) {
-                    leftAudioRef.current.pause();
-                    setLeftPlayerPlaying(false);
-                  } else {
-                    leftAudioRef.current.play();
-                    setLeftPlayerPlaying(true);
-                  }
-                }
-              }}
-              className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              {leftPlayerPlaying ? (
-                <div className="flex gap-1">
-                  <div className="w-1.5 h-4 bg-white rounded-sm"></div>
-                  <div className="w-1.5 h-4 bg-white rounded-sm"></div>
-                </div>
-              ) : (
-                <div className="w-0 h-0 border-l-[8px] border-l-white border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent ml-0.5"></div>
-              )}
-            </button>
-            
-            <button
-              onClick={() => {
-                if (leftAudioRef.current) {
-                  leftAudioRef.current.currentTime = Math.min(leftPlayerDuration, leftAudioRef.current.currentTime + 10);
-                }
-              }}
-              className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <SkipForward className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
 
 
 
@@ -2196,5 +2131,71 @@ export default function Home() {
       <CollaborationWidget />
       </div>
     </motion.div>
+
+    {/* Mobile Music Player Bar - Fixed at bottom - Outside main container */}
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-red-500 backdrop-blur-xl border-t border-white/20 md:hidden">
+      <div className="text-white text-center py-2">MOBILE PLAYER TEST</div>
+      <div className="flex items-center justify-between px-4 py-3">
+        {/* Track Info */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+            <Music className="w-5 h-5 text-white" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h4 className="text-sm font-semibold text-white truncate">Written in the Stars</h4>
+            <p className="text-xs text-gray-300 truncate">Aniefiok</p>
+          </div>
+        </div>
+        
+        {/* Controls */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              if (leftAudioRef.current) {
+                leftAudioRef.current.currentTime = Math.max(0, leftAudioRef.current.currentTime - 10);
+              }
+            }}
+            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+          >
+            <SkipBack className="w-4 h-4" />
+          </button>
+          
+          <button
+            onClick={() => {
+              if (leftAudioRef.current) {
+                if (leftPlayerPlaying) {
+                  leftAudioRef.current.pause();
+                  setLeftPlayerPlaying(false);
+                } else {
+                  leftAudioRef.current.play();
+                  setLeftPlayerPlaying(true);
+                }
+              }
+            }}
+            className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors"
+          >
+            {leftPlayerPlaying ? (
+              <div className="flex gap-1">
+                <div className="w-1.5 h-4 bg-white rounded-sm"></div>
+                <div className="w-1.5 h-4 bg-white rounded-sm"></div>
+              </div>
+            ) : (
+              <div className="w-0 h-0 border-l-[8px] border-l-white border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent ml-0.5"></div>
+            )}
+          </button>
+          
+          <button
+            onClick={() => {
+              if (leftAudioRef.current) {
+                leftAudioRef.current.currentTime = Math.min(leftPlayerDuration, leftAudioRef.current.currentTime + 10);
+              }
+            }}
+            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+          >
+            <SkipForward className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
