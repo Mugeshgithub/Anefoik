@@ -32,14 +32,8 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
   },
-  // Performance optimizations
-  experimental: {
-    optimizeCss: true,
-  },
   // Compress responses
   compress: true,
-  // Enable SWC minification
-  swcMinify: true,
 };
 
 export default nextConfig;
