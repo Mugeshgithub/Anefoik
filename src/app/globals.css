@@ -116,6 +116,13 @@ body {
     .bg-gradient-to-r, .bg-gradient-to-br {
       background: linear-gradient(45deg, #fbbf24, #a855f7);
     }
+    
+    /* Better text wrapping for mobile */
+    h1 {
+      word-break: keep-all;
+      hyphens: none;
+      line-height: 1.1;
+    }
   }
   
   /* Ensure consistent container behavior */

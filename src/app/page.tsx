@@ -1212,7 +1212,7 @@ export default function Home() {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-light tracking-[0.5em] text-white"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-light tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.3em] lg:tracking-[0.4em] text-white break-words"
             style={{
               textShadow: '0 0 30px rgba(255, 255, 255, 0.4)'
             }}
@@ -1254,7 +1254,7 @@ export default function Home() {
                 }}
                 style={{
                   transformOrigin: 'center center',
-                  marginRight: letter === ' ' ? '0.8em' : '0.1em',
+                  marginRight: letter === ' ' ? '0.3em' : '0.05em',
                   textShadow: `
                     0 0 30px rgba(255, 255, 255, 0.6),
                     0 0 60px rgba(251, 191, 36, 0.3),
@@ -2079,11 +2079,11 @@ export default function Home() {
                         <div className="flex items-center gap-4">
                           <Mail className="w-5 h-5 text-white" />
                           <span className="text-[#C9C9D0]">emmaasuquo87@gmail.com</span>
-                        </div>
+          </div>
                         <div className="flex items-center gap-4">
                           <MapPin className="w-5 h-5 text-white" />
                           <span className="text-[#C9C9D0]">Charenton le pont</span>
-                        </div>
+        </div>
                       </div>
                     </div>
 
