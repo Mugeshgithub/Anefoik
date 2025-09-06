@@ -266,7 +266,13 @@ export default function Home() {
       const response = await fetch('/api/collaborations');
       if (response.ok) {
         const data = await response.json();
-        setCollaborationsActive(data.isActive);
+        // Only update state if there's an actual change
+        setCollaborationsActive(prev => {
+          if (prev !== data.isActive) {
+            return data.isActive;
+          }
+          return prev;
+        });
         setCollaborations(data.isActive ? (data.collaborations || []) : []);
       }
     } catch (error) {
@@ -681,11 +687,11 @@ export default function Home() {
     loadCollaborations();
     loadShowData();
     
-    // Poll for updates every 10 seconds
+    // Poll for updates every 30 seconds (less aggressive)
     const interval = setInterval(() => {
       loadCollaborations();
       loadShowData();
-    }, 10000);
+    }, 30000);
     
     return () => clearInterval(interval);
   }, []);
@@ -1813,6 +1819,7 @@ export default function Home() {
       {/* Collaborations Section */}
       {collaborationsActive && (
         <motion.section 
+          key={`collaborations-${collaborationsActive}`}
           id="collaborations"
           ref={(el: HTMLDivElement | null) => { sectionsRef.current[5] = el; }}
           className="py-20 relative overflow-hidden bg-[#1a1a2e]"
