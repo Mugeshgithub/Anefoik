@@ -110,6 +110,19 @@ body {
     /* Optimize video performance */
     video {
       will-change: auto;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    
+    /* Force video to load on mobile */
+    video::-webkit-media-controls {
+      display: none !important;
+    }
+    
+    video::-webkit-media-controls-enclosure {
+      display: none !important;
     }
     
     /* Reduce complex gradients on mobile */
