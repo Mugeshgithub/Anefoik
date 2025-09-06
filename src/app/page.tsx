@@ -790,7 +790,7 @@ export default function Home() {
         delay: 0.3
       }}
     >
-      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 h-screen pb-32 md:pb-0">
+      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 h-screen">
       
       {/* Hidden audio elements - Must be at top level */}
       <audio 
@@ -850,7 +850,7 @@ export default function Home() {
 
 
             {/* Left-side Fixed Music Player */}
-      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
+      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
         <div className="bg-[#1a1a2e]/80 backdrop-blur-xl rounded-r-2xl p-4 shadow-2xl border-r border-t border-b border-white/20">
           {/* Player Header */}
           <div className="text-center mb-4">
@@ -922,7 +922,7 @@ export default function Home() {
       </div>
 
       {/* Right-side Progress Navigation */}
-      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
+      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
         <div className="flex flex-col items-center space-y-3">
           {[...Array(6)].map((_, index) => (
             <button
@@ -939,67 +939,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Music Player - Fixed at top */}
-      <div className="fixed top-4 left-4 right-4 z-50 bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl p-3 shadow-2xl border border-white/20 lg:hidden">
-        <div className="flex items-center gap-3">
-          {/* Track Info */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
-              <Music className="w-4 h-4 text-white" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <h4 className="text-xs font-semibold text-white truncate">Written in the Stars</h4>
-              <p className="text-xs text-gray-300 truncate">Aniefiok</p>
-            </div>
-          </div>
-          
-          {/* Play/Pause Button */}
-          <button
-            onClick={() => {
-              if (leftAudioRef.current) {
-                if (leftPlayerPlaying) {
-                  leftAudioRef.current.pause();
-                  setLeftPlayerPlaying(false);
-                } else {
-                  leftAudioRef.current.play();
-                  setLeftPlayerPlaying(true);
-                }
-              }
-            }}
-            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors"
-          >
-            {leftPlayerPlaying ? (
-              <div className="flex gap-1">
-                <div className="w-1 h-3 bg-white rounded-sm"></div>
-                <div className="w-1 h-3 bg-white rounded-sm"></div>
-              </div>
-            ) : (
-              <div className="w-0 h-0 border-l-[6px] border-l-white border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent ml-0.5"></div>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Progress Indicator - Right side */}
-      <div className="fixed right-2 top-1/2 transform -translate-y-1/2 z-50 lg:hidden">
-        <div className="flex flex-col items-center space-y-2">
-          {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToSection(index)}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-150 cursor-pointer ${
-                index === currentSection 
-                  ? 'bg-white scale-125 ring-1 ring-white/30 shadow-lg' 
-                  : 'bg-white/40 hover:bg-white/70 hover:scale-110'
-              }`}
-              title={`Section ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile Bottom Navigation Bar - Hidden on larger screens */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 lg:hidden">
+      {/* Mobile Bottom Navigation Bar - Above music player */}
+      <div className="fixed bottom-16 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
         <div className="flex justify-around items-center py-3 px-4">
           {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((section, index) => (
             <button
@@ -1017,8 +958,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Music Player Bar - Only on very small screens */}
-      <div className="fixed bottom-16 left-0 right-0 z-30 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
+      {/* Mobile Music Player Bar - Fixed at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Track Info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
