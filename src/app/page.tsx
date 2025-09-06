@@ -2120,8 +2120,14 @@ export default function Home() {
                     
                     {/* PayPal QR Code */}
                     <div className="bg-white rounded-xl mb-4 shadow-lg w-32 h-32 flex items-center justify-center ml-auto">
-                      <img 
-                        src="data:image/jpeg;base64,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
+                      <div className="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-gray-300 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                            <span className="text-gray-600 text-xs">QR</span>
+                          </div>
+                          <p className="text-xs text-gray-600">PayPal QR</p>
+                        </div>
+                      </div>
                     </div>
                     
                     <p className="text-[#fbbf24] text-sm font-medium">
