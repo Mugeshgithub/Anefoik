@@ -959,7 +959,8 @@ export default function Home() {
       </div>
 
       {/* Mobile Music Player Bar - Fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-red-500 backdrop-blur-xl border-t border-white/20 md:hidden">
+        <div className="text-white text-center py-2">MOBILE PLAYER TEST</div>
         <div className="flex items-center justify-between px-4 py-3">
           {/* Track Info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
