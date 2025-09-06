@@ -14,6 +14,7 @@ export default function RootLayout({
       <head>
         <title>Aniefiok - Musical Portfolio</title>
         <meta name="description" content="Professional keyboardist, composer, and producer specializing in jazz, gospel, pop, and contemporary Christian music. Experience soul-stirring melodies that connect hearts and inspire spirits." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
       <body className="min-h-screen transition-colors duration-300">
         <ThemeProvider>
