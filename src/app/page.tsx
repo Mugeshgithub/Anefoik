@@ -458,7 +458,7 @@ export default function Home() {
       const updateDuration = () => {
         console.log('Duration loaded:', audio.duration);
         if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
-          setDuration(audio.duration);
+        setDuration(audio.duration);
         }
       };
       const handleEnded = () => {
@@ -635,7 +635,7 @@ export default function Home() {
   useEffect(() => {
     const leftAudio = leftAudioRef.current;
     if (leftAudio && musicTracks.length > 1) {
-              leftAudio.src = musicTracks[1].audioUrl; // "Written in the Stars"
+      leftAudio.src = musicTracks[1].audioUrl; // "Written in the Stars"
       leftAudio.load();
       console.log('Left audio source set to:', leftAudio.src);
       
@@ -1309,9 +1309,9 @@ export default function Home() {
               viewport={{ once: true }}
                 className="space-y-4"
             >
-                              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
+              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                                   I'm Aniefiok Asuquo— a Pianist, Composer, and Producer.
-                </p>
+              </p>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                 My journey started in church, where I first discovered the joy of music.
               </p>
@@ -1636,7 +1636,7 @@ export default function Home() {
                 </motion.span>
               ))}
             </motion.div>
-          </div>
+        </div>
 
         </div>
       </motion.section>
@@ -1711,10 +1711,10 @@ export default function Home() {
             <div className="space-y-12">
               
               {/* Item 1 - Early Beginnings */}
-              <motion.div
+            <motion.div
                 initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative flex items-start"
               >
                 {/* Timeline Dot */}
@@ -1726,7 +1726,7 @@ export default function Home() {
                   <p className="text-[#C9C9D0] leading-relaxed">
                     I discovered my passion for music at a young age, picking up the piano in church and honing my skills through dedicated practice.
                   </p>
-                </div>
+                  </div>
               </motion.div>
 
               {/* Item 2 - Formal Training */}
@@ -1745,7 +1745,7 @@ export default function Home() {
                   <p className="text-[#C9C9D0] leading-relaxed">
                     I pursued formal music education, studying music theory, composition, and performance techniques to deepen my understanding and abilities.
                   </p>
-                </div>
+                  </div>
               </motion.div>
 
               {/* Item 3 - Genre Exploration */}
@@ -1783,7 +1783,7 @@ export default function Home() {
                   <p className="text-[#C9C9D0] leading-relaxed">
                     Creating original compositions and producing music that captures moments and emotions, bringing stories to life through sound.
                   </p>
-                </div>
+              </div>
               </motion.div>
 
               {/* Item 5 - Professional Career */}
@@ -1840,7 +1840,7 @@ export default function Home() {
             <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-[#1a1a2e]/60 backdrop-blur-xl rounded-full border border-white/10">
               <Users className="w-5 h-5 text-[#fbbf24]" />
               <span className="text-[#fbbf24] font-medium">Musical Collaborations</span>
-            </div>
+                </div>
             <h2 className="text-4xl md:text-5xl font-light text-white mb-6" style={{
               background: 'linear-gradient(135deg, #fbbf24 0%, #a855f7 100%)',
               WebkitBackgroundClip: 'text',
@@ -1918,7 +1918,7 @@ export default function Home() {
 
                   {/* Subtle accent line */}
                   <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
+              </div>
               </motion.div>
             )) : (
               <div className="col-span-4 text-center py-12">
@@ -1926,13 +1926,13 @@ export default function Home() {
                 <div className="text-[#C9C9D0]/60 text-sm mt-2">Check back later for updates</div>
               </div>
             )}
-          </motion.div>
+            </motion.div>
 
           {/* Bottom Accent */}
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true }}
+              viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.6 }}
             className="mt-16 flex justify-center"
           >
@@ -1974,70 +1974,21 @@ export default function Home() {
           </p>
         </motion.div>
 
-        <div className="container mx-auto px-4 relative z-20 mt-32">
+        <div className="container mx-auto px-4 relative z-20 mt-16">
 
-          <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8"
-            >
-              <div className="bg-[#121215] backdrop-blur-xl rounded-2xl p-8">
-                <h3 className="text-2xl font-light text-[#EDEDED] mb-6">Get in Touch</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Mail className="w-6 h-6 text-white" />
-                    <span className="text-[#C9C9D0]">emmaasuquo87@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <MapPin className="w-6 h-6 text-white" />
-                    <span className="text-[#C9C9D0]">Charenton le pont</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#121215] backdrop-blur-xl rounded-2xl p-8">
-                <h3 className="text-2xl font-light text-[#EDEDED] mb-6">Follow</h3>
-                <div className="flex gap-4">
-                  <motion.a
-                    href="https://www.instagram.com/emma_asuquo2005/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                  >
-                    <Instagram className="w-6 h-6 text-white" />
-                  </motion.a>
-                  <motion.a
-                    href="https://www.youtube.com/@asuquo05"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                  >
-                    <Youtube className="w-6 h-6 text-white" />
-                  </motion.a>
-                  <motion.a
-                    href="https://www.linkedin.com/in/aniefiok-asuquo-76b0a498/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                  >
-                    <Linkedin className="w-6 h-6 text-white" />
-                  </motion.a>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-[#121215] backdrop-blur-xl rounded-2xl p-8"
-            >
-                              <h3 className="text-2xl font-light text-[#EDEDED] mb-6">
+          <div className="max-w-6xl mx-auto">
+            {/* New Layout - Left: Form, Right: Contact Info + Social + QR */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              {/* Left Column - Send Message Form (Reduced Width) */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="lg:col-span-1"
+              >
+                <div className="bg-[#121215] backdrop-blur-xl rounded-2xl p-8">
+                  <h3 className="text-xl font-light text-[#EDEDED] mb-6">
                 {formMessage?.type === 'success' ? 'Thank You!' : 'Send Message'}
               </h3>
               
@@ -2053,7 +2004,7 @@ export default function Home() {
               )}
               
               {formMessage?.type !== 'success' && (
-                <form id="contact-form" onSubmit={handleContactSubmit} className="space-y-6">
+                    <form id="contact-form" onSubmit={handleContactSubmit} className="space-y-5">
                   <div>
                     <input
                       type="text"
@@ -2076,7 +2027,7 @@ export default function Home() {
                   <div>
                     <textarea
                       name="message"
-                      placeholder="Message (Optional)"
+                          placeholder="Message"
                       rows={4}
                       className="w-full p-4 bg-[#0F0F11] border border-white/6 rounded-lg text-[#E0E0E5] placeholder-[#70707A] focus:outline-none focus:ring-2 focus:ring-[#7DD3FC]/40 focus:border-transparent transition-colors resize-none"
                     ></textarea>
@@ -2096,7 +2047,93 @@ export default function Home() {
                   </motion.button>
                 </form>
               )}
+                </div>
             </motion.div>
+
+              {/* Right Column - Contact sections vertical + QR parallel */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="lg:col-span-2 flex flex-col justify-end h-full"
+              >
+                {/* Bottom Section - Contact sections (vertical) + QR Code (parallel) */}
+                <div className="flex justify-between items-end">
+                  {/* Left side - Get in Touch + Follow (Vertical) */}
+                  <div className="space-y-8">
+                    {/* Get in Touch */}
+                    <div>
+                      <h3 className="text-xl font-light text-[#EDEDED] mb-4">Get in Touch</h3>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-4">
+                          <Mail className="w-5 h-5 text-white" />
+                          <span className="text-[#C9C9D0]">emmaasuquo87@gmail.com</span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <MapPin className="w-5 h-5 text-white" />
+                          <span className="text-[#C9C9D0]">Charenton le pont</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Follow */}
+                    <div>
+                      <h3 className="text-xl font-light text-[#EDEDED] mb-4">Follow</h3>
+                      <div className="flex gap-4">
+                        <motion.a
+                          href="https://www.instagram.com/emma_asuquo2005/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                        >
+                          <Instagram className="w-5 h-5 text-white" />
+                        </motion.a>
+                        <motion.a
+                          href="https://www.youtube.com/@asuquo05"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                        >
+                          <Youtube className="w-5 h-5 text-white" />
+                        </motion.a>
+                        <motion.a
+                          href="https://www.linkedin.com/in/aniefiok-asuquo-76b0a498/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          className="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                        >
+                          <Linkedin className="w-5 h-5 text-white" />
+                        </motion.a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* QR Code - Right side */}
+                  <div className="text-right">
+                    <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-[#fbbf24]/10 rounded-full border border-[#fbbf24]/30">
+                      <Music className="w-4 h-4 text-[#fbbf24]" />
+                      <span className="text-[#fbbf24] font-medium text-sm">Support the Music</span>
+                    </div>
+                    
+                    {/* PayPal QR Code */}
+                    <div className="bg-white rounded-xl mb-4 shadow-lg w-32 h-32 flex items-center justify-center ml-auto">
+                      <img 
+                        src="/Paypal QR.jpeg" 
+                        alt="PayPal Donation QR Code"
+                        className="w-full h-full rounded-lg object-cover"
+                      />
+                    </div>
+                    
+                    <p className="text-[#fbbf24] text-sm font-medium">
+                      Scan to pay Aniefiok Asuquo
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </motion.section>
