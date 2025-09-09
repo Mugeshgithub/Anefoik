@@ -52,7 +52,8 @@ export default function Home() {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
+    layoutEffect: false
   });
 
   // Animation variants for staggered section reveals
@@ -1827,7 +1828,12 @@ export default function Home() {
             {collaborations.length > 0 ? (
               <div className="relative overflow-hidden">
                 {/* Carousel Container */}
-                <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                <div 
+                  className="flex transition-transform duration-500 ease-in-out" 
+                  style={{ 
+                    transform: `translateX(-${(currentSlide || 0) * 100}%)` 
+                  }}
+                >
                   {Array.from({ length: Math.ceil(collaborations.length / 3) }).map((_, slideIndex) => (
                     <div key={slideIndex} className="w-full flex-shrink-0 px-2">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1934,15 +1940,15 @@ export default function Home() {
                 {Math.ceil(collaborations.length / 3) > 1 && (
                   <>
                     <button
-                      onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
-                      disabled={currentSlide === 0}
+                      onClick={() => setCurrentSlide(Math.max(0, (currentSlide || 0) - 1))}
+                      disabled={(currentSlide || 0) === 0}
                       className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-[#1a1a2e] hover:border-[#fbbf24]/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed z-10"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
-                      onClick={() => setCurrentSlide(Math.min(Math.ceil(collaborations.length / 3) - 1, currentSlide + 1))}
-                      disabled={currentSlide === Math.ceil(collaborations.length / 3) - 1}
+                      onClick={() => setCurrentSlide(Math.min(Math.ceil(collaborations.length / 3) - 1, (currentSlide || 0) + 1))}
+                      disabled={(currentSlide || 0) === Math.ceil(collaborations.length / 3) - 1}
                       className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-[#1a1a2e] hover:border-[#fbbf24]/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed z-10"
                     >
                       <ChevronRight className="w-6 h-6" />
@@ -1958,7 +1964,7 @@ export default function Home() {
                         key={index}
                         onClick={() => setCurrentSlide(index)}
                         className={`w-3 h-3 rounded-full transition-all ${
-                          index === currentSlide 
+                          index === (currentSlide || 0)
                             ? 'bg-[#fbbf24] scale-125' 
                             : 'bg-white/30 hover:bg-white/50'
                         }`}
