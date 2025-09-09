@@ -540,18 +540,27 @@ export default function AdminPanel() {
               {collaborationsData.collaborations.map((collab, index) => (
                 <div key={index} className="p-4 bg-[#1a1a2e]/50 rounded-lg border border-white/10">
                   <div className="flex items-center gap-4 mb-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center overflow-hidden">
                       {collab.image ? (
                         <img 
                           src={collab.image} 
                           alt={collab.name}
                           className="w-12 h-12 rounded-full object-cover"
+                          onError={(e) => {
+                            console.error('Failed to load image:', collab.image);
+                            e.currentTarget.style.display = 'none';
+                            const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (nextElement) {
+                              nextElement.style.display = 'flex';
+                            }
+                          }}
                         />
-                      ) : (
-                        <span className="text-white font-bold text-sm">
-                          {collab.name.split(' ').map((n: string) => n[0]).join('')}
-                        </span>
-                      )}
+                      ) : null}
+                      <span 
+                        className={`text-white font-bold text-sm ${collab.image ? 'hidden' : 'flex'} items-center justify-center w-full h-full`}
+                      >
+                        {collab.name.split(' ').map((n: string) => n[0]).join('')}
+                      </span>
                     </div>
                     <div className="flex-1">
                       <h4 className="text-white font-medium">{collab.name || 'New Collaboration'}</h4>
@@ -565,6 +574,41 @@ export default function AdminPanel() {
                     </button>
                   </div>
                   
+                  {/* Preview Section */}
+                  <div className="mb-4 p-3 bg-[#0a0a0a]/30 rounded-lg border border-white/10">
+                    <h5 className="text-sm font-medium text-white mb-2 flex items-center gap-2">
+                      <Eye className="w-4 h-4 text-[#fbbf24]" />
+                      Website Preview
+                    </h5>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center overflow-hidden">
+                        {collab.image ? (
+                          <img 
+                            src={collab.image} 
+                            alt={collab.name}
+                            className="w-10 h-10 rounded-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                              if (nextElement) {
+                                nextElement.style.display = 'flex';
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <span 
+                          className={`text-white font-bold text-xs ${collab.image ? 'hidden' : 'flex'} items-center justify-center w-full h-full`}
+                        >
+                          {collab.name.split(' ').map((n: string) => n[0]).join('')}
+                        </span>
+                      </div>
+                      <div className="flex-1">
+                        <h6 className="text-white font-medium text-sm">{collab.name || 'Artist Name'}</h6>
+                        <p className="text-[#C9C9D0] text-xs">{collab.role || 'Role'}</p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-2 gap-3">
                     <input
                       type="text"
@@ -601,13 +645,21 @@ export default function AdminPanel() {
                       className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
                       placeholder="Genre"
                     />
-                    <input
-                      type="url"
-                      value={collab.image || ''}
-                      onChange={(e) => updateCollaboration(index, 'image', e.target.value)}
-                      className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
-                      placeholder="Image URL (Cloudinary recommended)"
-                    />
+                    <div className="space-y-2">
+                      <input
+                        type="url"
+                        value={collab.image || ''}
+                        onChange={(e) => updateCollaboration(index, 'image', e.target.value)}
+                        className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
+                        placeholder="https://res.cloudinary.com/your-account/image/upload/v1234567890/folder/image.jpg"
+                      />
+                      <div className="text-xs text-[#C9C9D0]">
+                        <p className="mb-1">💡 <strong>Recommended:</strong> Use Cloudinary for best performance</p>
+                        <p className="mb-1">📝 <strong>Format:</strong> https://res.cloudinary.com/account/image/upload/v1234567890/folder/image.jpg</p>
+                        <p className="mb-1">🖼️ <strong>Size:</strong> 400x400px or larger, square aspect ratio</p>
+                        <p className="text-[#fbbf24]">✨ <strong>Tip:</strong> Upload to Cloudinary, then copy the "Secure URL"</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}

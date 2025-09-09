@@ -35,10 +35,13 @@ export default function CollaborationWidget() {
         if (response.ok) {
           const data = await response.json();
           console.log('CollaborationWidget: Fetched data:', data);
+          console.log('CollaborationWidget: isActive:', data.isActive, 'title:', data.title, 'venue:', data.venue);
           setShowData(data);
+        } else {
+          console.error('CollaborationWidget: Failed to fetch show data, status:', response.status);
         }
       } catch (error) {
-        console.error('Error fetching show data:', error);
+        console.error('CollaborationWidget: Error fetching show data:', error);
       } finally {
         setIsLoading(false);
       }
@@ -56,13 +59,23 @@ export default function CollaborationWidget() {
     return null;
   }
 
-  // Don't show anything if there's no show
-  if (!showData.isActive || !showData.title.trim()) {
-    console.log('CollaborationWidget: Hiding widget - isActive:', showData.isActive, 'title:', showData.title);
+  // Don't show anything if there's no show or if show is inactive
+  if (!showData.isActive) {
+    console.log('CollaborationWidget: Hiding widget - isActive:', showData.isActive);
     return null;
   }
 
-  console.log('CollaborationWidget: Showing widget - isActive:', showData.isActive, 'title:', showData.title);
+  // If title is empty, use a default title
+  const displayTitle = showData.title?.trim() || 'Upcoming Show';
+  
+  // If venue is empty, use a default venue
+  const displayVenue = showData.venue?.trim() || 'TBA';
+  const displayLocation = showData.location?.trim() || 'Location TBA';
+  
+  // If description is empty, use a default description
+  const displayDescription = showData.description?.trim() || 'Join us for an amazing musical experience';
+
+  console.log('CollaborationWidget: Showing widget - isActive:', showData.isActive, 'title:', showData.title, 'venue:', showData.venue);
 
   return (
     <div key={`widget-${showData?.isActive}-${showData?.title}`} className="fixed bottom-24 right-4 z-50 md:bottom-6 md:right-6">
@@ -101,12 +114,12 @@ export default function CollaborationWidget() {
             <div className="p-4">
               {/* Show Title */}
               <h3 className="text-lg font-light text-white mb-2">
-                {showData.title}
+                {displayTitle}
               </h3>
               
               {/* Description */}
               <p className="text-sm text-[#C9C9D0] mb-4">
-                {showData.description}
+                {displayDescription}
               </p>
 
               {/* Show Details */}
@@ -123,7 +136,7 @@ export default function CollaborationWidget() {
                 
                 <div className="flex items-center gap-2 text-sm text-[#C9C9D0]">
                   <MapPin className="w-4 h-4 text-blue-400" />
-                  <span>{showData.venue}, {showData.location}</span>
+                  <span>{displayVenue}, {displayLocation}</span>
                 </div>
               </div>
 

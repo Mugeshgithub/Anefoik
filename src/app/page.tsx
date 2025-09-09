@@ -42,6 +42,7 @@ export default function Home() {
   const [formMessage, setFormMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [collaborations, setCollaborations] = useState<any[]>([]);
   const [collaborationsActive, setCollaborationsActive] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -782,6 +783,150 @@ export default function Home() {
   // Main Portfolio with Smooth Scrolling
   return (
     <>
+    {/* Hidden audio elements - Must be at top level */}
+    <audio 
+      ref={audioRef} 
+      src={musicTracks[currentTrackIndex].audioUrl}
+      preload="auto"
+      crossOrigin="anonymous"
+      onError={(e) => {
+        console.error('Main audio error:', e);
+        console.log('Failed to load audio:', musicTracks[currentTrackIndex].audioUrl);
+      }}
+      onLoadStart={() => {
+        console.log('Loading main audio:', musicTracks[currentTrackIndex].audioUrl);
+      }}
+      onLoadedMetadata={() => {
+        console.log('Main audio metadata loaded, duration:', audioRef.current?.duration);
+        if (audioRef.current?.duration && !isNaN(audioRef.current.duration) && audioRef.current.duration > 0) {
+          setDuration(audioRef.current.duration);
+        }
+      }}
+      onCanPlay={() => {
+        console.log('Main audio can play:', musicTracks[currentTrackIndex].title);
+      }}
+    />
+    
+    {/* Hidden audio element for left player - Always plays "Written in the Stars" */}
+    <audio 
+      ref={leftAudioRef} 
+      src={musicTracks[1].audioUrl}
+      preload="auto"
+      crossOrigin="anonymous"
+      onError={(e) => {
+        console.error('Left player audio error:', e);
+        console.log('Failed to load left player audio:', musicTracks[1].audioUrl);
+      }}
+      onLoadStart={() => {
+        console.log('Loading left player audio:', musicTracks[1].audioUrl);
+      }}
+      onCanPlay={() => {
+        console.log('Left player audio can play:', musicTracks[1].title);
+        console.log('Audio duration:', leftAudioRef.current?.duration);
+      }}
+      onLoadedMetadata={() => {
+        console.log('Left player metadata loaded, duration:', leftAudioRef.current?.duration);
+        if (leftAudioRef.current?.duration && !isNaN(leftAudioRef.current.duration)) {
+          setLeftPlayerDuration(leftAudioRef.current.duration);
+        }
+      }}
+      onTimeUpdate={() => {
+        if (leftAudioRef.current) {
+          setLeftPlayerTime(leftAudioRef.current.currentTime);
+        }
+      }}
+    />
+
+    {/* Left-side Fixed Music Player - Outside main container */}
+    <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
+      <div className="bg-[#1a1a2e]/80 backdrop-blur-xl rounded-r-2xl p-4 shadow-2xl border-r border-t border-b border-white/20">
+        {/* Player Header */}
+        <div className="text-center mb-4">
+          <div className="w-3 h-3 bg-[#fbbf24] rounded-full mx-auto mb-2 animate-pulse"></div>
+          <h3 className="text-sm font-medium bg-gradient-to-r from-[#8a9a5b] via-[#e1c5c0] to-[#a7c7e7] bg-clip-text text-transparent">Streaming Now</h3>
+        </div>
+        
+        {/* Track Info */}
+        <div className="text-center mb-4">
+          <h4 className="text-sm font-semibold text-white mb-1">Written in the Stars</h4>
+        </div>
+        
+        {/* Time Display */}
+        <div className="text-center mb-4">
+          <span className="text-xs text-[#C9C9D0]">
+            {formatTime(leftPlayerTime)} / {formatTime(leftPlayerDuration)}
+          </span>
+        </div>
+        
+        {/* Controls */}
+        <div className="flex justify-center items-center gap-3">
+          <button
+            onClick={() => {
+              if (leftAudioRef.current) {
+                leftAudioRef.current.currentTime = Math.max(0, leftAudioRef.current.currentTime - 10);
+              }
+            }}
+            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+          >
+            <SkipBack className="w-4 h-4" />
+          </button>
+          
+          <button
+            onClick={() => {
+              if (leftAudioRef.current) {
+                if (leftPlayerPlaying) {
+                  leftAudioRef.current.pause();
+                  setLeftPlayerPlaying(false);
+                } else {
+                  leftAudioRef.current.play();
+                  setLeftPlayerPlaying(true);
+                }
+              }
+            }}
+            className="w-10 h-10 bg-[#1a1a2e]/70 hover:bg-[#2a2a3e]/80 rounded-full flex items-center justify-center text-white transition-colors border border-white/20 backdrop-blur-sm"
+          >
+            {leftPlayerPlaying ? (
+              <div className="flex gap-1">
+                <div className="w-1.5 h-4 bg-white rounded-sm"></div>
+                <div className="w-1.5 h-4 bg-white rounded-sm"></div>
+              </div>
+            ) : (
+              <div className="w-0 h-0 border-l-[8px] border-l-white border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent ml-0.5"></div>
+            )}
+          </button>
+          
+          <button
+            onClick={() => {
+              if (leftAudioRef.current) {
+                leftAudioRef.current.currentTime = Math.min(leftPlayerDuration, leftAudioRef.current.currentTime + 10);
+              }
+            }}
+            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+          >
+            <SkipForward className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Right-side Progress Navigation - Outside main container */}
+    <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
+      <div className="flex flex-col items-center space-y-3">
+        {[...Array(6)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToSection(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-150 cursor-pointer ${
+              index === currentSection 
+                ? 'bg-white scale-110 ring-1 ring-white/30 shadow-lg' 
+                : 'bg-white/40 hover:bg-white/70 hover:scale-105'
+            }`}
+            title={`Section ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
@@ -792,153 +937,6 @@ export default function Home() {
       }}
     >
       <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 h-screen">
-      
-      {/* Hidden audio elements - Must be at top level */}
-      <audio 
-        ref={audioRef} 
-        src={musicTracks[currentTrackIndex].audioUrl}
-        preload="auto"
-        crossOrigin="anonymous"
-        onError={(e) => {
-          console.error('Main audio error:', e);
-          console.log('Failed to load audio:', musicTracks[currentTrackIndex].audioUrl);
-        }}
-        onLoadStart={() => {
-          console.log('Loading main audio:', musicTracks[currentTrackIndex].audioUrl);
-        }}
-        onLoadedMetadata={() => {
-          console.log('Main audio metadata loaded, duration:', audioRef.current?.duration);
-          if (audioRef.current?.duration && !isNaN(audioRef.current.duration) && audioRef.current.duration > 0) {
-            setDuration(audioRef.current.duration);
-          }
-        }}
-        onCanPlay={() => {
-          console.log('Main audio can play:', musicTracks[currentTrackIndex].title);
-        }}
-      />
-      
-      {/* Hidden audio element for left player - Always plays "Written in the Stars" */}
-      <audio 
-        ref={leftAudioRef} 
-        src={musicTracks[1].audioUrl}
-        preload="auto"
-        crossOrigin="anonymous"
-        onError={(e) => {
-          console.error('Left player audio error:', e);
-          console.log('Failed to load left player audio:', musicTracks[1].audioUrl);
-        }}
-        onLoadStart={() => {
-          console.log('Loading left player audio:', musicTracks[1].audioUrl);
-        }}
-        onCanPlay={() => {
-          console.log('Left player audio can play:', musicTracks[1].title);
-          console.log('Audio duration:', leftAudioRef.current?.duration);
-        }}
-        onLoadedMetadata={() => {
-          console.log('Left player metadata loaded, duration:', leftAudioRef.current?.duration);
-          if (leftAudioRef.current?.duration && !isNaN(leftAudioRef.current.duration)) {
-            setLeftPlayerDuration(leftAudioRef.current.duration);
-          }
-        }}
-        onTimeUpdate={() => {
-          if (leftAudioRef.current) {
-            setLeftPlayerTime(leftAudioRef.current.currentTime);
-          }
-        }}
-      />
-
-
-
-
-            {/* Left-side Fixed Music Player */}
-      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
-        <div className="bg-[#1a1a2e]/80 backdrop-blur-xl rounded-r-2xl p-4 shadow-2xl border-r border-t border-b border-white/20">
-          {/* Player Header */}
-          <div className="text-center mb-4">
-            <div className="w-3 h-3 bg-[#fbbf24] rounded-full mx-auto mb-2 animate-pulse"></div>
-            <h3 className="text-sm font-medium bg-gradient-to-r from-[#8a9a5b] via-[#e1c5c0] to-[#a7c7e7] bg-clip-text text-transparent">Streaming Now</h3>
-          </div>
-          
-          {/* Track Info */}
-          <div className="text-center mb-4">
-            <h4 className="text-sm font-semibold text-white mb-1">Written in the Stars</h4>
-          </div>
-          
-          {/* Time Display */}
-          <div className="text-center mb-4">
-            <span className="text-xs text-[#C9C9D0]">
-              {formatTime(leftPlayerTime)} / {formatTime(leftPlayerDuration)}
-            </span>
-          </div>
-          
-          {/* Controls */}
-          <div className="flex justify-center items-center gap-3">
-            <button
-              onClick={() => {
-                if (leftAudioRef.current) {
-                  leftAudioRef.current.currentTime = Math.max(0, leftAudioRef.current.currentTime - 10);
-                }
-              }}
-              className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <SkipBack className="w-4 h-4" />
-            </button>
-            
-            <button
-              onClick={() => {
-                if (leftAudioRef.current) {
-                  if (leftPlayerPlaying) {
-                    leftAudioRef.current.pause();
-                    setLeftPlayerPlaying(false);
-                  } else {
-                    leftAudioRef.current.play();
-                    setLeftPlayerPlaying(true);
-                  }
-                }
-              }}
-              className="w-10 h-10 bg-[#1a1a2e]/70 hover:bg-[#2a2a3e]/80 rounded-full flex items-center justify-center text-white transition-colors border border-white/20 backdrop-blur-sm"
-            >
-              {leftPlayerPlaying ? (
-                <div className="flex gap-1">
-                  <div className="w-1.5 h-4 bg-white rounded-sm"></div>
-                  <div className="w-1.5 h-4 bg-white rounded-sm"></div>
-                </div>
-              ) : (
-                <div className="w-0 h-0 border-l-[8px] border-l-white border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent ml-0.5"></div>
-              )}
-            </button>
-            
-            <button
-              onClick={() => {
-                if (leftAudioRef.current) {
-                  leftAudioRef.current.currentTime = Math.min(leftPlayerDuration, leftAudioRef.current.currentTime + 10);
-                }
-              }}
-              className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <SkipForward className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Right-side Progress Navigation */}
-      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
-        <div className="flex flex-col items-center space-y-3">
-          {[...Array(6)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToSection(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-150 cursor-pointer ${
-                index === currentSection 
-                  ? 'bg-white scale-110 ring-1 ring-white/30 shadow-lg' 
-                  : 'bg-white/40 hover:bg-white/70 hover:scale-105'
-              }`}
-              title={`Section ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
 
 
 
@@ -1161,9 +1159,13 @@ export default function Home() {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-light tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.3em] lg:tracking-[0.4em] text-white break-words"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.3em] lg:tracking-[0.4em] text-white"
             style={{
-              textShadow: '0 0 30px rgba(255, 255, 255, 0.4)'
+              textShadow: '0 0 30px rgba(255, 255, 255, 0.4)',
+              wordBreak: 'keep-all',
+              hyphens: 'none',
+              lineHeight: '1.1',
+              whiteSpace: 'nowrap'
             }}
             animate={{
               y: [0, -5, 0],
@@ -1175,8 +1177,8 @@ export default function Home() {
               ease: "easeInOut"
             }}
           >
-            {/* Interstellar Morphing Letters */}
-                         {['A', 'N', 'I', 'E', 'F', 'I', 'O', 'K', ' ', 'A', 'S', 'U', 'Q', 'U', 'O'].map((letter, index) => (
+            {/* Interstellar Morphing Letters - Single Line */}
+            {['A', 'N', 'I', 'E', 'F', 'I', 'O', 'K', ' ', 'A', 'S', 'U', 'Q', 'U', 'O'].map((letter, index) => (
               <motion.span
                 key={index}
                 className="inline-block"
@@ -1195,11 +1197,11 @@ export default function Home() {
                   y: [0, 2, 0]
                 }}
                 transition={{
-                  duration: 4, // Single duration for smooth animation
-                  delay: 1 + (index * 0.15), // Initial delay only
-                  ease: "easeInOut", // Simple easing
-                  repeat: Infinity, // Continuous animation
-                  repeatType: "reverse" // Smooth back and forth
+                  duration: 4,
+                  delay: 1 + (index * 0.15),
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                  repeatType: "reverse"
                 }}
                 style={{
                   transformOrigin: 'center center',
@@ -1814,79 +1816,164 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Collaborations Grid */}
+          {/* Collaborations Carousel */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+            className="relative"
           >
-            {collaborations.length > 0 ? collaborations.map((collab, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                whileHover={{ 
-                  y: -4,
-                  scale: 1.02,
-                  transition: { duration: 0.3 }
-                }}
-                className="group relative"
-              >
-                <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-xl border border-white/5 p-4 sm:p-6 hover:border-[#fbbf24]/30 transition-all duration-500 h-full overflow-hidden hover:bg-[#1a1a2e]/95">
-                  {/* Artist Photo */}
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg backdrop-blur-sm border border-white/10 overflow-hidden">
-                    {collab.image ? (
-                      <img 
-                        src={collab.image} 
-                        alt={collab.name}
-                        className="w-full h-full object-cover rounded-full"
+            {collaborations.length > 0 ? (
+              <div className="relative overflow-hidden">
+                {/* Carousel Container */}
+                <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                  {Array.from({ length: Math.ceil(collaborations.length / 3) }).map((_, slideIndex) => (
+                    <div key={slideIndex} className="w-full flex-shrink-0 px-2">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {collaborations.slice(slideIndex * 3, (slideIndex + 1) * 3).map((collab, index) => (
+                          <motion.div
+                            key={slideIndex * 3 + index}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ 
+                              y: -8,
+                              scale: 1.05,
+                              transition: { duration: 0.3 }
+                            }}
+                            className="group relative"
+                          >
+                            <div className="relative bg-[#1a1a2e]/90 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:border-[#fbbf24]/40 transition-all duration-500 h-full overflow-hidden hover:bg-[#1a1a2e]/95 hover:shadow-2xl hover:shadow-[#fbbf24]/10">
+                              {/* Artist Photo */}
+                              <div className="w-20 h-20 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg backdrop-blur-sm border border-white/20 overflow-hidden">
+                                {collab.image ? (
+                                  <img 
+                                    src={collab.image} 
+                                    alt={collab.name}
+                                    className="w-full h-full object-cover rounded-full"
+                                    onError={(e) => {
+                                      console.error('Failed to load collaboration image:', collab.image);
+                                      e.currentTarget.style.display = 'none';
+                                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                                      if (nextElement) {
+                                        nextElement.style.display = 'flex';
+                                      }
+                                    }}
+                                  />
+                                ) : null}
+                                <span 
+                                  className={`text-white font-bold text-2xl ${collab.image ? 'hidden' : 'flex'} items-center justify-center w-full h-full`}
+                                >
+                                  {collab.name.split(' ').map((n: string) => n[0]).join('')}
+                                </span>
+                              </div>
+
+                              {/* Artist Name */}
+                              <h3 className="text-white font-semibold text-lg mb-2 text-center group-hover:text-[#fbbf24] transition-colors">
+                                {collab.name}
+                              </h3>
+
+                              {/* Role with Icon */}
+                              <div className="flex items-center justify-center gap-2 mb-4">
+                                <Music className="w-4 h-4 text-[#C9C9D0]" />
+                                <span className="text-[#C9C9D0] text-sm font-medium">{collab.role}</span>
+                              </div>
+
+                              {/* Project Description */}
+                              {collab.project && (
+                                <div className="text-center mb-4">
+                                  <p className="text-[#C9C9D0] text-sm leading-relaxed">
+                                    "{collab.project}"
+                                  </p>
+                                </div>
+                              )}
+
+                              {/* Year and Genre */}
+                              <div className="flex items-center justify-center gap-4 mb-4">
+                                {collab.year && (
+                                  <div className="flex items-center gap-1">
+                                    <Calendar className="w-4 h-4 text-[#C9C9D0]" />
+                                    <span className="text-[#C9C9D0] text-sm">{collab.year}</span>
+                                  </div>
+                                )}
+                                {collab.genre && (
+                                  <div className="flex items-center gap-1">
+                                    <div className="w-2 h-2 bg-[#fbbf24] rounded-full"></div>
+                                    <span className="text-[#C9C9D0] text-sm">{collab.genre}</span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Social Links */}
+                              {collab.social && (
+                                <div className="flex justify-center">
+                                  <a 
+                                    href={collab.social.startsWith('@') ? `https://instagram.com/${collab.social.slice(1)}` : collab.social}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#fbbf24] hover:text-white transition-colors text-sm font-medium"
+                                  >
+                                    {collab.social}
+                                  </a>
+                                </div>
+                              )}
+
+                              {/* Subtle accent line */}
+                              <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] group-hover:w-full transition-all duration-500 rounded-full"></div>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Navigation Arrows */}
+                {Math.ceil(collaborations.length / 3) > 1 && (
+                  <>
+                    <button
+                      onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
+                      disabled={currentSlide === 0}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-[#1a1a2e] hover:border-[#fbbf24]/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed z-10"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => setCurrentSlide(Math.min(Math.ceil(collaborations.length / 3) - 1, currentSlide + 1))}
+                      disabled={currentSlide === Math.ceil(collaborations.length / 3) - 1}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-[#1a1a2e] hover:border-[#fbbf24]/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed z-10"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </>
+                )}
+
+                {/* Dots Indicator */}
+                {Math.ceil(collaborations.length / 3) > 1 && (
+                  <div className="flex justify-center mt-8 gap-2">
+                    {Array.from({ length: Math.ceil(collaborations.length / 3) }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-3 h-3 rounded-full transition-all ${
+                          index === currentSlide 
+                            ? 'bg-[#fbbf24] scale-125' 
+                            : 'bg-white/30 hover:bg-white/50'
+                        }`}
                       />
-                    ) : (
-                      <span className="text-white font-bold text-lg sm:text-xl">
-                        {collab.name.split(' ').map((n: string) => n[0]).join('')}
-                      </span>
-                    )}
+                    ))}
                   </div>
-
-                  {/* Artist Name */}
-                  <h3 className="text-white font-semibold text-sm sm:text-base mb-2 text-center group-hover:text-[#fbbf24] transition-colors">
-                    {collab.name}
-                  </h3>
-
-                  {/* Role with Icon */}
-                  <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-                    <Music className="w-3 h-3 sm:w-4 sm:h-4 text-[#C9C9D0]" />
-                    <span className="text-[#C9C9D0] text-xs sm:text-sm font-medium">{collab.role}</span>
-                  </div>
-
-                  {/* Hover Details */}
-                  <div className="absolute inset-0 bg-black/90 backdrop-blur-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center p-4">
-                    <h4 className="text-white font-semibold text-base mb-2 text-center">{collab.project}</h4>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Calendar className="w-4 h-4 text-[#C9C9D0]" />
-                      <span className="text-[#C9C9D0] text-sm">{collab.year}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#fbbf24] rounded-full"></div>
-                      <span className="text-[#C9C9D0] text-sm">{collab.genre}</span>
-                    </div>
-                  </div>
-
-                  {/* Subtle accent line */}
-                  <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] group-hover:w-full transition-all duration-500 rounded-full"></div>
+                )}
               </div>
-              </motion.div>
-            )) : (
-              <div className="col-span-4 text-center py-12">
+            ) : (
+              <div className="text-center py-12">
                 <div className="text-[#C9C9D0] text-lg">No collaborations available</div>
                 <div className="text-[#C9C9D0]/60 text-sm mt-2">Check back later for updates</div>
               </div>
             )}
-            </motion.div>
+          </motion.div>
 
           {/* Bottom Accent */}
             <motion.div
@@ -2113,8 +2200,8 @@ export default function Home() {
       </div>
     </motion.div>
 
-    {/* Mobile Bottom Navigation Bar - Above music player */}
-    <div className="fixed bottom-16 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
+    {/* Mobile Bottom Navigation Bar - Fixed at bottom */}
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
       <div className="flex justify-around items-center py-3 px-4">
         {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((section, index) => (
           <button
@@ -2132,11 +2219,8 @@ export default function Home() {
       </div>
     </div>
 
-    {/* Collaboration Widget - Fixed to bottom right */}
-    <CollaborationWidget />
-
-    {/* Mobile Music Player Bar - Fixed at bottom - Outside main container */}
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
+    {/* Mobile Music Player Bar - Fixed at bottom - Only on mobile */}
+    <div className="fixed bottom-16 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         {/* Track Info */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -2199,6 +2283,9 @@ export default function Home() {
         </div>
       </div>
     </div>
+
+    {/* Collaboration Widget - Fixed to bottom right */}
+    <CollaborationWidget />
     </>
   );
 }

@@ -1,13 +1,19 @@
 {
-  "isActive": false,
-  "title": "Test Show",
+  "isActive": true,
+  "title": "Live Performance at Blue Note Paris",
   "date": "2025-01-20",
   "time": "9:00 PM",
-  "venue": "Test Venue",
-  "location": "Test City",
-  "link": "https://test.com",
-  "linkText": "Test Link",
+  "venue": "Blue Note Paris",
+  "location": "Paris, France",
+  "link": "https://bluenoteparis.com/events/aniefiok-asuquo",
+  "linkText": "Book Tickets",
   "type": "live",
-  "description": "Test description",
-  "collaborators": []
+  "description": "An intimate evening of jazz and contemporary music",
+  "collaborators": [
+    {
+      "name": "Sarah Johnson",
+      "role": "Vocalist",
+      "social": "@sarahjazz"
+    }
+  ]
 }

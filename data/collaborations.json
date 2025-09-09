@@ -1,5 +1,5 @@
 {
-  "isActive": false,
+  "isActive": true,
   "collaborations": [
     {
       "name": "Sarah Johnson",
@@ -7,7 +7,8 @@
       "project": "Midnight Sessions",
       "year": "2024",
       "genre": "Jazz",
-      "image": ""
+      "image": "",
+      "social": "@sarahjazz"
     },
     {
       "name": "Marcus Williams",
@@ -15,7 +16,8 @@
       "project": "Urban Jazz",
       "year": "2023",
       "genre": "Fusion",
-      "image": ""
+      "image": "",
+      "social": "@marcuswilliams"
     },
     {
       "name": "Elena Rodriguez",
@@ -23,7 +25,8 @@
       "project": "Crossroads",
       "year": "2024",
       "genre": "Pop",
-      "image": ""
+      "image": "",
+      "social": "@elenarodriguez"
     },
     {
       "name": "David Chen",
@@ -31,7 +34,8 @@
       "project": "Sunday Morning",
       "year": "2023",
       "genre": "Gospel",
-      "image": ""
+      "image": "",
+      "social": "@davidchenmusic"
     },
     {
       "name": "Lisa Thompson",
@@ -39,7 +43,8 @@
       "project": "City Lights",
       "year": "2024",
       "genre": "R&B",
-      "image": ""
+      "image": "",
+      "social": "@lisathompson"
     },
     {
       "name": "James Wilson",
@@ -47,7 +52,8 @@
       "project": "Rhythm & Soul",
       "year": "2023",
       "genre": "Soul",
-      "image": ""
+      "image": "",
+      "social": "@jameswilson"
     },
     {
       "name": "Maria Garcia",
@@ -55,7 +61,8 @@
       "project": "Deep Grooves",
       "year": "2024",
       "genre": "Funk",
-      "image": ""
+      "image": "",
+      "social": "@mariagarcia"
     },
     {
       "name": "Alex Brown",
@@ -63,7 +70,8 @@
       "project": "Acoustic Sessions",
       "year": "2023",
       "genre": "Folk",
-      "image": ""
+      "image": "",
+      "social": "@alexbrown"
     }
   ]
 }

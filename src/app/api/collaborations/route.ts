@@ -5,16 +5,7 @@ import path from 'path';
 // In-memory store for production (Vercel serverless functions)
 let collaborationsStore = {
   isActive: true,
-  collaborations: [
-    { name: "Sarah Johnson", role: "Vocalist", project: "Midnight Sessions", year: "2024", genre: "Jazz", image: "" },
-    { name: "Marcus Williams", role: "Saxophonist", project: "Urban Jazz", year: "2023", genre: "Fusion", image: "" },
-    { name: "Elena Rodriguez", role: "Producer", project: "Crossroads", year: "2024", genre: "Pop", image: "" },
-    { name: "David Chen", role: "Pianist", project: "Sunday Morning", year: "2023", genre: "Gospel", image: "" },
-    { name: "Lisa Thompson", role: "Songwriter", project: "City Lights", year: "2024", genre: "R&B", image: "" },
-    { name: "James Wilson", role: "Drummer", project: "Rhythm & Soul", year: "2023", genre: "Soul", image: "" },
-    { name: "Maria Garcia", role: "Bassist", project: "Deep Grooves", year: "2024", genre: "Funk", image: "" },
-    { name: "Alex Brown", role: "Guitarist", project: "Acoustic Sessions", year: "2023", genre: "Folk", image: "" }
-  ]
+  collaborations: []
 };
 
 const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
