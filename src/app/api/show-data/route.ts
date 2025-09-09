@@ -35,7 +35,21 @@ const isProduction = process.env.NODE_ENV === 'production';
 export async function GET() {
   try {
     if (isProduction) {
-      // In production, return from memory store
+      // Try to load from file first, fallback to in-memory store
+      try {
+        if (fs.existsSync(SHOW_DATA_FILE)) {
+          const fileContent = fs.readFileSync(SHOW_DATA_FILE, 'utf8');
+          const showData = JSON.parse(fileContent);
+          if (showData && showData.title !== undefined) {
+            // Update in-memory store with file data
+            showDataStore = showData;
+            return NextResponse.json(showData);
+          }
+        }
+      } catch (fileError) {
+        console.error('Error loading show data from file:', fileError);
+      }
+      // Fallback to in-memory store
       return NextResponse.json(showDataStore);
     } else {
       // In development, read from file
@@ -63,6 +77,12 @@ export async function POST(request: NextRequest) {
     if (isProduction) {
       // In production, update memory store
       showDataStore = { ...showData };
+      // Also save to file for persistence
+      try {
+        fs.writeFileSync(SHOW_DATA_FILE, JSON.stringify(showData, null, 2), 'utf8');
+      } catch (fileError) {
+        console.error('Error saving show data to file:', fileError);
+      }
       return NextResponse.json({ success: true, message: 'Show data updated successfully' });
     } else {
       // In development, write to file

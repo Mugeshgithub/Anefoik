@@ -105,8 +105,15 @@ export async function GET() {
     let collaborations;
     
     if (process.env.NODE_ENV === 'production') {
-      // Use in-memory store for production
-      collaborations = collaborationsStore;
+      // Try to load from file first, fallback to in-memory store
+      const fileData = loadCollaborations();
+      if (fileData && fileData.collaborations && fileData.collaborations.length > 0) {
+        collaborations = fileData;
+        // Update in-memory store with file data
+        collaborationsStore = fileData;
+      } else {
+        collaborations = collaborationsStore;
+      }
     } else {
       // Use file system for local development
       collaborations = loadCollaborations();
@@ -136,6 +143,8 @@ export async function POST(request: NextRequest) {
     if (process.env.NODE_ENV === 'production') {
       // Update in-memory store for production
       collaborationsStore = data;
+      // Also save to file for persistence
+      saveCollaborations(data);
     } else {
       // Save to file for local development
       saveCollaborations(data);
