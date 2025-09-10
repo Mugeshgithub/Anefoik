@@ -1,17 +1,7 @@
-import { kv } from '@vercel/kv';
-
-// Storage keys
-const SHOW_DATA_KEY = 'show_data';
-const COLLABORATIONS_KEY = 'collaborations_data';
-
-// Check if KV is available
-const isKvAvailable = () => {
-  try {
-    return process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
-  } catch {
-    return false;
-  }
-};
+// Simple in-memory storage for production
+// This will persist during the serverless function's lifetime
+let showDataStore: any = null;
+let collaborationsStore: any = null;
 
 // Default data
 const defaultShowData = {
@@ -106,28 +96,22 @@ const defaultCollaborations = {
 // Show data functions
 export async function getShowData() {
   try {
-    if (!isKvAvailable()) {
-      console.log('KV not available, returning default data');
-      return defaultShowData;
+    if (showDataStore) {
+      return showDataStore;
     }
-    const data = await kv.get(SHOW_DATA_KEY);
-    return data || defaultShowData;
+    return defaultShowData;
   } catch (error) {
-    console.error('Error getting show data from KV:', error);
+    console.error('Error getting show data:', error);
     return defaultShowData;
   }
 }
 
 export async function saveShowData(data: any) {
   try {
-    if (!isKvAvailable()) {
-      console.log('KV not available, cannot save data');
-      return false;
-    }
-    await kv.set(SHOW_DATA_KEY, data);
+    showDataStore = data;
     return true;
   } catch (error) {
-    console.error('Error saving show data to KV:', error);
+    console.error('Error saving show data:', error);
     return false;
   }
 }
@@ -135,28 +119,22 @@ export async function saveShowData(data: any) {
 // Collaborations functions
 export async function getCollaborations() {
   try {
-    if (!isKvAvailable()) {
-      console.log('KV not available, returning default data');
-      return defaultCollaborations;
+    if (collaborationsStore) {
+      return collaborationsStore;
     }
-    const data = await kv.get(COLLABORATIONS_KEY);
-    return data || defaultCollaborations;
+    return defaultCollaborations;
   } catch (error) {
-    console.error('Error getting collaborations from KV:', error);
+    console.error('Error getting collaborations:', error);
     return defaultCollaborations;
   }
 }
 
 export async function saveCollaborations(data: any) {
   try {
-    if (!isKvAvailable()) {
-      console.log('KV not available, cannot save data');
-      return false;
-    }
-    await kv.set(COLLABORATIONS_KEY, data);
+    collaborationsStore = data;
     return true;
   } catch (error) {
-    console.error('Error saving collaborations to KV:', error);
+    console.error('Error saving collaborations:', error);
     return false;
   }
 }
