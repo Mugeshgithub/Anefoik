@@ -6,7 +6,7 @@ import { getCollaborations, saveCollaborations } from '@/lib/kv-storage';
 const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
 
 // Load data from file (for local development)
-function loadCollaborations() {
+function loadCollaborationsFromFile() {
   try {
     if (fs.existsSync(dataFilePath)) {
       const fileData = fs.readFileSync(dataFilePath, 'utf8');
@@ -15,11 +15,11 @@ function loadCollaborations() {
   } catch (error) {
     console.error('Error loading collaborations:', error);
   }
-  return collaborationsStore;
+  return defaultCollaborations;
 }
 
 // Save data to file (for local development)
-function saveCollaborations(data: any) {
+function saveCollaborationsToFile(data: any) {
   try {
     const dataDir = path.dirname(dataFilePath);
     if (!fs.existsSync(dataDir)) {
@@ -106,11 +106,11 @@ export async function GET() {
     let collaborations;
     
     if (process.env.NODE_ENV === 'production') {
-      // In production, use Vercel KV storage
+      // In production, use Redis storage
       collaborations = await getCollaborations();
     } else {
       // Use file system for local development
-      collaborations = loadCollaborations();
+      collaborations = loadCollaborationsFromFile();
     }
     
     return NextResponse.json(collaborations);
@@ -135,14 +135,14 @@ export async function POST(request: NextRequest) {
     }
     
     if (process.env.NODE_ENV === 'production') {
-      // In production, save to Vercel KV
+      // In production, save to Redis
       const success = await saveCollaborations(data);
       if (!success) {
         return NextResponse.json({ error: 'Failed to save collaborations' }, { status: 500 });
       }
     } else {
       // Save to file for local development
-      saveCollaborations(data);
+      saveCollaborationsToFile(data);
     }
     
     return NextResponse.json({ 
