@@ -136,9 +136,11 @@ export async function getCollaborations() {
   try {
     const client = await getRedisClient();
     const data = await client.get('collaborations_data');
+    console.log('Redis get collaborations_data:', data ? 'found data' : 'no data found');
     if (data) {
       return JSON.parse(data);
     }
+    console.log('Returning default collaborations');
     return defaultCollaborations;
   } catch (error) {
     console.error('Error getting collaborations:', error);
@@ -150,6 +152,7 @@ export async function saveCollaborations(data: any) {
   try {
     const client = await getRedisClient();
     await client.set('collaborations_data', JSON.stringify(data));
+    console.log('Successfully saved collaborations to Redis');
     return true;
   } catch (error) {
     console.error('Error saving collaborations:', error);

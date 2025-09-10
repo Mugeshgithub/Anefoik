@@ -103,16 +103,8 @@ const defaultCollaborations = {
 
 export async function GET() {
   try {
-    let collaborations;
-    
-    if (process.env.NODE_ENV === 'production') {
-      // In production, use Redis storage
-      collaborations = await getCollaborations();
-    } else {
-      // Use file system for local development
-      collaborations = loadCollaborationsFromFile();
-    }
-    
+    // Always use Redis storage (both production and development)
+    const collaborations = await getCollaborations();
     return NextResponse.json(collaborations);
   } catch (error) {
     console.error('Error fetching collaborations:', error);
@@ -134,15 +126,10 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    if (process.env.NODE_ENV === 'production') {
-      // In production, save to Redis
-      const success = await saveCollaborations(data);
-      if (!success) {
-        return NextResponse.json({ error: 'Failed to save collaborations' }, { status: 500 });
-      }
-    } else {
-      // Save to file for local development
-      saveCollaborationsToFile(data);
+    // Always use Redis storage (both production and development)
+    const success = await saveCollaborations(data);
+    if (!success) {
+      return NextResponse.json({ error: 'Failed to save collaborations' }, { status: 500 });
     }
     
     return NextResponse.json({ 
