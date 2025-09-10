@@ -2,14 +2,36 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// Global store that persists across requests
-declare global {
-  var collaborationsStore: any;
+const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
+
+// Load data from file (for local development)
+function loadCollaborations() {
+  try {
+    if (fs.existsSync(dataFilePath)) {
+      const fileData = fs.readFileSync(dataFilePath, 'utf8');
+      return JSON.parse(fileData);
+    }
+  } catch (error) {
+    console.error('Error loading collaborations:', error);
+  }
+  return collaborationsStore;
 }
 
-// In-memory store for production (Vercel serverless functions)
-if (!global.collaborationsStore) {
-  global.collaborationsStore = {
+// Save data to file (for local development)
+function saveCollaborations(data: any) {
+  try {
+    const dataDir = path.dirname(dataFilePath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error('Error saving collaborations:', error);
+  }
+}
+
+// Default collaborations data
+const defaultCollaborations = {
   isActive: true,
   collaborations: [
     {
@@ -76,46 +98,15 @@ if (!global.collaborationsStore) {
       "social": "@alexbrown"
     }
   ]
-  };
-}
-
-const collaborationsStore = global.collaborationsStore;
-
-const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
-
-// Load data from file (for local development)
-function loadCollaborations() {
-  try {
-    if (fs.existsSync(dataFilePath)) {
-      const fileData = fs.readFileSync(dataFilePath, 'utf8');
-      return JSON.parse(fileData);
-    }
-  } catch (error) {
-    console.error('Error loading collaborations:', error);
-  }
-  return collaborationsStore;
-}
-
-// Save data to file (for local development)
-function saveCollaborations(data: any) {
-  try {
-    const dataDir = path.dirname(dataFilePath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error('Error saving collaborations:', error);
-  }
-}
+};
 
 export async function GET() {
   try {
     let collaborations;
     
     if (process.env.NODE_ENV === 'production') {
-      // In production, use in-memory store
-      collaborations = collaborationsStore;
+      // In production, return default data for now
+      collaborations = defaultCollaborations;
     } else {
       // Use file system for local development
       collaborations = loadCollaborations();
@@ -143,8 +134,7 @@ export async function POST(request: NextRequest) {
     }
     
     if (process.env.NODE_ENV === 'production') {
-      // Update in-memory store for production
-      collaborationsStore = data;
+      // In production, just return success (no persistence for now)
       console.log('Collaborations updated in production:', data);
     } else {
       // Save to file for local development

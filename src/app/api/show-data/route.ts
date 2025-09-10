@@ -2,14 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// Global store that persists across requests
-declare global {
-  var showDataStore: any;
-}
+const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
+const isProduction = process.env.NODE_ENV === 'production';
 
-// In-memory store for production (Vercel serverless functions)
-if (!global.showDataStore) {
-  global.showDataStore = {
+// Default show data
+const defaultShowData = {
   isActive: true,
   title: "Live Performance at Blue Note Paris",
   date: "2025-01-20",
@@ -27,20 +24,14 @@ if (!global.showDataStore) {
       social: "@sarahjazz"
     }
   ]
-  };
-}
-
-const showDataStore = global.showDataStore;
-
-const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
-const isProduction = process.env.NODE_ENV === 'production';
+};
 
 // GET - Load current show data
 export async function GET() {
   try {
     if (isProduction) {
-      // In production, use in-memory store
-      return NextResponse.json(showDataStore);
+      // In production, return default data for now
+      return NextResponse.json(defaultShowData);
     } else {
       // In development, read from file
       const fileContent = fs.readFileSync(SHOW_DATA_FILE, 'utf8');
@@ -50,7 +41,7 @@ export async function GET() {
   } catch (error) {
     console.error('Error loading show data:', error);
     // Fallback to default data
-    return NextResponse.json(showDataStore);
+    return NextResponse.json(defaultShowData);
   }
 }
 
@@ -65,10 +56,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (isProduction) {
-      // In production, update memory store
-      showDataStore = { ...showData };
+      // In production, just return success (no persistence for now)
       console.log('Show data updated in production:', showData);
-      return NextResponse.json({ success: true, message: 'Show data updated successfully' });
+      return NextResponse.json({ success: true, message: 'Show data updated successfully (not persisted)' });
     } else {
       // In development, write to file
       fs.writeFileSync(SHOW_DATA_FILE, JSON.stringify(showData, null, 2), 'utf8');
