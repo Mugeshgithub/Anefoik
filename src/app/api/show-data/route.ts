@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+// Global store that persists across requests
+declare global {
+  var showDataStore: any;
+}
+
 // In-memory store for production (Vercel serverless functions)
-let showDataStore: any = {
+if (!global.showDataStore) {
+  global.showDataStore = {
   isActive: true,
   title: "Live Performance at Blue Note Paris",
-  date: "January 15, 2025",
-  time: "8:00 PM",
+  date: "2025-01-20",
+  time: "9:00 PM",
   venue: "Blue Note Paris",
   location: "Paris, France",
   link: "https://bluenoteparis.com/events/aniefiok-asuquo",
@@ -19,14 +25,12 @@ let showDataStore: any = {
       name: "Sarah Johnson",
       role: "Vocalist",
       social: "@sarahjazz"
-    },
-    {
-      name: "Marcus Williams",
-      role: "Saxophonist",
-      social: "@marcuswilliams"
     }
   ]
-};
+  };
+}
+
+const showDataStore = global.showDataStore;
 
 const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -35,21 +39,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 export async function GET() {
   try {
     if (isProduction) {
-      // Try to load from file first, fallback to in-memory store
-      try {
-        if (fs.existsSync(SHOW_DATA_FILE)) {
-          const fileContent = fs.readFileSync(SHOW_DATA_FILE, 'utf8');
-          const showData = JSON.parse(fileContent);
-          if (showData && showData.title !== undefined) {
-            // Update in-memory store with file data
-            showDataStore = showData;
-            return NextResponse.json(showData);
-          }
-        }
-      } catch (fileError) {
-        console.error('Error loading show data from file:', fileError);
-      }
-      // Fallback to in-memory store
+      // In production, use in-memory store
       return NextResponse.json(showDataStore);
     } else {
       // In development, read from file
@@ -77,12 +67,7 @@ export async function POST(request: NextRequest) {
     if (isProduction) {
       // In production, update memory store
       showDataStore = { ...showData };
-      // Also save to file for persistence
-      try {
-        fs.writeFileSync(SHOW_DATA_FILE, JSON.stringify(showData, null, 2), 'utf8');
-      } catch (fileError) {
-        console.error('Error saving show data to file:', fileError);
-      }
+      console.log('Show data updated in production:', showData);
       return NextResponse.json({ success: true, message: 'Show data updated successfully' });
     } else {
       // In development, write to file

@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+// Global store that persists across requests
+declare global {
+  var collaborationsStore: any;
+}
+
 // In-memory store for production (Vercel serverless functions)
-let collaborationsStore = {
+if (!global.collaborationsStore) {
+  global.collaborationsStore = {
   isActive: true,
   collaborations: [
     {
@@ -70,7 +76,10 @@ let collaborationsStore = {
       "social": "@alexbrown"
     }
   ]
-};
+  };
+}
+
+const collaborationsStore = global.collaborationsStore;
 
 const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
 
@@ -105,15 +114,8 @@ export async function GET() {
     let collaborations;
     
     if (process.env.NODE_ENV === 'production') {
-      // Try to load from file first, fallback to in-memory store
-      const fileData = loadCollaborations();
-      if (fileData && fileData.collaborations && fileData.collaborations.length > 0) {
-        collaborations = fileData;
-        // Update in-memory store with file data
-        collaborationsStore = fileData;
-      } else {
-        collaborations = collaborationsStore;
-      }
+      // In production, use in-memory store
+      collaborations = collaborationsStore;
     } else {
       // Use file system for local development
       collaborations = loadCollaborations();
@@ -143,8 +145,7 @@ export async function POST(request: NextRequest) {
     if (process.env.NODE_ENV === 'production') {
       // Update in-memory store for production
       collaborationsStore = data;
-      // Also save to file for persistence
-      saveCollaborations(data);
+      console.log('Collaborations updated in production:', data);
     } else {
       // Save to file for local development
       saveCollaborations(data);
