@@ -1,6 +1,13 @@
-// Simple in-memory storage that persists during function lifetime
-let showDataStore: any = null;
-let collaborationsStore: any = null;
+import { createClient } from 'redis';
+
+// Create Redis client using your existing Redis URL
+const redis = createClient({
+  url: process.env.REDIS_URL
+});
+
+// Connect to Redis
+redis.on('error', (err) => console.log('Redis Client Error', err));
+redis.connect();
 
 // Default data
 const defaultShowData = {
@@ -95,8 +102,9 @@ const defaultCollaborations = {
 // Show data functions
 export async function getShowData() {
   try {
-    if (showDataStore) {
-      return showDataStore;
+    const data = await redis.get('show_data');
+    if (data) {
+      return JSON.parse(data);
     }
     return defaultShowData;
   } catch (error) {
@@ -107,7 +115,7 @@ export async function getShowData() {
 
 export async function saveShowData(data: any) {
   try {
-    showDataStore = data;
+    await redis.set('show_data', JSON.stringify(data));
     return true;
   } catch (error) {
     console.error('Error saving show data:', error);
@@ -118,8 +126,9 @@ export async function saveShowData(data: any) {
 // Collaborations functions
 export async function getCollaborations() {
   try {
-    if (collaborationsStore) {
-      return collaborationsStore;
+    const data = await redis.get('collaborations_data');
+    if (data) {
+      return JSON.parse(data);
     }
     return defaultCollaborations;
   } catch (error) {
@@ -130,7 +139,7 @@ export async function getCollaborations() {
 
 export async function saveCollaborations(data: any) {
   try {
-    collaborationsStore = data;
+    await redis.set('collaborations_data', JSON.stringify(data));
     return true;
   } catch (error) {
     console.error('Error saving collaborations:', error);
