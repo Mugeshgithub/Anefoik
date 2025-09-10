@@ -1,13 +1,19 @@
 import { createClient } from 'redis';
 
-// Create Redis client using your existing Redis URL
-const redis = createClient({
-  url: process.env.REDIS_URL
-});
+// Singleton Redis client to avoid multiple connections
+let redis: any = null;
 
-// Connect to Redis
-redis.on('error', (err) => console.log('Redis Client Error', err));
-redis.connect();
+async function getRedisClient() {
+  if (!redis) {
+    redis = createClient({
+      url: process.env.REDIS_URL
+    });
+    
+    redis.on('error', (err) => console.log('Redis Client Error', err));
+    await redis.connect();
+  }
+  return redis;
+}
 
 // Default data
 const defaultShowData = {
@@ -102,7 +108,8 @@ const defaultCollaborations = {
 // Show data functions
 export async function getShowData() {
   try {
-    const data = await redis.get('show_data');
+    const client = await getRedisClient();
+    const data = await client.get('show_data');
     if (data) {
       return JSON.parse(data);
     }
@@ -115,7 +122,8 @@ export async function getShowData() {
 
 export async function saveShowData(data: any) {
   try {
-    await redis.set('show_data', JSON.stringify(data));
+    const client = await getRedisClient();
+    await client.set('show_data', JSON.stringify(data));
     return true;
   } catch (error) {
     console.error('Error saving show data:', error);
@@ -126,7 +134,8 @@ export async function saveShowData(data: any) {
 // Collaborations functions
 export async function getCollaborations() {
   try {
-    const data = await redis.get('collaborations_data');
+    const client = await getRedisClient();
+    const data = await client.get('collaborations_data');
     if (data) {
       return JSON.parse(data);
     }
@@ -139,7 +148,8 @@ export async function getCollaborations() {
 
 export async function saveCollaborations(data: any) {
   try {
-    await redis.set('collaborations_data', JSON.stringify(data));
+    const client = await getRedisClient();
+    await client.set('collaborations_data', JSON.stringify(data));
     return true;
   } catch (error) {
     console.error('Error saving collaborations:', error);
