@@ -6,13 +6,39 @@ import { getShowData, saveShowData } from '@/lib/kv-storage';
 const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Default show data
+const defaultShowData = {
+  isActive: true,
+  title: "Live Performance at Blue Note Paris",
+  date: "2025-01-20",
+  time: "9:00 PM",
+  venue: "Blue Note Paris",
+  location: "Paris, France",
+  link: "https://bluenoteparis.com/events/aniefiok-asuquo",
+  linkText: "Book Tickets",
+  type: "live",
+  description: "An intimate evening of jazz and contemporary music",
+  collaborators: [
+    {
+      name: "Sarah Johnson",
+      role: "Vocalist",
+      social: "@sarahjazz"
+    }
+  ]
+};
+
 // GET - Load current show data
 export async function GET() {
   try {
     if (isProduction) {
-      // In production, use Vercel KV storage
-      const showData = await getShowData();
-      return NextResponse.json(showData);
+      // In production, try Vercel KV storage first, fallback to default
+      try {
+        const showData = await getShowData();
+        return NextResponse.json(showData);
+      } catch (error) {
+        console.error('KV error, using default data:', error);
+        return NextResponse.json(defaultShowData);
+      }
     } else {
       // In development, read from file
       const fileContent = fs.readFileSync(SHOW_DATA_FILE, 'utf8');

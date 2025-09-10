@@ -4,6 +4,15 @@ import { kv } from '@vercel/kv';
 const SHOW_DATA_KEY = 'show_data';
 const COLLABORATIONS_KEY = 'collaborations_data';
 
+// Check if KV is available
+const isKvAvailable = () => {
+  try {
+    return process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
+  } catch {
+    return false;
+  }
+};
+
 // Default data
 const defaultShowData = {
   isActive: true,
@@ -97,6 +106,10 @@ const defaultCollaborations = {
 // Show data functions
 export async function getShowData() {
   try {
+    if (!isKvAvailable()) {
+      console.log('KV not available, returning default data');
+      return defaultShowData;
+    }
     const data = await kv.get(SHOW_DATA_KEY);
     return data || defaultShowData;
   } catch (error) {
@@ -107,6 +120,10 @@ export async function getShowData() {
 
 export async function saveShowData(data: any) {
   try {
+    if (!isKvAvailable()) {
+      console.log('KV not available, cannot save data');
+      return false;
+    }
     await kv.set(SHOW_DATA_KEY, data);
     return true;
   } catch (error) {
@@ -118,6 +135,10 @@ export async function saveShowData(data: any) {
 // Collaborations functions
 export async function getCollaborations() {
   try {
+    if (!isKvAvailable()) {
+      console.log('KV not available, returning default data');
+      return defaultCollaborations;
+    }
     const data = await kv.get(COLLABORATIONS_KEY);
     return data || defaultCollaborations;
   } catch (error) {
@@ -128,6 +149,10 @@ export async function getCollaborations() {
 
 export async function saveCollaborations(data: any) {
   try {
+    if (!isKvAvailable()) {
+      console.log('KV not available, cannot save data');
+      return false;
+    }
     await kv.set(COLLABORATIONS_KEY, data);
     return true;
   } catch (error) {
