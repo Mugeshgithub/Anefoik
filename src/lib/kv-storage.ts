@@ -1,6 +1,4 @@
-import { get, set } from '@vercel/edge-config';
-
-// Simple in-memory storage for production (fallback)
+// Simple in-memory storage that persists during function lifetime
 let showDataStore: any = null;
 let collaborationsStore: any = null;
 
@@ -97,75 +95,45 @@ const defaultCollaborations = {
 // Show data functions
 export async function getShowData() {
   try {
-    // Try Edge Config first (persistent)
-    const edgeData = await get('show_data');
-    if (edgeData) {
-      return edgeData;
-    }
-    
-    // Fallback to in-memory storage
     if (showDataStore) {
       return showDataStore;
     }
-    
     return defaultShowData;
   } catch (error) {
     console.error('Error getting show data:', error);
-    // Fallback to in-memory
-    return showDataStore || defaultShowData;
+    return defaultShowData;
   }
 }
 
 export async function saveShowData(data: any) {
   try {
-    // Save to Edge Config (persistent)
-    await set('show_data', data);
-    
-    // Also save to in-memory as backup
     showDataStore = data;
     return true;
   } catch (error) {
     console.error('Error saving show data:', error);
-    // Fallback to in-memory only
-    showDataStore = data;
-    return true;
+    return false;
   }
 }
 
 // Collaborations functions
 export async function getCollaborations() {
   try {
-    // Try Edge Config first (persistent)
-    const edgeData = await get('collaborations_data');
-    if (edgeData) {
-      return edgeData;
-    }
-    
-    // Fallback to in-memory storage
     if (collaborationsStore) {
       return collaborationsStore;
     }
-    
     return defaultCollaborations;
   } catch (error) {
     console.error('Error getting collaborations:', error);
-    // Fallback to in-memory
-    return collaborationsStore || defaultCollaborations;
+    return defaultCollaborations;
   }
 }
 
 export async function saveCollaborations(data: any) {
   try {
-    // Save to Edge Config (persistent)
-    await set('collaborations_data', data);
-    
-    // Also save to in-memory as backup
     collaborationsStore = data;
     return true;
   } catch (error) {
     console.error('Error saving collaborations:', error);
-    // Fallback to in-memory only
-    collaborationsStore = data;
-    return true;
+    return false;
   }
 }
