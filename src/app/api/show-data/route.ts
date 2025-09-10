@@ -1,37 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { getShowData, saveShowData } from '@/lib/kv-storage';
 
 const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
 const isProduction = process.env.NODE_ENV === 'production';
-
-// Default show data
-const defaultShowData = {
-  isActive: true,
-  title: "Live Performance at Blue Note Paris",
-  date: "2025-01-20",
-  time: "9:00 PM",
-  venue: "Blue Note Paris",
-  location: "Paris, France",
-  link: "https://bluenoteparis.com/events/aniefiok-asuquo",
-  linkText: "Book Tickets",
-  type: "live",
-  description: "An intimate evening of jazz and contemporary music",
-  collaborators: [
-    {
-      name: "Sarah Johnson",
-      role: "Vocalist",
-      social: "@sarahjazz"
-    }
-  ]
-};
 
 // GET - Load current show data
 export async function GET() {
   try {
     if (isProduction) {
-      // In production, return default data for now
-      return NextResponse.json(defaultShowData);
+      // In production, use Vercel KV storage
+      const showData = await getShowData();
+      return NextResponse.json(showData);
     } else {
       // In development, read from file
       const fileContent = fs.readFileSync(SHOW_DATA_FILE, 'utf8');
@@ -41,7 +22,8 @@ export async function GET() {
   } catch (error) {
     console.error('Error loading show data:', error);
     // Fallback to default data
-    return NextResponse.json(defaultShowData);
+    const showData = await getShowData();
+    return NextResponse.json(showData);
   }
 }
 
@@ -56,9 +38,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (isProduction) {
-      // In production, just return success (no persistence for now)
-      console.log('Show data updated in production:', showData);
-      return NextResponse.json({ success: true, message: 'Show data updated successfully (not persisted)' });
+      // In production, save to Vercel KV
+      const success = await saveShowData(showData);
+      if (success) {
+        return NextResponse.json({ success: true, message: 'Show data updated successfully' });
+      } else {
+        return NextResponse.json({ error: 'Failed to save show data' }, { status: 500 });
+      }
     } else {
       // In development, write to file
       fs.writeFileSync(SHOW_DATA_FILE, JSON.stringify(showData, null, 2), 'utf8');

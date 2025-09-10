@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { getCollaborations, saveCollaborations } from '@/lib/kv-storage';
 
 const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
 
@@ -105,8 +106,8 @@ export async function GET() {
     let collaborations;
     
     if (process.env.NODE_ENV === 'production') {
-      // In production, return default data for now
-      collaborations = defaultCollaborations;
+      // In production, use Vercel KV storage
+      collaborations = await getCollaborations();
     } else {
       // Use file system for local development
       collaborations = loadCollaborations();
@@ -134,8 +135,11 @@ export async function POST(request: NextRequest) {
     }
     
     if (process.env.NODE_ENV === 'production') {
-      // In production, just return success (no persistence for now)
-      console.log('Collaborations updated in production:', data);
+      // In production, save to Vercel KV
+      const success = await saveCollaborations(data);
+      if (!success) {
+        return NextResponse.json({ error: 'Failed to save collaborations' }, { status: 500 });
+      }
     } else {
       // Save to file for local development
       saveCollaborations(data);
