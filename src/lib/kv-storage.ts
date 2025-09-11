@@ -5,12 +5,28 @@ let redis: any = null;
 
 async function getRedisClient() {
   if (!redis) {
+    // Only try to connect to Redis if REDIS_URL is available
+    if (!process.env.REDIS_URL) {
+      console.log('No REDIS_URL found, skipping Redis connection');
+      return null;
+    }
+    
     redis = createClient({
       url: process.env.REDIS_URL
     });
     
-    redis.on('error', (err) => console.log('Redis Client Error', err));
-    await redis.connect();
+    redis.on('error', (err) => {
+      console.log('Redis Client Error', err);
+      // Don't throw error, just log it
+    });
+    
+    try {
+      await redis.connect();
+    } catch (error) {
+      console.log('Failed to connect to Redis:', error);
+      redis = null;
+      return null;
+    }
   }
   return redis;
 }
@@ -64,7 +80,7 @@ const defaultCollaborations = {
       "year": "2023",
       "genre": "Gospel",
       "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      "social": "@davidchenmusic"
+      "social": "@davidchen"
     },
     {
       "name": "Lisa Thompson",
@@ -101,6 +117,51 @@ const defaultCollaborations = {
       "genre": "Folk",
       "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       "social": "@alexbrown"
+    },
+    {
+      "name": "Sophie Martinez",
+      "role": "Vocalist",
+      "project": "Midnight Melodies",
+      "year": "2024",
+      "genre": "Jazz",
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@sophiemartinez"
+    },
+    {
+      "name": "Ryan O'Connor",
+      "role": "Trumpet Player",
+      "project": "Brass & Soul",
+      "year": "2023",
+      "genre": "Blues",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@ryanoconnor"
+    },
+    {
+      "name": "Isabella Kim",
+      "role": "Violinist",
+      "project": "Strings of Emotion",
+      "year": "2024",
+      "genre": "Classical Fusion",
+      "image": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@isabellakim"
+    },
+    {
+      "name": "Michael Torres",
+      "role": "Keyboardist",
+      "project": "Digital Dreams",
+      "year": "2023",
+      "genre": "Electronic",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@michaeltorres"
+    },
+    {
+      "name": "Aisha Johnson",
+      "role": "Percussionist",
+      "project": "Rhythmic Roots",
+      "year": "2024",
+      "genre": "World Music",
+      "image": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@aishajohnson"
     }
   ]
 };
@@ -109,6 +170,10 @@ const defaultCollaborations = {
 export async function getShowData() {
   try {
     const client = await getRedisClient();
+    if (!client) {
+      console.log('No Redis client, returning default show data');
+      return defaultShowData;
+    }
     const data = await client.get('show_data');
     if (data) {
       return JSON.parse(data);
@@ -123,6 +188,10 @@ export async function getShowData() {
 export async function saveShowData(data: any) {
   try {
     const client = await getRedisClient();
+    if (!client) {
+      console.log('No Redis client, cannot save show data');
+      return false;
+    }
     await client.set('show_data', JSON.stringify(data));
     return true;
   } catch (error) {
@@ -135,6 +204,10 @@ export async function saveShowData(data: any) {
 export async function getCollaborations() {
   try {
     const client = await getRedisClient();
+    if (!client) {
+      console.log('No Redis client, returning default collaborations with images');
+      return defaultCollaborations;
+    }
     const data = await client.get('collaborations_data');
     console.log('Redis get collaborations_data:', data ? 'found data' : 'no data found');
     if (data) {
@@ -151,6 +224,10 @@ export async function getCollaborations() {
 export async function saveCollaborations(data: any) {
   try {
     const client = await getRedisClient();
+    if (!client) {
+      console.log('No Redis client, cannot save collaborations');
+      return false;
+    }
     await client.set('collaborations_data', JSON.stringify(data));
     console.log('Successfully saved collaborations to Redis');
     return true;

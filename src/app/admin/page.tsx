@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Save, Eye, EyeOff, Plus, Trash2, Music, Calendar, MapPin, Link, Users, LogOut, Clock, TrendingUp, Activity, Settings, Copy, Check, AlertCircle, Info } from 'lucide-react';
+import ImageUpload from '@/components/ImageUpload';
 
 interface Collaborator {
   name: string;
@@ -250,10 +251,7 @@ export default function AdminPanel() {
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-between items-center mb-8 p-6 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-2xl border border-white/10"
         >
-          <div>
-            <h1 className="text-3xl font-light text-white mb-2">Show Manager</h1>
-            <p className="text-[#C9C9D0]">Manage show information and website content</p>
-          </div>
+          <h1 className="text-3xl font-light text-white">Dashboard</h1>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 text-red-400 hover:bg-red-400/20 rounded-lg transition-all"
@@ -263,63 +261,6 @@ export default function AdminPanel() {
           </button>
         </motion.div>
 
-        {/* Status Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="p-4 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-xl border border-white/10"
-          >
-            <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${getShowStatus().bg}`}>
-                <Activity className={`w-5 h-5 ${getShowStatus().color}`} />
-              </div>
-              <div>
-                <h3 className="text-white font-medium">Widget Status</h3>
-                <p className={`text-sm capitalize ${getShowStatus().color}`}>
-                  {getShowStatus().status}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="p-4 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-xl border border-white/10"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-500/20">
-                <Users className="w-5 h-5 text-blue-400" />
-              </div>
-              <div>
-                <h3 className="text-white font-medium">Collaborations</h3>
-                <p className="text-sm text-[#C9C9D0]">
-                  {collaborationsData.collaborations.length} artists
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="p-4 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-xl border border-white/10"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-500/20">
-                <Clock className="w-5 h-5 text-purple-400" />
-              </div>
-              <div>
-                <h3 className="text-white font-medium">Last Updated</h3>
-                <p className="text-sm text-[#C9C9D0]">Just now</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
 
         {/* Success/Error Message */}
         {message && (
@@ -332,122 +273,6 @@ export default function AdminPanel() {
           </motion.div>
         )}
 
-        {/* Live Preview Section - Top */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 bg-[#1a1a2e]/80 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-light text-white flex items-center gap-2">
-                <Eye className="w-6 h-6 text-[#fbbf24]" />
-                Live Preview
-              </h2>
-              <p className="text-sm text-[#C9C9D0] mt-1">See how your widget will appear on the website</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${
-                showData.isActive ? 'bg-green-400 animate-pulse' : 'bg-gray-400'
-              }`}></div>
-              <span className="text-sm text-[#C9C9D0]">
-                {showData.isActive ? 'Widget Active' : 'Widget Hidden'}
-              </span>
-            </div>
-          </div>
-
-          {/* Preview Content */}
-          {showPreview ? (
-            <div className="bg-[#0a0a0a]/50 rounded-lg p-4 border border-white/10">
-              {hasShowData() ? (
-                <div className="bg-[#0a0a0a]/50 rounded-lg p-4 border border-white/10">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium text-white uppercase tracking-wide">
-                      {showData.type === 'live' ? 'LIVE' : 'SHOW'}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-lg font-medium text-white mb-2">
-                    {showData.title || 'Untitled Show'}
-                  </h3>
-                  
-                  <div className="space-y-2 text-sm text-[#C9C9D0]">
-                    {(showData.date || showData.time) && (
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        <span>
-                          {showData.date && showData.time 
-                            ? `${showData.date} at ${showData.time}`
-                            : showData.date || showData.time || 'Date not set'
-                          }
-                        </span>
-                      </div>
-                    )}
-                    {(showData.venue || showData.location) && (
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        <span>
-                          {showData.venue && showData.location
-                            ? `${showData.venue}, ${showData.location}`
-                            : showData.venue || showData.location || 'Location not set'
-                          }
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {showData.description && (
-                    <p className="text-sm text-[#C9C9D0] mt-3">{showData.description}</p>
-                  )}
-                  
-                  {showData.collaborators.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="text-sm font-medium text-white mb-2">Collaborating Artists:</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {showData.collaborators.map((collab, index) => (
-                          <div key={index} className="flex items-center gap-2 px-2 py-1 bg-[#fbbf24]/20 rounded text-xs">
-                            <div className="w-6 h-6 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] rounded-full flex items-center justify-center text-white font-medium">
-                              {collab.name.charAt(0)}
-                            </div>
-                            <span className="text-white">{collab.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {showData.link && (
-                    <div className="mt-4">
-                      <a 
-                        href={showData.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#fbbf24] text-black rounded-lg hover:bg-[#f59e0b] transition-colors text-sm font-medium"
-                      >
-                        <Link className="w-4 h-4" />
-                        {showData.linkText || 'Book Now'}
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-[#C9C9D0] border-2 border-dashed border-[#C9C9D0]/30 rounded-lg">
-                  <EyeOff className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <h3 className="text-lg font-medium text-white mb-2">Widget Hidden</h3>
-                  <p className="text-sm mb-4">The collaboration widget is currently hidden from visitors</p>
-                  <p className="text-xs">Enable "Show widget on website" to make it visible</p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="text-center py-8 text-[#C9C9D0] border-2 border-dashed border-[#C9C9D0]/30 rounded-lg">
-              <Eye className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <h3 className="text-lg font-medium text-white mb-2">Preview Hidden</h3>
-              <p className="text-sm mb-4">Click "Show Preview" to see how your widget will appear</p>
-            </div>
-          )}
-        </motion.div>
 
         {/* Main Content - Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -461,9 +286,8 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-2xl font-light text-white flex items-center gap-2">
                   <Users className="w-6 h-6 text-[#fbbf24]" />
-                  Collaborations Gallery
+                  Collaborators
                 </h2>
-                <p className="text-sm text-[#C9C9D0] mt-1">Manage the collaborations section on your website</p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
@@ -489,8 +313,8 @@ export default function AdminPanel() {
                     <Users className={`w-5 h-5 ${collaborationsData.isActive ? 'text-green-400' : 'text-gray-400'}`} />
                   </div>
                   <div>
-                    <h3 className="text-white font-medium">Show collaborations section on website</h3>
-                    <p className="text-sm text-[#C9C9D0]">Collaborations section is {collaborationsData.isActive ? 'visible to visitors' : 'hidden from visitors'}</p>
+                    <h3 className="text-white font-medium">Show on website</h3>
+                    <p className="text-sm text-[#C9C9D0]">{collaborationsData.isActive ? 'Visible' : 'Hidden'}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -529,11 +353,12 @@ export default function AdminPanel() {
                     }}
                     className="px-3 py-1 text-red-400 hover:bg-red-400/20 rounded-lg transition-all text-sm border border-red-400/30 hover:border-red-400/50"
                   >
-                    Remove Section
+                    Remove
                   </button>
                 </div>
               </div>
             </div>
+
 
             {/* Collaborations Content */}
             <div className="space-y-4">
@@ -546,6 +371,10 @@ export default function AdminPanel() {
                           src={collab.image} 
                           alt={collab.name}
                           className="w-12 h-12 rounded-full object-cover"
+                          style={{ 
+                            objectPosition: 'center',
+                            objectFit: 'cover'
+                          }}
                           onError={(e) => {
                             console.error('Failed to load image:', collab.image);
                             e.currentTarget.style.display = 'none';
@@ -554,6 +383,13 @@ export default function AdminPanel() {
                               nextElement.style.display = 'flex';
                             }
                           }}
+                          onLoad={(e) => {
+                            const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (nextElement) {
+                              nextElement.style.display = 'none';
+                            }
+                          }}
+                          style={{ display: 'block' }}
                         />
                       ) : null}
                       <span 
@@ -574,40 +410,6 @@ export default function AdminPanel() {
                     </button>
                   </div>
                   
-                  {/* Preview Section */}
-                  <div className="mb-4 p-3 bg-[#0a0a0a]/30 rounded-lg border border-white/10">
-                    <h5 className="text-sm font-medium text-white mb-2 flex items-center gap-2">
-                      <Eye className="w-4 h-4 text-[#fbbf24]" />
-                      Website Preview
-                    </h5>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center overflow-hidden">
-                        {collab.image ? (
-                          <img 
-                            src={collab.image} 
-                            alt={collab.name}
-                            className="w-10 h-10 rounded-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
-                              if (nextElement) {
-                                nextElement.style.display = 'flex';
-                              }
-                            }}
-                          />
-                        ) : null}
-                        <span 
-                          className={`text-white font-bold text-xs ${collab.image ? 'hidden' : 'flex'} items-center justify-center w-full h-full`}
-                        >
-                          {collab.name.split(' ').map((n: string) => n[0]).join('')}
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <h6 className="text-white font-medium text-sm">{collab.name || 'Artist Name'}</h6>
-                        <p className="text-[#C9C9D0] text-xs">{collab.role || 'Role'}</p>
-                      </div>
-                    </div>
-                  </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <input
@@ -622,7 +424,7 @@ export default function AdminPanel() {
                       value={collab.role || ''}
                       onChange={(e) => updateCollaboration(index, 'role', e.target.value)}
                       className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
-                      placeholder="Role (e.g., Vocalist, Producer)"
+                      placeholder="Role"
                     />
                     <input
                       type="text"
@@ -645,21 +447,26 @@ export default function AdminPanel() {
                       className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
                       placeholder="Genre"
                     />
-                    <div className="space-y-2">
-                      <input
-                        type="url"
-                        value={collab.image || ''}
-                        onChange={(e) => updateCollaboration(index, 'image', e.target.value)}
-                        className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
-                        placeholder="https://res.cloudinary.com/your-account/image/upload/v1234567890/folder/image.jpg"
-                      />
-                      <div className="text-xs text-[#C9C9D0]">
-                        <p className="mb-1">💡 <strong>Recommended:</strong> Use Cloudinary for best performance</p>
-                        <p className="mb-1">📝 <strong>Format:</strong> https://res.cloudinary.com/account/image/upload/v1234567890/folder/image.jpg</p>
-                        <p className="mb-1">🖼️ <strong>Size:</strong> 400x400px or larger, square aspect ratio</p>
-                        <p className="text-[#fbbf24]">✨ <strong>Tip:</strong> Upload to Cloudinary, then copy the "Secure URL"</p>
-                      </div>
-                    </div>
+                  </div>
+                  
+                  <div className="mt-3">
+                    <label className="block text-sm font-medium text-white mb-2">Social Media</label>
+                    <input
+                      type="text"
+                      value={collab.social || ''}
+                      onChange={(e) => updateCollaboration(index, 'social', e.target.value)}
+                      className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
+                      placeholder="@username or https://instagram.com/username"
+                    />
+                  </div>
+                  
+                  <div className="mt-3">
+                    <label className="block text-sm font-medium text-white mb-2">Profile Image</label>
+                    <ImageUpload
+                      onImageUpload={(url) => updateCollaboration(index, 'image', url)}
+                      currentImage={collab.image}
+                      className="mb-2"
+                    />
                   </div>
                 </div>
               ))}
@@ -677,7 +484,7 @@ export default function AdminPanel() {
                     ]}))}
                     className="px-4 py-2 bg-[#fbbf24] text-black rounded-lg hover:bg-[#f59e0b] transition-all font-medium"
                   >
-                    Add First Collaboration
+                    Add First
                   </button>
                 </div>
               ) : (
@@ -686,7 +493,7 @@ export default function AdminPanel() {
                   className="w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[#C9C9D0]/30 text-[#C9C9D0] rounded-lg hover:border-[#fbbf24] hover:text-[#fbbf24] transition-all"
                 >
                   <Plus className="w-4 h-4" />
-                  Add Collaboration
+                  Add
                 </button>
               )}
               
@@ -696,7 +503,7 @@ export default function AdminPanel() {
                 className="w-full flex items-center justify-center gap-2 p-3 bg-[#fbbf24] text-black rounded-lg hover:bg-[#fbbf24]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
                 <Save className="w-4 h-4" />
-                {isLoading ? 'Saving...' : 'Save Collaborations'}
+                {isLoading ? 'Saving...' : 'Save All'}
               </button>
             </div>
           </motion.div>
@@ -710,7 +517,7 @@ export default function AdminPanel() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-light text-white flex items-center gap-2">
                 <Music className="w-6 h-6 text-[#fbbf24]" />
-                Show Information
+                Event Details
               </h2>
               {!hasShowData() && (
                 <div className="flex items-center gap-2 px-3 py-1 bg-[#fbbf24]/20 text-[#fbbf24] rounded-lg text-sm">
@@ -789,7 +596,7 @@ export default function AdminPanel() {
             {/* Show Form */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Show Title</label>
+                <label className="block text-sm font-medium text-white mb-2">Title</label>
                 <input
                   type="text"
                   value={showData.title}
@@ -803,21 +610,19 @@ export default function AdminPanel() {
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">Date</label>
                   <input
-                    type="text"
+                    type="date"
                     value={showData.date}
                     onChange={(e) => setShowData(prev => ({ ...prev, date: e.target.value }))}
                     className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
-                    placeholder="Dec 25, 2024"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">Time</label>
                   <input
-                    type="text"
+                    type="time"
                     value={showData.time}
                     onChange={(e) => setShowData(prev => ({ ...prev, time: e.target.value }))}
                     className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
-                    placeholder="8:00 PM"
                   />
                 </div>
               </div>
@@ -845,7 +650,7 @@ export default function AdminPanel() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Show Type</label>
+                <label className="block text-sm font-medium text-white mb-2">Type</label>
                 <select
                   value={showData.type}
                   onChange={(e) => setShowData(prev => ({ ...prev, type: e.target.value as 'live' | 'streaming' | 'recording' }))}
@@ -897,67 +702,6 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              {/* Collaborating Artists */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium text-white">Collaborating Artists</h3>
-                  <button
-                    onClick={addCollaborator}
-                    className="flex items-center gap-2 px-3 py-1 bg-[#fbbf24]/20 text-[#fbbf24] rounded-lg hover:bg-[#fbbf24]/30 transition-all text-sm"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Add Artist
-                  </button>
-                </div>
-                
-                <div className="space-y-3">
-                  {showData.collaborators.map((collaborator, index) => (
-                    <div key={index} className="p-4 bg-[#0a0a0a]/30 rounded-lg border border-white/10">
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24]/20 to-[#a855f7]/20 rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">
-                            {collaborator.name.charAt(0) || '?'}
-                          </span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-white font-medium">{collaborator.name || 'New Collaborator'}</h4>
-                          <p className="text-[#C9C9D0] text-sm">{collaborator.role || 'Role'}</p>
-                        </div>
-                        <button
-                          onClick={() => removeCollaborator(index)}
-                          className="p-2 text-red-400 hover:bg-red-400/20 rounded-lg transition-all"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 gap-3">
-                        <input
-                          type="text"
-                          value={collaborator.name}
-                          onChange={(e) => updateCollaborator(index, 'name', e.target.value)}
-                          className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
-                          placeholder="Artist Name"
-                        />
-                        <input
-                          type="text"
-                          value={collaborator.role}
-                          onChange={(e) => updateCollaborator(index, 'role', e.target.value)}
-                          className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
-                          placeholder="Role (e.g., Vocalist, Producer)"
-                        />
-                        <input
-                          type="text"
-                          value={collaborator.social}
-                          onChange={(e) => updateCollaborator(index, 'social', e.target.value)}
-                          className="w-full p-2 bg-[#0a0a0a]/50 border border-white/20 rounded text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all text-sm"
-                          placeholder="@instagram or website"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               {/* Save Button */}
               <button
@@ -966,7 +710,7 @@ export default function AdminPanel() {
                 className="w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] text-white rounded-xl hover:from-[#f59e0b] hover:to-[#9333ea] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg hover:shadow-xl hover:shadow-[#fbbf24]/25"
               >
                 <Save className="w-5 h-5" />
-                {isLoading ? 'Saving...' : 'Save Show Information'}
+                {isLoading ? 'Saving...' : 'Save'}
               </button>
             </div>
 

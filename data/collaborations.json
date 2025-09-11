@@ -2,12 +2,12 @@
   "isActive": true,
   "collaborations": [
     {
-      "name": "Marcus Williams",
+      "name": "Marcus",
       "role": "Saxophonist",
       "project": "Urban Jazz",
       "year": "2023",
       "genre": "Fusion",
-      "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "image": "/uploads/collaborations/a6ce0f49-2173-49f8-89ce-21fea691b8c6.png",
       "social": "@marcuswilliams"
     },
     {
@@ -45,24 +45,6 @@
       "genre": "Soul",
       "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       "social": "@jameswilson"
-    },
-    {
-      "name": "Maria Garcia",
-      "role": "Bassist",
-      "project": "Deep Grooves",
-      "year": "2024",
-      "genre": "Funk",
-      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      "social": "@mariagarcia"
-    },
-    {
-      "name": "Alex Brown",
-      "role": "Guitarist",
-      "project": "Acoustic Sessions",
-      "year": "2023",
-      "genre": "Folk",
-      "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      "social": "@alexbrown"
     }
   ]
 }

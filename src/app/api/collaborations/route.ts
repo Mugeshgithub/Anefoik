@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { getCollaborations, saveCollaborations } from '@/lib/kv-storage';
+import { getCollaborations, saveCollaborations } from '@/lib/file-storage';
 
 const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
 
@@ -97,6 +97,51 @@ const defaultCollaborations = {
       "genre": "Folk",
       "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       "social": "@alexbrown"
+    },
+    {
+      "name": "Sophie Martinez",
+      "role": "Vocalist",
+      "project": "Midnight Melodies",
+      "year": "2024",
+      "genre": "Jazz",
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@sophiemartinez"
+    },
+    {
+      "name": "Ryan O'Connor",
+      "role": "Trumpet Player",
+      "project": "Brass & Soul",
+      "year": "2023",
+      "genre": "Blues",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@ryanoconnor"
+    },
+    {
+      "name": "Isabella Kim",
+      "role": "Violinist",
+      "project": "Strings of Emotion",
+      "year": "2024",
+      "genre": "Classical Fusion",
+      "image": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@isabellakim"
+    },
+    {
+      "name": "Michael Torres",
+      "role": "Keyboardist",
+      "project": "Digital Dreams",
+      "year": "2023",
+      "genre": "Electronic",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@michaeltorres"
+    },
+    {
+      "name": "Aisha Johnson",
+      "role": "Percussionist",
+      "project": "Rhythmic Roots",
+      "year": "2024",
+      "genre": "World Music",
+      "image": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
+      "social": "@aishajohnson"
     }
   ]
 };
