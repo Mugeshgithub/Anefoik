@@ -1810,7 +1810,7 @@ export default function Home() {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
             }}>
-              Creative Partnerships
+              Creative Collaborator
             </h2>
             <p className="text-[#C9C9D0] text-lg max-w-2xl mx-auto leading-relaxed">
               Collaborating with exceptional artists to bring unique musical visions to life
