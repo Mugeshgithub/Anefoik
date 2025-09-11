@@ -140,10 +140,10 @@ export async function getCollaborations() {
     if (data) {
       return JSON.parse(data);
     }
-    console.log('Returning default collaborations');
+    console.log('No Redis data, returning default collaborations with images');
     return defaultCollaborations;
   } catch (error) {
-    console.error('Error getting collaborations:', error);
+    console.error('Redis connection failed, returning default collaborations with images:', error);
     return defaultCollaborations;
   }
 }

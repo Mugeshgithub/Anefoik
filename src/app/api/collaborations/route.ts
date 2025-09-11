@@ -105,13 +105,13 @@ export async function GET() {
   try {
     // Always use Redis storage (both production and development)
     const collaborations = await getCollaborations();
+    console.log('API returning collaborations:', collaborations.collaborations?.length || 0, 'items');
     return NextResponse.json(collaborations);
   } catch (error) {
     console.error('Error fetching collaborations:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch collaborations' },
-      { status: 500 }
-    );
+    // Return default data even if there's an error
+    console.log('Returning default collaborations due to error');
+    return NextResponse.json(defaultCollaborations);
   }
 }
 
