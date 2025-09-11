@@ -1292,7 +1292,7 @@ export default function Home() {
         viewport={{ margin: "-100px" }}
       >
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl max-w-[1600px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             {/* Left Side - Who I Am Title */}
             <motion.div 
               className="space-y-6"
@@ -1319,9 +1319,9 @@ export default function Home() {
               viewport={{ once: true }}
                 className="space-y-4"
             >
-              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
-                                  I'm Aniefiok Asuquo— a Music Director, Author, Producer, Pianist, and Composer.
-              </p>
+                <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
+                  I'm Aniefiok Asuquo— a Music Director, Author, Producer, Pianist, and Composer.
+                </p>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                 My journey started in church, where I first discovered the joy of music.
               </p>
@@ -1352,7 +1352,7 @@ export default function Home() {
       >
 
 
-        <div className="w-full max-w-7xl max-w-[1600px] mx-auto px-4 text-center relative z-20 flex flex-col items-center justify-center min-h-screen">
+        <div className="w-full max-w-7xl mx-auto px-4 text-center relative z-20 flex flex-col items-center justify-center min-h-screen">
 
 
 
@@ -1407,7 +1407,7 @@ export default function Home() {
 
 
             {/* Background Tracks - 3D Circle */}
-            <div className="relative w-full max-w-6xl max-w-[1600px] mx-auto flex items-center justify-center">
+            <div className="relative w-full max-w-6xl mx-auto flex items-center justify-center">
               {musicTracks.map((track, index) => {
                 const offset = index - currentTrackIndex;
                 const isActive = index === currentTrackIndex;
@@ -1712,7 +1712,7 @@ export default function Home() {
         </motion.div>
 
         {/* Minimal Modern Journey Timeline */}
-        <div className="w-full max-w-4xl max-w-[1600px] mx-auto px-4 relative z-20">
+        <div className="w-full max-w-4xl mx-auto px-4 relative z-20">
           <div className="relative">
             {/* Vertical Timeline Line */}
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#fbbf24] via-[#a855f7] to-blue-400"></div>
@@ -1839,7 +1839,7 @@ export default function Home() {
           <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-[#a855f7]/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-6xl max-w-[1600px] mx-auto px-4 relative z-20">
+        <div className="max-w-6xl mx-auto px-4 relative z-20">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -2081,7 +2081,7 @@ export default function Home() {
 
         <div className="container mx-auto px-4 relative z-20 mt-16">
 
-          <div className="max-w-6xl max-w-[1600px] mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* New Layout - Left: Form, Right: Contact Info + Social + QR */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
