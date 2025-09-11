@@ -49,6 +49,24 @@ body {
     margin: 0;
     padding: 0;
   }
+
+  /* Ensure consistent viewport behavior across environments */
+  html {
+    font-size: 16px; /* Base font size for consistent rem calculations */
+  }
+
+  /* Force consistent max-width behavior */
+  .max-w-6xl {
+    max-width: min(72rem, 1600px) !important;
+  }
+
+  .max-w-7xl {
+    max-width: min(80rem, 1600px) !important;
+  }
+
+  .max-w-4xl {
+    max-width: min(56rem, 1600px) !important;
+  }
   
   /* Ensure consistent box-sizing */
   *, *::before, *::after {
