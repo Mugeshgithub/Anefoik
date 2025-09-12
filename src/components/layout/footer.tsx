@@ -60,6 +60,10 @@ export default function Footer() {
                 <Globe className="w-4 h-4" />
                 Music Classes
               </Link>
+              <div className="flex items-center gap-2 text-sm text-[#fbbf24] mt-2">
+                <Music className="w-4 h-4" />
+                Support the Music
+              </div>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Music, Piano, Headphones, Play, Pause, ChevronLeft, ChevronRight, Mail, Phone, MapPin, Instagram, Twitter, Facebook, ChevronUp, ChevronDown, Volume2, SkipBack, SkipForward, Youtube, Linkedin, Users, Calendar } from 'lucide-react';
+import BookReader from '@/components/book-reader';
 import Videos from '@/components/sections/videos';
 import Footer from '@/components/layout/footer';
 import { LoadingScreen } from '@/components/loading-screen';
@@ -55,6 +56,7 @@ export default function Home() {
     offset: ["start start", "end end"],
     layoutEffect: false
   });
+
 
   // Animation variants for staggered section reveals
   const sectionVariants = {
@@ -1319,9 +1321,9 @@ export default function Home() {
               viewport={{ once: true }}
                 className="space-y-4"
             >
-                <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
+              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                   I'm Aniefiok Asuquo— a Music Director, Author, Producer, Pianist, and Composer.
-                </p>
+              </p>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#C9C9D0]">
                 My journey started in church, where I first discovered the joy of music.
               </p>
@@ -1711,108 +1713,268 @@ export default function Home() {
           </h1>
         </motion.div>
 
-        {/* Minimal Modern Journey Timeline */}
+        {/* Scroll-Triggered Journey Timeline */}
         <div className="w-full max-w-4xl mx-auto px-4 relative z-20">
           <div className="relative">
             {/* Vertical Timeline Line */}
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#fbbf24] via-[#a855f7] to-blue-400"></div>
             
-            {/* Journey Items */}
+            {/* Journey Items with Scroll-Driven Animation */}
             <div className="space-y-12">
               
               {/* Item 1 - Early Beginnings */}
-            <motion.div
-                initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              <motion.div
+                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: 1,
+                  transition: { 
+                    duration: 0.8, 
+                    ease: "easeOut",
+                    delay: 0.2
+                  }
+                }}
+                viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
                 className="relative flex items-start"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] rounded-full border-2 border-black z-10"></div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  whileInView={{ 
+                    scale: 1,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      type: "spring",
+                      stiffness: 200
+                    }
+                  }}
+                  className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] rounded-full border-2 border-black z-10"
+                ></motion.div>
                 
                 {/* Content */}
-                <div className="ml-16">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.6
+                    }
+                  }}
+                  className="ml-16"
+                >
                   <h3 className="text-xl font-light text-white mb-2">Early Beginnings</h3>
                   <p className="text-[#C9C9D0] leading-relaxed">
                     I discovered my passion for music at a young age, picking up the piano in church and honing my skills through dedicated practice.
                   </p>
-                  </div>
-        </motion.div>
+                </motion.div>
+              </motion.div>
 
               {/* Item 2 - Formal Training */}
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: 1,
+                  transition: { 
+                    duration: 0.8, 
+                    ease: "easeOut",
+                    delay: 0.2
+                  }
+                }}
+                viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
                 className="relative flex items-start"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#a855f7] to-[#fbbf24] rounded-full border-2 border-black z-10"></div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  whileInView={{ 
+                    scale: 1,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      type: "spring",
+                      stiffness: 200
+                    }
+                  }}
+                  className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#a855f7] to-[#fbbf24] rounded-full border-2 border-black z-10"
+                ></motion.div>
                 
                 {/* Content */}
-                <div className="ml-16">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.6
+                    }
+                  }}
+                  className="ml-16"
+                >
                   <h3 className="text-xl font-light text-white mb-2">Formal Training</h3>
                   <p className="text-[#C9C9D0] leading-relaxed">
                     I pursued formal music education, studying music theory, composition, and performance techniques to deepen my understanding and abilities.
                   </p>
-                  </div>
+                </motion.div>
               </motion.div>
 
               {/* Item 3 - Genre Exploration */}
-            <motion.div
-                initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+              <motion.div
+                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: 1,
+                  transition: { 
+                    duration: 0.8, 
+                    ease: "easeOut",
+                    delay: 0.2
+                  }
+                }}
+                viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
                 className="relative flex items-start"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#fbbf24] to-blue-400 rounded-full border-2 border-black z-10"></div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  whileInView={{ 
+                    scale: 1,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      type: "spring",
+                      stiffness: 200
+                    }
+                  }}
+                  className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#fbbf24] to-blue-400 rounded-full border-2 border-black z-10"
+                ></motion.div>
                 
                 {/* Content */}
-                <div className="ml-16">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.6
+                    }
+                  }}
+                  className="ml-16"
+                >
                   <h3 className="text-xl font-light text-white mb-2">Genre Exploration</h3>
                   <p className="text-[#C9C9D0] leading-relaxed">
                     I explored jazz, pop, gospel, and everything in between, discovering that music transcends genres and connects souls.
                   </p>
-                </div>
+                </motion.div>
               </motion.div>
 
               {/* Item 4 - Composition & Production */}
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
+                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: 1,
+                  transition: { 
+                    duration: 0.8, 
+                    ease: "easeOut",
+                    delay: 0.2
+                  }
+                }}
+                viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
                 className="relative flex items-start"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-blue-400 to-[#a855f7] rounded-full border-2 border-black z-10"></div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  whileInView={{ 
+                    scale: 1,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      type: "spring",
+                      stiffness: 200
+                    }
+                  }}
+                  className="absolute left-6 w-4 h-4 bg-gradient-to-r from-blue-400 to-[#a855f7] rounded-full border-2 border-black z-10"
+                ></motion.div>
                 
                 {/* Content */}
-                <div className="ml-16">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.6
+                    }
+                  }}
+                  className="ml-16"
+                >
                   <h3 className="text-xl font-light text-white mb-2">Composition & Production</h3>
                   <p className="text-[#C9C9D0] leading-relaxed">
                     Creating original compositions and producing music that captures moments and emotions, bringing stories to life through sound.
                   </p>
-              </div>
+                </motion.div>
               </motion.div>
 
               {/* Item 5 - Professional Career */}
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1.0 }}
+                initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: 1,
+                  transition: { 
+                    duration: 0.8, 
+                    ease: "easeOut",
+                    delay: 0.2
+                  }
+                }}
+                viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
                 className="relative flex items-start"
               >
                 {/* Timeline Dot */}
-                <div className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#a855f7] to-[#fbbf24] rounded-full border-2 border-black z-10"></div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  whileInView={{ 
+                    scale: 1,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      type: "spring",
+                      stiffness: 200
+                    }
+                  }}
+                  className="absolute left-6 w-4 h-4 bg-gradient-to-r from-[#a855f7] to-[#fbbf24] rounded-full border-2 border-black z-10"
+                ></motion.div>
                 
                 {/* Content */}
-                <div className="ml-16">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.6
+                    }
+                  }}
+                  className="ml-16"
+                >
                   <h3 className="text-xl font-light text-white mb-2">Professional Career</h3>
                   <p className="text-[#C9C9D0] leading-relaxed">
                     After years of hard work and dedication, I launched my professional music career, performing on stages and collaborating with talented artists.
                   </p>
-                </div>
+                </motion.div>
               </motion.div>
 
             </div>
@@ -2216,25 +2378,18 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* QR Code - Right side */}
-                  <div className="text-right">
+                  {/* Book Reader - Right side */}
+                  <div className="text-center">
                     <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-[#fbbf24]/10 rounded-full border border-[#fbbf24]/30">
                       <Music className="w-4 h-4 text-[#fbbf24]" />
-                      <span className="text-[#fbbf24] font-medium text-sm">Support the Music</span>
+                      <span className="text-[#fbbf24] font-medium text-sm">My Book</span>
                     </div>
                     
-                    {/* PayPal QR Code */}
-                    <div className="bg-white rounded-xl mb-4 shadow-lg w-32 h-32 flex items-center justify-center ml-auto">
-                      <img 
-                        src="https://res.cloudinary.com/dkcw46zgg/image/upload/v1757125810/anefiok-music/paypal-qr-code.jpg" 
-                        alt="PayPal Donation QR Code"
-                        className="w-full h-full rounded-lg object-cover"
-                      />
-                    </div>
-                    
-                    <p className="text-[#fbbf24] text-sm font-medium">
-                      Scan to pay Aniefiok Asuquo
-                    </p>
+                    <BookReader
+                      bookTitle="Music and the Creative Economy"
+                      pages={Array.from({ length: 2 }, (_, i) => `Page ${i + 1}`)}
+                      amazonLink="https://www.amazon.com/Music-Creative-Economy-creative-Musician-ebook/dp/B095WLZ19J"
+                    />
                   </div>
                 </div>
               </motion.div>

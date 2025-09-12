@@ -3,7 +3,7 @@
   "collaborations": [
     {
       "name": "Marcus",
-      "role": "Saxophonist",
+      "role": "",
       "project": "Urban Jazz",
       "year": "2023",
       "genre": "Fusion",
@@ -18,33 +18,6 @@
       "genre": "Pop",
       "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       "social": "@elenarodriguez"
-    },
-    {
-      "name": "David Chen",
-      "role": "Pianist",
-      "project": "Sunday Morning",
-      "year": "2023",
-      "genre": "Gospel",
-      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      "social": "@davidchenmusic"
-    },
-    {
-      "name": "Lisa Thompson",
-      "role": "Songwriter",
-      "project": "City Lights",
-      "year": "2024",
-      "genre": "R&B",
-      "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      "social": "@lisathompson"
-    },
-    {
-      "name": "James Wilson",
-      "role": "Drummer",
-      "project": "Rhythm & Soul",
-      "year": "2023",
-      "genre": "Soul",
-      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      "social": "@jameswilson"
     }
   ]
 }

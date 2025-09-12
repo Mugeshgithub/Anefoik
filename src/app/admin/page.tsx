@@ -61,6 +61,19 @@ export default function AdminPanel() {
   const [showPreview, setShowPreview] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [showTips, setShowTips] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Helper function to update show data and mark as unsaved
+  const updateShowData = (updater: (prev: ShowData) => ShowData) => {
+    setShowData(updater);
+    setHasUnsavedChanges(true);
+  };
+
+  // Helper function to update collaborations data and mark as unsaved
+  const updateCollaborationsData = (updater: (prev: CollaborationsData) => CollaborationsData) => {
+    setCollaborationsData(updater);
+    setHasUnsavedChanges(true);
+  };
 
   // Check authentication
   useEffect(() => {
@@ -115,6 +128,7 @@ export default function AdminPanel() {
 
       if (response.ok) {
         setMessage('✅ Collaborations saved successfully!');
+        setHasUnsavedChanges(false);
         setTimeout(() => setMessage(''), 3000);
       } else {
         setMessage('❌ Error saving collaborations');
@@ -144,6 +158,7 @@ export default function AdminPanel() {
 
       if (response.ok) {
         setMessage('✅ Show information saved successfully!');
+        setHasUnsavedChanges(false);
         setTimeout(() => setMessage(''), 3000);
       } else {
         setMessage('❌ Error saving show information');
@@ -319,23 +334,8 @@ export default function AdminPanel() {
                 </div>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={async () => {
-                      const newData = { ...collaborationsData, isActive: !collaborationsData.isActive };
-                      setCollaborationsData(newData);
-                      // Auto-save when toggling
-                      try {
-                        const response = await fetch('/api/collaborations', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify(newData),
-                        });
-                        if (response.ok) {
-                          setMessage('✅ Collaborations updated!');
-                          setTimeout(() => setMessage(''), 2000);
-                        }
-                      } catch (error) {
-                        console.error('Error auto-saving:', error);
-                      }
+                    onClick={() => {
+                      updateCollaborationsData(prev => ({ ...prev, isActive: !prev.isActive }));
                     }}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#fbbf24] focus:ring-offset-2 focus:ring-offset-[#1a1a2e] ${
                       collaborationsData.isActive ? 'bg-[#fbbf24]' : 'bg-gray-600'
@@ -500,10 +500,14 @@ export default function AdminPanel() {
               <button
                 onClick={saveCollaborationsData}
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 p-3 bg-[#fbbf24] text-black rounded-lg hover:bg-[#fbbf24]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                className={`w-full flex items-center justify-center gap-2 p-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium ${
+                  hasUnsavedChanges 
+                    ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white' 
+                    : 'bg-[#fbbf24] text-black hover:bg-[#fbbf24]/90'
+                }`}
               >
                 <Save className="w-4 h-4" />
-                {isLoading ? 'Saving...' : 'Save All'}
+                {isLoading ? 'Saving...' : hasUnsavedChanges ? 'Save Changes' : 'Save All'}
               </button>
             </div>
           </motion.div>
@@ -541,23 +545,9 @@ export default function AdminPanel() {
                 </div>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={async () => {
-                      const newData = { ...showData, isActive: !showData.isActive };
-                      setShowData(newData);
-                      // Auto-save when toggling
-                      try {
-                        const response = await fetch('/api/show-data', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify(newData),
-                        });
-                        if (response.ok) {
-                          setMessage('✅ Show widget updated!');
-                          setTimeout(() => setMessage(''), 2000);
-                        }
-                      } catch (error) {
-                        console.error('Error auto-saving:', error);
-                      }
+                    onClick={() => {
+                      setShowData(prev => ({ ...prev, isActive: !prev.isActive }));
+                      setHasUnsavedChanges(true);
                     }}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#fbbf24] focus:ring-offset-2 focus:ring-offset-[#1a1a2e] ${
                       showData.isActive ? 'bg-[#fbbf24]' : 'bg-gray-600'
@@ -600,7 +590,7 @@ export default function AdminPanel() {
                 <input
                   type="text"
                   value={showData.title}
-                  onChange={(e) => setShowData(prev => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) => updateShowData(prev => ({ ...prev, title: e.target.value }))}
                   className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
                   placeholder="Enter show title"
                 />
@@ -609,21 +599,35 @@ export default function AdminPanel() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">Date</label>
-                  <input
-                    type="date"
-                    value={showData.date}
-                    onChange={(e) => setShowData(prev => ({ ...prev, date: e.target.value }))}
-                    className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
-                  />
+                  <div className="relative">
+                    <Calendar 
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#fbbf24] cursor-pointer hover:text-[#f59e0b] transition-colors z-10" 
+                      onClick={() => document.getElementById('date-input')?.showPicker()}
+                    />
+                    <input
+                      id="date-input"
+                      type="date"
+                      value={showData.date}
+                      onChange={(e) => updateShowData(prev => ({ ...prev, date: e.target.value }))}
+                      className="w-full pl-10 pr-3 py-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-3 [&::-webkit-calendar-picker-indicator]:w-4 [&::-webkit-calendar-picker-indicator]:h-4 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">Time</label>
-                  <input
-                    type="time"
-                    value={showData.time}
-                    onChange={(e) => setShowData(prev => ({ ...prev, time: e.target.value }))}
-                    className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
-                  />
+                  <div className="relative">
+                    <Clock 
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#fbbf24] cursor-pointer hover:text-[#f59e0b] transition-colors z-10" 
+                      onClick={() => document.getElementById('time-input')?.showPicker()}
+                    />
+                    <input
+                      id="time-input"
+                      type="time"
+                      value={showData.time}
+                      onChange={(e) => updateShowData(prev => ({ ...prev, time: e.target.value }))}
+                      className="w-full pl-10 pr-3 py-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-3 [&::-webkit-calendar-picker-indicator]:w-4 [&::-webkit-calendar-picker-indicator]:h-4 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -632,7 +636,7 @@ export default function AdminPanel() {
                 <input
                   type="text"
                   value={showData.venue}
-                  onChange={(e) => setShowData(prev => ({ ...prev, venue: e.target.value }))}
+                  onChange={(e) => updateShowData(prev => ({ ...prev, venue: e.target.value }))}
                   className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
                   placeholder="Venue name"
                 />
@@ -643,7 +647,7 @@ export default function AdminPanel() {
                 <input
                   type="text"
                   value={showData.location}
-                  onChange={(e) => setShowData(prev => ({ ...prev, location: e.target.value }))}
+                  onChange={(e) => updateShowData(prev => ({ ...prev, location: e.target.value }))}
                   className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
                   placeholder="City, Country"
                 />
@@ -653,7 +657,7 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-white mb-2">Type</label>
                 <select
                   value={showData.type}
-                  onChange={(e) => setShowData(prev => ({ ...prev, type: e.target.value as 'live' | 'streaming' | 'recording' }))}
+                  onChange={(e) => updateShowData(prev => ({ ...prev, type: e.target.value as 'live' | 'streaming' | 'recording' }))}
                   className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
                 >
                   <option value="live">Live Performance</option>
@@ -666,7 +670,7 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-white mb-2">Description</label>
                 <textarea
                   value={showData.description}
-                  onChange={(e) => setShowData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) => updateShowData(prev => ({ ...prev, description: e.target.value }))}
                   rows={3}
                   className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all resize-none"
                   placeholder="Show description..."
@@ -684,7 +688,7 @@ export default function AdminPanel() {
                   <input
                     type="url"
                     value={showData.link}
-                    onChange={(e) => setShowData(prev => ({ ...prev, link: e.target.value }))}
+                    onChange={(e) => updateShowData(prev => ({ ...prev, link: e.target.value }))}
                     className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
                     placeholder="https://tickets.com"
                   />
@@ -695,7 +699,7 @@ export default function AdminPanel() {
                   <input
                     type="text"
                     value={showData.linkText}
-                    onChange={(e) => setShowData(prev => ({ ...prev, linkText: e.target.value }))}
+                    onChange={(e) => updateShowData(prev => ({ ...prev, linkText: e.target.value }))}
                     className="w-full p-3 bg-[#0a0a0a]/50 border border-white/20 rounded-lg text-white focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/20 transition-all"
                     placeholder="Book Tickets"
                   />
@@ -703,15 +707,19 @@ export default function AdminPanel() {
               </div>
 
 
-              {/* Save Button */}
-              <button
-                onClick={saveShowData}
-                disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-[#fbbf24] to-[#a855f7] text-white rounded-xl hover:from-[#f59e0b] hover:to-[#9333ea] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg hover:shadow-xl hover:shadow-[#fbbf24]/25"
-              >
-                <Save className="w-5 h-5" />
-                {isLoading ? 'Saving...' : 'Save'}
-              </button>
+            {/* Save Button */}
+            <button
+              onClick={saveShowData}
+              disabled={isLoading}
+              className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg ${
+                hasUnsavedChanges 
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white hover:shadow-xl hover:shadow-orange-500/25' 
+                  : 'bg-gradient-to-r from-[#fbbf24] to-[#a855f7] hover:from-[#f59e0b] hover:to-[#9333ea] text-white hover:shadow-xl hover:shadow-[#fbbf24]/25'
+              }`}
+            >
+              <Save className="w-5 h-5" />
+              {isLoading ? 'Saving...' : hasUnsavedChanges ? 'Save Changes' : 'Save'}
+            </button>
             </div>
 
             {/* Quick Actions */}
