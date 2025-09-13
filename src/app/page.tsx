@@ -987,7 +987,7 @@ export default function Home() {
         delay: 0.3
       }}
     >
-      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 min-h-screen h-full">
+      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 h-screen">
 
 
 
@@ -1771,7 +1771,7 @@ export default function Home() {
                     I discovered my passion for music at a young age, picking up the piano in church and honing my skills through dedicated practice.
                   </p>
                 </motion.div>
-              </motion.div>
+        </motion.div>
 
               {/* Item 2 - Formal Training */}
               <motion.div
@@ -1805,7 +1805,7 @@ export default function Home() {
                 ></motion.div>
                 
                 {/* Content */}
-                <motion.div 
+            <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ 
                     opacity: 1, 
