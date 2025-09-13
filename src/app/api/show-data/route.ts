@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { getShowData, saveShowData } from '@/lib/redis-storage';
+import { getShowData, saveShowData } from '@/lib/redis-cloud-storage';
 
 const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -30,26 +30,12 @@ const defaultShowData = {
 // GET - Load current show data
 export async function GET() {
   try {
-    if (isProduction) {
-      // In production, try Vercel KV storage first, fallback to default
-      try {
-        const showData = await getShowData();
-        return NextResponse.json(showData);
-      } catch (error) {
-        console.error('KV error, using default data:', error);
-        return NextResponse.json(defaultShowData);
-      }
-    } else {
-      // In development, read from file
-      const fileContent = fs.readFileSync(SHOW_DATA_FILE, 'utf8');
-      const showData = JSON.parse(fileContent);
-      return NextResponse.json(showData);
-    }
-  } catch (error) {
-    console.error('Error loading show data:', error);
-    // Fallback to default data
+    // Always use simple storage (works in both production and development)
     const showData = await getShowData();
     return NextResponse.json(showData);
+  } catch (error) {
+    console.error('Error loading show data:', error);
+    return NextResponse.json(defaultShowData);
   }
 }
 
@@ -63,21 +49,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'isActive must be a boolean' }, { status: 400 });
     }
 
-    if (isProduction) {
-      // In production, save to Vercel KV
-      console.log('Saving show data:', showData);
-      const success = await saveShowData(showData);
-      console.log('Save result:', success);
-      if (success) {
-        return NextResponse.json({ success: true, message: 'Show data updated successfully' });
-      } else {
-        console.error('Failed to save show data');
-        return NextResponse.json({ error: 'Failed to save show data' }, { status: 500 });
-      }
-    } else {
-      // In development, write to file
-      fs.writeFileSync(SHOW_DATA_FILE, JSON.stringify(showData, null, 2), 'utf8');
+    // Always use simple storage (works in both production and development)
+    console.log('Saving show data:', showData);
+    const success = await saveShowData(showData);
+    console.log('Save result:', success);
+    if (success) {
       return NextResponse.json({ success: true, message: 'Show data updated successfully' });
+    } else {
+      console.error('Failed to save show data');
+      return NextResponse.json({ error: 'Failed to save show data' }, { status: 500 });
     }
   } catch (error) {
     console.error('Error updating show data:', error);

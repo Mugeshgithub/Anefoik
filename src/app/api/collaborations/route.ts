@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { getCollaborations, saveCollaborations } from '@/lib/redis-storage';
+import { getCollaborations, saveCollaborations } from '@/lib/redis-cloud-storage';
 
 const dataFilePath = path.join(process.cwd(), 'data', 'collaborations.json');
 
