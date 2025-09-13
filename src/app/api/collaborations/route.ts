@@ -172,8 +172,11 @@ export async function POST(request: NextRequest) {
     }
     
     // Always use Redis storage (both production and development)
+    console.log('Saving collaborations data:', data);
     const success = await saveCollaborations(data);
+    console.log('Save result:', success);
     if (!success) {
+      console.error('Failed to save collaborations');
       return NextResponse.json({ error: 'Failed to save collaborations' }, { status: 500 });
     }
     

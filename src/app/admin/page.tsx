@@ -130,11 +130,15 @@ export default function AdminPanel() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log('Collaborations save result:', result);
         setMessage('✅ Collaborations saved successfully!');
         setHasUnsavedChanges(false);
         setTimeout(() => setMessage(''), 3000);
       } else {
-        setMessage('❌ Error saving collaborations');
+        const errorText = await response.text();
+        console.error('Collaborations save error:', response.status, errorText);
+        setMessage(`❌ Error saving collaborations: ${response.status}`);
         setTimeout(() => setMessage(''), 5000);
       }
     } catch (error) {
@@ -160,11 +164,15 @@ export default function AdminPanel() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log('Show data save result:', result);
         setMessage('✅ Show information saved successfully!');
         setHasUnsavedChanges(false);
         setTimeout(() => setMessage(''), 3000);
       } else {
-        setMessage('❌ Error saving show information');
+        const errorText = await response.text();
+        console.error('Show data save error:', response.status, errorText);
+        setMessage(`❌ Error saving show information: ${response.status}`);
         setTimeout(() => setMessage(''), 5000);
       }
     } catch (error) {

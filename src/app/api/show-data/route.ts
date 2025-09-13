@@ -65,10 +65,13 @@ export async function POST(request: NextRequest) {
 
     if (isProduction) {
       // In production, save to Vercel KV
+      console.log('Saving show data:', showData);
       const success = await saveShowData(showData);
+      console.log('Save result:', success);
       if (success) {
         return NextResponse.json({ success: true, message: 'Show data updated successfully' });
       } else {
+        console.error('Failed to save show data');
         return NextResponse.json({ error: 'Failed to save show data' }, { status: 500 });
       }
     } else {
