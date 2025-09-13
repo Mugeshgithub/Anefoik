@@ -91,10 +91,13 @@ export default function AdminPanel() {
 
   const loadShowData = async () => {
     try {
-      const response = await fetch('/api/show-data?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=3d118359e4c93c7c44f3507e8a0907c2');
+      const response = await fetch('/api/show-data');
       if (response.ok) {
         const data = await response.json();
+        console.log('Loaded show data:', data);
         setShowData(data);
+      } else {
+        console.error('Failed to load show data:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error loading show data:', error);
@@ -103,7 +106,7 @@ export default function AdminPanel() {
 
   const loadCollaborationsData = async () => {
     try {
-      const response = await fetch('/api/collaborations?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=3d118359e4c93c7c44f3507e8a0907c2');
+      const response = await fetch('/api/collaborations');
       if (response.ok) {
         const data = await response.json();
         setCollaborationsData(data);
@@ -118,7 +121,7 @@ export default function AdminPanel() {
     setMessage('');
     
     try {
-      const response = await fetch('/api/collaborations?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=3d118359e4c93c7c44f3507e8a0907c2', {
+      const response = await fetch('/api/collaborations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +151,7 @@ export default function AdminPanel() {
     setMessage('');
     
     try {
-      const response = await fetch('/api/show-data?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=3d118359e4c93c7c44f3507e8a0907c2', {
+      const response = await fetch('/api/show-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
