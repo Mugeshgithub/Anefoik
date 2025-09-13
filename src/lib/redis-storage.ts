@@ -1,4 +1,14 @@
-import { kv } from '@vercel/kv';
+// In-memory storage fallback when Redis is not available
+let memoryStore: { [key: string]: any } = {};
+
+// Try to import Vercel KV, fallback to in-memory storage
+let kv: any = null;
+try {
+  const vercelKv = require('@vercel/kv');
+  kv = vercelKv.kv;
+} catch (error) {
+  console.log('Vercel KV not available, using in-memory storage');
+}
 
 // Default data
 const defaultShowData = {
@@ -106,27 +116,47 @@ const defaultCollaborations = {
 // Show Data Functions
 export async function getShowData() {
   try {
-    const data = await kv.get('show-data');
-    if (data) {
-      console.log('Retrieved show data from Redis');
-      return data;
+    if (kv) {
+      // Use Redis if available
+      const data = await kv.get('show-data');
+      if (data) {
+        console.log('Retrieved show data from Redis');
+        return data;
+      } else {
+        console.log('No show data in Redis, returning default');
+        return defaultShowData;
+      }
     } else {
-      console.log('No show data in Redis, returning default');
-      return defaultShowData;
+      // Fallback to in-memory storage
+      const data = memoryStore['show-data'];
+      if (data) {
+        console.log('Retrieved show data from memory');
+        return data;
+      } else {
+        console.log('No show data in memory, returning default');
+        return defaultShowData;
+      }
     }
   } catch (error) {
-    console.error('Error getting show data from Redis:', error);
+    console.error('Error getting show data:', error);
     return defaultShowData;
   }
 }
 
 export async function saveShowData(data: any) {
   try {
-    await kv.set('show-data', data);
-    console.log('Show data saved to Redis successfully');
+    if (kv) {
+      // Use Redis if available
+      await kv.set('show-data', data);
+      console.log('Show data saved to Redis successfully');
+    } else {
+      // Fallback to in-memory storage
+      memoryStore['show-data'] = data;
+      console.log('Show data saved to memory successfully');
+    }
     return true;
   } catch (error) {
-    console.error('Error saving show data to Redis:', error);
+    console.error('Error saving show data:', error);
     return false;
   }
 }
@@ -134,27 +164,47 @@ export async function saveShowData(data: any) {
 // Collaborations Functions
 export async function getCollaborations() {
   try {
-    const data = await kv.get('collaborations');
-    if (data) {
-      console.log('Retrieved collaborations from Redis');
-      return data;
+    if (kv) {
+      // Use Redis if available
+      const data = await kv.get('collaborations');
+      if (data) {
+        console.log('Retrieved collaborations from Redis');
+        return data;
+      } else {
+        console.log('No collaborations in Redis, returning default');
+        return defaultCollaborations;
+      }
     } else {
-      console.log('No collaborations in Redis, returning default');
-      return defaultCollaborations;
+      // Fallback to in-memory storage
+      const data = memoryStore['collaborations'];
+      if (data) {
+        console.log('Retrieved collaborations from memory');
+        return data;
+      } else {
+        console.log('No collaborations in memory, returning default');
+        return defaultCollaborations;
+      }
     }
   } catch (error) {
-    console.error('Error getting collaborations from Redis:', error);
+    console.error('Error getting collaborations:', error);
     return defaultCollaborations;
   }
 }
 
 export async function saveCollaborations(data: any) {
   try {
-    await kv.set('collaborations', data);
-    console.log('Collaborations data saved to Redis successfully');
+    if (kv) {
+      // Use Redis if available
+      await kv.set('collaborations', data);
+      console.log('Collaborations data saved to Redis successfully');
+    } else {
+      // Fallback to in-memory storage
+      memoryStore['collaborations'] = data;
+      console.log('Collaborations data saved to memory successfully');
+    }
     return true;
   } catch (error) {
-    console.error('Error saving collaborations to Redis:', error);
+    console.error('Error saving collaborations:', error);
     return false;
   }
 }
