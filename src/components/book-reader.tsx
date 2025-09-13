@@ -16,9 +16,13 @@ export default function BookReader({ bookTitle, pages, amazonLink }: BookReaderP
           {/* Book Image */}
           <div className="w-full h-full p-4">
             <img
-              src="/Screenshot 2025-09-13 at 00.40.32.png"
+              src="/book-cover.png"
               alt="Book Cover"
               className="w-full h-full object-cover rounded-xl shadow-lg"
+              onError={(e) => {
+                console.error('Book cover image failed to load');
+                e.currentTarget.style.display = 'none';
+              }}
             />
           </div>
           
