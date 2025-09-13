@@ -987,7 +987,7 @@ export default function Home() {
         delay: 0.3
       }}
     >
-      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 h-screen">
+      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 min-h-screen h-full">
 
 
 
