@@ -78,7 +78,7 @@ export default function CollaborationWidget() {
   console.log('CollaborationWidget: Showing widget - isActive:', showData.isActive, 'title:', showData.title, 'venue:', showData.venue);
 
   return (
-    <div key={`widget-${showData?.isActive}-${showData?.title}`} className="floating-element fixed bottom-24 right-4 z-50 md:bottom-6 md:right-6">
+    <div key={`widget-${showData?.isActive}-${showData?.title}`} className="fixed bottom-24 right-4 z-50 md:bottom-6 md:right-6">
       <AnimatePresence>
         {isExpanded ? (
           // Expanded State
