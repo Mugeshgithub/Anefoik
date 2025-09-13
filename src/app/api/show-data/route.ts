@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { getShowData, saveShowData } from '@/lib/file-storage';
+import { getShowData, saveShowData } from '@/lib/redis-storage';
 
 const SHOW_DATA_FILE = path.join(process.cwd(), 'data/show.json');
 const isProduction = process.env.NODE_ENV === 'production';
