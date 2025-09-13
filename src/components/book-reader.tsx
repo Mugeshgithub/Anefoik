@@ -16,8 +16,8 @@ export default function BookReader({ bookTitle, pages, amazonLink }: BookReaderP
           {/* Book Image */}
           <div className="w-full h-full p-4">
             <img
-              src="/book-cover.png"
-              alt="Book Cover"
+              src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=600&fit=crop&crop=center&auto=format&q=80"
+              alt="Book Cover - Music and the Creative Economy"
               className="w-full h-full object-cover rounded-xl shadow-lg"
               onError={(e) => {
                 console.error('Book cover image failed to load');
