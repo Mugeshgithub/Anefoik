@@ -16,7 +16,7 @@ export default function BookReader({ bookTitle, pages, amazonLink }: BookReaderP
           {/* Book Image */}
           <div className="w-full h-full p-4">
             <img
-              src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=600&fit=crop&crop=center&auto=format&q=80"
+              src="https://res.cloudinary.com/dkcw46zgg/image/upload/v1757727558/anefiok-music/book-cover-aniefiok.png"
               alt="Book Cover - Music and the Creative Economy"
               className="w-full h-full object-cover rounded-xl shadow-lg"
               onError={(e) => {
