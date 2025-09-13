@@ -4,6 +4,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Viewport Scaling for Consistent Design */
+/* Scale down from 1600px design to 1400px production viewport */
+html {
+  zoom: 0.875; /* 1400/1600 = 0.875 */
+}
+
+/* Ensure scaling works on all browsers */
+@media screen and (max-width: 1400px) {
+  html {
+    zoom: 0.875;
+  }
+}
+
+/* Alternative scaling for browsers that don't support zoom */
+@supports not (zoom: 0.875) {
+  body {
+    transform: scale(0.875);
+    transform-origin: top left;
+    width: 114.3%; /* 100/0.875 = 114.3% */
+    height: 114.3%;
+  }
+}
+
 /* 3D Book Reader Styles */
 .perspective-1000 {
   perspective: 1000px;
