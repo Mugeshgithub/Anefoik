@@ -6,8 +6,22 @@
 
 /* Viewport Scaling for Consistent Design */
 /* Scale down from 1600px design to 1400px production viewport */
+/* Only apply scaling to the main content, not floating elements */
+@media screen and (max-width: 1400px) {
+  .main-content {
+    transform: scale(0.875);
+    transform-origin: top left;
+    width: 114.3%; /* 100/0.875 = 114.3% */
+  }
+  
+  /* Ensure floating elements are not affected by scaling */
+  .floating-element {
+    transform: none !important;
+    position: fixed !important;
+  }
+}
+
 html {
-  zoom: 0.875; /* 1400/1600 = 0.875 */
   height: 100%;
 }
 
@@ -16,34 +30,6 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-}
-
-/* Ensure scaling works on all browsers */
-@media screen and (max-width: 1400px) {
-  html {
-    zoom: 0.875;
-    height: 100%;
-  }
-  
-  body {
-    height: 100%;
-    min-height: 100vh;
-  }
-}
-
-/* Alternative scaling for browsers that don't support zoom */
-@supports not (zoom: 0.875) {
-  html {
-    height: 100%;
-  }
-  
-  body {
-    transform: scale(0.875);
-    transform-origin: top left;
-    width: 114.3%; /* 100/0.875 = 114.3% */
-    height: 114.3%;
-    min-height: 114.3vh;
-  }
 }
 
 /* 3D Book Reader Styles */

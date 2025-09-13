@@ -889,7 +889,7 @@ export default function Home() {
       />
 
     {/* Left-side Fixed Music Player - Outside main container */}
-      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
+      <div className="floating-element fixed left-0 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
         <div className="bg-[#1a1a2e]/80 backdrop-blur-xl rounded-r-2xl p-4 shadow-2xl border-r border-t border-b border-white/20">
           {/* Player Header */}
           <div className="text-center mb-4">
@@ -961,7 +961,7 @@ export default function Home() {
       </div>
 
     {/* Right-side Progress Navigation - Outside main container */}
-      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
+      <div className="floating-element fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden sm:block">
         <div className="flex flex-col items-center space-y-3">
           {[...Array(6)].map((_, index) => (
             <button
@@ -987,7 +987,7 @@ export default function Home() {
         delay: 0.3
       }}
     >
-      <div ref={containerRef} className="relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 min-h-screen h-full">
+      <div ref={containerRef} className="main-content relative bg-[#0B0B0C] overflow-y-auto overflow-x-hidden transition-colors duration-300 min-h-screen h-full">
 
 
 
@@ -999,7 +999,7 @@ export default function Home() {
         className="h-screen flex items-center justify-center relative overflow-hidden bg-[#0B0B0C] transition-colors duration-300"
       >
         {/* Navigation Header - Fixed */}
-        <div className="fixed top-0 left-0 right-0 z-50 p-6">
+        <div className="floating-element fixed top-0 left-0 right-0 z-50 p-6">
           <div className="flex justify-between items-center">
             {/* Left - Aniefiok Logo/Name - Clickable */}
             <motion.button
@@ -2414,7 +2414,7 @@ export default function Home() {
     </motion.div>
 
     {/* Mobile Bottom Navigation Bar - Fixed at bottom */}
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
+    <div className="floating-element fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-white/20 md:hidden">
       <div className="flex justify-around items-center py-3 px-4">
         {['Hero', 'About', 'Music', 'Videos', 'Journey', ...(collaborationsActive ? ['Collaborations'] : []), 'Contact'].map((section, index) => (
           <button
@@ -2433,7 +2433,7 @@ export default function Home() {
     </div>
 
     {/* Mobile Music Player Bar - Fixed at bottom - Only on mobile */}
-    <div className="fixed bottom-16 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
+    <div className="floating-element fixed bottom-16 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/20 md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         {/* Track Info */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
