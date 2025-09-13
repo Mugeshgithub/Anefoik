@@ -16,6 +16,22 @@ import { submitContactForm } from './actions';
 import emailjs from '@emailjs/browser';
 
 export default function Home() {
+  // Viewport measurement for debugging
+  const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+  
+  useEffect(() => {
+    const updateViewportSize = () => {
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    
+    updateViewportSize();
+    window.addEventListener('resize', updateViewportSize);
+    
+    return () => window.removeEventListener('resize', updateViewportSize);
+  }, []);
   
   // Helper function to parse duration strings
   const parseDuration = (durationString: string) => {
@@ -834,6 +850,13 @@ export default function Home() {
   // Main Portfolio with Smooth Scrolling
   return (
     <>
+      {/* Debug Viewport Size - Remove after measurement */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed top-4 right-4 bg-black/80 text-white p-2 rounded text-xs z-50">
+          Viewport: {viewportSize.width} x {viewportSize.height}
+        </div>
+      )}
+      
       {/* Hidden audio elements - Must be at top level */}
       <audio 
         ref={audioRef} 
